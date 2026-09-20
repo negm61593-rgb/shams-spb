@@ -259,17 +259,17 @@
           </div>
         </div>
 
-        <!-- Call to Action -->
+        <!-- Call to Action (Universal for Tables, Counters, Takeaway & Outdoor) -->
         <div class="space-y-1 mb-4 relative z-10">
           <div class="text-lg font-black text-amber-400 flex items-center justify-center gap-2">
             <i class="fa-solid fa-mobile-screen-button animate-pulse"></i>
-            <span>ОТКРОЙТЕ МЕНЮ</span>
+            <span>МЕНЮ И ОНЛАЙН-ЗАКАЗ</span>
           </div>
           <div class="text-sm font-bold opacity-90">
-            امسح الكود لطلب الطعام من الطاولة
+            امسح الكود لتصفح المنيو والطلب أونلاين
           </div>
           <div class="text-[10px] opacity-70 font-sans">
-            Scan to view digital menu & order
+            Scan QR code to view menu, prices & order online
           </div>
         </div>
 
@@ -410,15 +410,15 @@
             </div>
           </div>
 
-          <!-- Table Number Box -->
-          <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500 text-stone-950 font-black text-sm shadow">
-            <i class="fa-solid fa-chair"></i>
-            <span>طاولة / СТОЛ № <span class="table-num-display">1</span></span>
+          <!-- Optional Table / Branch Badge (hidden by default) -->
+          <div id="cardTableBadge" class="hidden inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500 text-stone-950 font-black text-xs shadow">
+            <i class="fa-solid fa-tag"></i>
+            <span>СТОЛ / طاولة № <span class="table-num-display">1</span></span>
           </div>
 
           <div class="space-y-0.5 text-xs font-bold text-stone-200">
-            <p>امسح الكود لطلب الوجبة</p>
-            <p class="text-[10px] text-stone-400 font-sans">Отсканируйте для заказа</p>
+            <p>امسح الكود لتصفح المنيو والطلب أونلاين</p>
+            <p class="text-[10px] text-amber-400 font-sans">МЕНЮ И ОНЛАЙН-ЗАКАЗ</p>
           </div>
 
           <div class="text-[10px] text-amber-400/90 font-bold flex items-center gap-2">
@@ -614,15 +614,18 @@
 
     function changeTableNumber(val) {
       currentTableNum = (val || '').trim();
-      const badge = document.getElementById('archTableBadge');
+      const badgeArch = document.getElementById('archTableBadge');
+      const badgeCard = document.getElementById('cardTableBadge');
       const displays = document.querySelectorAll('.table-num-display');
 
       displays.forEach(d => d.textContent = currentTableNum || '1');
 
       if (currentTableNum) {
-        if (badge) badge.classList.remove('hidden');
+        if (badgeArch) badgeArch.classList.remove('hidden');
+        if (badgeCard) badgeCard.classList.remove('hidden');
       } else {
-        if (badge) badge.classList.add('hidden');
+        if (badgeArch) badgeArch.classList.add('hidden');
+        if (badgeCard) badgeCard.classList.add('hidden');
       }
     }
 
