@@ -284,9 +284,7 @@ const server = http.createServer(async (req, res) => {
         // Check 6-character strong password (strictly removes 2026 fallback)
         const isMatch = (
           enteredPassword === ADMIN_PASSWORD || 
-          enteredPassword.toLowerCase() === ADMIN_PASSWORD.toLowerCase() ||
-          enteredPassword === 'Spb#61' ||
-          enteredPassword.toLowerCase() === 'spb#61'
+          enteredPassword.toLowerCase() === ADMIN_PASSWORD.toLowerCase()
         );
 
         if (isMatch) {
