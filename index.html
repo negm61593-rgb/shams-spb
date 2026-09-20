@@ -2128,36 +2128,72 @@
 
       setLanguage(initialLang);
 
-      // Real-time dynamic sync with Cloud Firestore
-      try {
-        const firebaseConfig = {
-          apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
-          authDomain: "shams-spb.firebaseapp.com",
-          projectId: "shams-spb",
-          storageBucket: "shams-spb.firebasestorage.app",
-          messagingSenderId: "386620074446",
-          appId: "1:386620074446:web:ed6443e3dc25495873239f"
-        };
-        if (typeof firebase !== 'undefined') {
-          if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
-          }
-          const db = firebase.firestore();
-          db.collection('settings').doc('menu').onSnapshot((doc) => {
-            if (doc.exists) {
-              const data = doc.data();
-              if (data && Array.isArray(data.dishes) && data.dishes.length > 0) {
-                menuData = data.dishes;
+      // Instant Cloud Fetch (Direct REST + Real-time Firestore Live Sync)
+      async function syncCloudMenu() {
+        // 1. Direct zero-latency REST fetch from Cloud Firestore (instant, no SDK wait)
+        try {
+          const res = await fetch('https://firestore.googleapis.com/v1/projects/shams-spb/databases/(default)/documents/settings/menu?key=AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg');
+          if (res.ok) {
+            const json = await res.json();
+            if (json && json.fields && json.fields.dishes) {
+              function parseVal(val) {
+                if (!val) return null;
+                if (val.stringValue !== undefined) return val.stringValue;
+                if (val.integerValue !== undefined) return parseInt(val.integerValue, 10);
+                if (val.doubleValue !== undefined) return parseFloat(val.doubleValue);
+                if (val.booleanValue !== undefined) return val.booleanValue;
+                if (val.nullValue !== undefined) return null;
+                if (val.arrayValue && val.arrayValue.values) return val.arrayValue.values.map(parseVal);
+                if (val.mapValue && val.mapValue.fields) {
+                  const obj = {};
+                  for (const k in val.mapValue.fields) obj[k] = parseVal(val.mapValue.fields[k]);
+                  return obj;
+                }
+                return null;
+              }
+              const cloudDishes = parseVal(json.fields.dishes);
+              if (Array.isArray(cloudDishes) && cloudDishes.length > 0) {
+                menuData = cloudDishes;
                 renderMenu();
               }
             }
-          }, (err) => {
-            console.warn('Firestore sync fallback:', err);
-          });
+          }
+        } catch (e) {
+          console.warn('REST cloud sync fallback:', e);
         }
-      } catch (e) {
-        console.warn('Firebase init error:', e);
+
+        // 2. Real-time Live Listener for continuous updates without reload
+        try {
+          const firebaseConfig = {
+            apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
+            authDomain: "shams-spb.firebaseapp.com",
+            projectId: "shams-spb",
+            storageBucket: "shams-spb.firebasestorage.app",
+            messagingSenderId: "386620074446",
+            appId: "1:386620074446:web:ed6443e3dc25495873239f"
+          };
+          if (typeof firebase !== 'undefined') {
+            if (!firebase.apps.length) {
+              firebase.initializeApp(firebaseConfig);
+            }
+            const db = firebase.firestore();
+            db.collection('settings').doc('menu').onSnapshot((doc) => {
+              if (doc.exists) {
+                const data = doc.data();
+                if (data && Array.isArray(data.dishes) && data.dishes.length > 0) {
+                  menuData = data.dishes;
+                  renderMenu();
+                }
+              }
+            }, (err) => {
+              console.warn('Firestore live listener error:', err);
+            });
+          }
+        } catch (e) {
+          console.warn('Firebase init error in store:', e);
+        }
       }
+      syncCloudMenu();
 
       // Secondary fallback: local storage
       try {
