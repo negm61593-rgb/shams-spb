@@ -13,6 +13,8 @@ yarn-error.log*
 
 # Temporary test screenshots and preview artifacts
 shams_*.png
+!shams_menu_qr.png
+!shams_admin_qr.png
 wifi_*.png
 mobile_*.png
 qr_admin.png
