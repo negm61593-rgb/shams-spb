@@ -228,6 +228,12 @@
             <span class="hidden sm:inline" id="btnLiveStore">Сайт</span>
           </a>
 
+          <!-- Print QR Codes Link -->
+          <a href="qr_print_studio.html" target="_blank" class="h-8 sm:h-9 px-2 sm:px-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-white border border-stone-800 text-xs font-bold transition flex items-center justify-center gap-1.5 active:scale-95 whitespace-nowrap" title="مركز طباعة الباركود والملصقات">
+            <i class="fa-solid fa-qrcode text-amber-400 text-xs"></i>
+            <span class="hidden sm:inline" id="btnQrStudio">QR-код</span>
+          </a>
+
           <!-- Language Toggle (Never wraps, sleek pill) -->
           <button onclick="toggleLang()" class="h-8 sm:h-9 px-2.5 sm:px-3 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-500/40 text-[11px] sm:text-xs font-bold text-stone-200 hover:text-white transition whitespace-nowrap active:scale-95 flex items-center gap-1.5 shadow-sm cursor-pointer" id="langSwitchBtn" title="تغيير اللغة / Сменить язык">
             <i class="fa-solid fa-globe text-amber-400 text-xs"></i>
@@ -1931,6 +1937,7 @@
       setEl('unsavedText', t.unsavedText);
       setEl('btnDiscard', t.btnDiscard);
       setEl('btnSaveAll', t.btnSaveAll);
+      setEl('btnQrStudio', isAr ? 'طباعة الباركود' : 'QR-код');
 
       // Language toggle button text & title
       setEl('langSwitchText', isAr ? 'Русский' : 'العربية');
