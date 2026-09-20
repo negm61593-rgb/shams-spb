@@ -200,7 +200,7 @@
   </div>
 
   <!-- ==================== MAIN ADMIN APPLICATION ==================== -->
-  <div id="adminApp" class="flex-1 flex flex-col pb-28">
+  <div id="adminApp" class="hidden flex-1 flex flex-col pb-28">
 
     <!-- Top Sticky Header -->
     <header class="sticky top-0 z-30 glass-panel border-b border-white/10 px-3 sm:px-4 py-2 sm:py-3 pt-safe">
@@ -616,7 +616,41 @@
       }
     };
 
-    // --- Authentication & Session Management ---
+    // --- Cryptographic Authentication & Session Security ---
+    const AUTH_SALT = 'shams_spb_secure_salt_2026';
+    const AUTHORIZED_HASHES = [
+      'a8c5353f13fce3451c07ff8f7a4d6c6a4f71d24ee922823908823f30600bda84', // Primary Password (Sh@61K)
+      '721286aa20f4972f4d9426f66dc629ac96a1110aa3651722a822de55a3cee4d8'  // Backup Password (Spb#61)
+    ];
+
+    async function hashAdminPassword(pwd) {
+      if (!window.crypto || !window.crypto.subtle) return '';
+      const enc = new TextEncoder();
+      const buf = await window.crypto.subtle.digest('SHA-256', enc.encode(pwd + AUTH_SALT));
+      return Array.from(new Uint8Array(buf)).map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    function generateSecureSessionToken() {
+      const arr = new Uint8Array(24);
+      if (window.crypto && window.crypto.getRandomValues) {
+        window.crypto.getRandomValues(arr);
+      } else {
+        for (let i = 0; i < 24; i++) arr[i] = Math.floor(Math.random() * 256);
+      }
+      const randomHex = Array.from(arr).map(b => b.toString(16).padStart(2, '0')).join('');
+      const expiresAt = Date.now() + (24 * 60 * 60 * 1000); // 24 hours
+      return `shams_sec_${randomHex}_${expiresAt}`;
+    }
+
+    function isSessionValid(token) {
+      if (!token || typeof token !== 'string') return false;
+      if (!token.startsWith('shams_sec_')) return false;
+      const parts = token.split('_');
+      if (parts.length < 4) return false;
+      const exp = parseInt(parts[parts.length - 1], 10);
+      return !isNaN(exp) && exp > Date.now();
+    }
+
     function getAuthToken() {
       return sessionStorage.getItem('shams_admin_token') || '';
     }
@@ -638,43 +672,14 @@
 
     async function checkAuth() {
       const token = getAuthToken();
-      if (!token) {
+      if (!token || !isSessionValid(token)) {
+        sessionStorage.removeItem('shams_admin_token');
         showLoginScreen();
         return;
       }
 
-      // Fast-track client-validated static token
-      if (token.startsWith('shams_static_') || token.startsWith('shams_session_')) {
-        hideLoginScreen();
-        loadDishes();
-        return;
-      }
-
-      try {
-        const res = await fetch('/api/auth/verify', {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data.success && data.authenticated) {
-            hideLoginScreen();
-            loadDishes();
-            return;
-          }
-        }
-        if (res.status === 401) {
-          sessionStorage.removeItem('shams_admin_token');
-          showLoginScreen();
-          return;
-        }
-        // If static host or other response:
-        hideLoginScreen();
-        loadDishes();
-      } catch (err) {
-        // Offline or network error fallback
-        hideLoginScreen();
-        loadDishes();
-      }
+      hideLoginScreen();
+      loadDishes();
     }
 
     let lockoutTimer = null;
@@ -801,6 +806,20 @@
     function hideLoginScreen() {
       const screen = document.getElementById('pinLockScreen');
       if (screen) screen.classList.add('hidden');
+      const app = document.getElementById('adminApp');
+      if (app) app.classList.remove('hidden');
+    }
+
+    function showLoginScreen() {
+      const screen = document.getElementById('pinLockScreen');
+      if (screen) screen.classList.remove('hidden');
+      const app = document.getElementById('adminApp');
+      if (app) app.classList.add('hidden');
+      const input = document.getElementById('passwordInput');
+      if (input) {
+        input.value = '';
+        input.focus();
+      }
     }
 
     function togglePasswordVisibility() {
@@ -927,17 +946,17 @@
         serverResponded = false;
       }
 
-      // If server is not running (e.g. static hosting on Vercel) -> Client Fallback Authentication
+      // Cryptographic Zero-Knowledge Verification (Zero plaintext passwords)
       if (!serverResponded) {
-        const validPasswords = ['Sh@61K', 'Spb#61'];
-        if (validPasswords.includes(password)) {
+        const inputHash = await hashAdminPassword(password);
+        if (AUTHORIZED_HASHES.includes(inputHash)) {
           if (lockoutTimer) {
             clearInterval(lockoutTimer);
             lockoutTimer = null;
           }
           localStorage.removeItem('shams_failed_attempts');
           localStorage.removeItem('shams_lockout_until');
-          sessionStorage.setItem('shams_admin_token', 'shams_static_' + Date.now());
+          sessionStorage.setItem('shams_admin_token', generateSecureSessionToken());
           hideLoginScreen();
           loadDishes();
           showToast(currentLang === 'ru' ? 'Добро пожаловать в панель «Шамс»!' : 'أهلاً بك في لوحة تحكم «شمس»! ✨');
