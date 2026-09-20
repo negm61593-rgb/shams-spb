@@ -1183,35 +1183,81 @@
       }).join('');
     }
 
-    // --- Interactive Operations ---
+    // --- Interactive Operations & Cloud Sync ---
+    async function syncDishesToCloud() {
+      let cloudSaved = false;
+
+      // 1. Save directly to Cloud Firestore!
+      if (firestoreDb) {
+        try {
+          await firestoreDb.collection('settings').doc('menu').set({
+            dishes: dishesList,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          cloudSaved = true;
+        } catch (err) {
+          console.error('Firestore save failed:', err);
+          cloudSaved = false;
+        }
+      }
+
+      // 2. Persist in localStorage for instant local preview
+      try {
+        localStorage.setItem('shams_custom_dishes', JSON.stringify(dishesList));
+      } catch (e) {}
+
+      if (cloudSaved) {
+        hasUnsavedChanges = false;
+        const unsavedBar = document.getElementById('unsavedBar');
+        if (unsavedBar) unsavedBar.classList.add('hidden');
+      }
+
+      return cloudSaved;
+    }
+
+    let priceSaveTimeout = null;
     function stepPrice(id, delta) {
       const dish = dishesList.find(d => d.id === id);
       if (dish) {
         const newPrice = Math.max(10, dish.price + delta);
         if (newPrice !== dish.price) {
           dish.price = newPrice;
-          markUnsaved();
           renderDishes();
+          clearTimeout(priceSaveTimeout);
+          priceSaveTimeout = setTimeout(async () => {
+            await syncDishesToCloud();
+            showToast(currentLang === 'ru' ? 'Цена сохранена в облаке!' : 'تم حفظ السعر الجديد وتحديث المتجر! ✨');
+          }, 600);
         }
       }
     }
 
-    function toggleStock(id) {
+    async function toggleStock(id) {
       const dish = dishesList.find(d => d.id === id);
       if (dish) {
         dish.outOfStock = !dish.outOfStock;
-        markUnsaved();
         renderAll();
+        const saved = await syncDishesToCloud();
+        if (saved) {
+          showToast(currentLang === 'ru' ? 'Статус обновлен в облаке!' : 'تم تحديث حالة التوفر وحفظها فوراً! ✨');
+        } else {
+          markUnsaved();
+        }
       }
     }
 
-    function deleteDish(id) {
+    async function deleteDish(id) {
       const msg = i18n[currentLang].deleteConfirm;
       if (confirm(msg)) {
         dishesList = dishesList.filter(d => d.id !== id);
-        markUnsaved();
         renderAll();
-        showToast(currentLang === 'ru' ? 'Блюдо удалено' : 'تم حذف الطبق');
+        showToast(currentLang === 'ru' ? 'Удаление...' : 'جاري حذف الطبق من المتجر...');
+        const saved = await syncDishesToCloud();
+        if (saved) {
+          showToast(currentLang === 'ru' ? 'Блюдо удалено из меню! ✨' : 'تم حذف الطبق وتحديث المتجر فوراً! ✨');
+        } else {
+          markUnsaved();
+        }
       }
     }
 
@@ -1247,10 +1293,11 @@
       renderDishes();
     }
 
-    // --- Unsaved Changes Banner ---
+    // --- Unsaved Changes Banner (Fallback) ---
     function markUnsaved() {
       hasUnsavedChanges = true;
-      document.getElementById('unsavedBar').classList.remove('hidden');
+      const unsavedBar = document.getElementById('unsavedBar');
+      if (unsavedBar) unsavedBar.classList.remove('hidden');
     }
 
     function discardChanges() {
@@ -1264,32 +1311,12 @@
 
     async function saveAllToServer() {
       const btn = document.getElementById('btnSaveAll');
-      btn.disabled = true;
-      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ...';
-
-      let cloudSaved = false;
-
-      // 1. Save directly to Cloud Firestore!
-      if (firestoreDb) {
-        try {
-          await firestoreDb.collection('settings').doc('menu').set({
-            dishes: dishesList,
-            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
-          });
-          cloudSaved = true;
-        } catch (err) {
-          console.error('Firestore save failed:', err);
-          cloudSaved = false;
-        }
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ...';
       }
 
-      // 2. Persist in localStorage for instant local preview
-      try {
-        localStorage.setItem('shams_custom_dishes', JSON.stringify(dishesList));
-      } catch (e) {}
-
-      hasUnsavedChanges = false;
-      document.getElementById('unsavedBar').classList.add('hidden');
+      const cloudSaved = await syncDishesToCloud();
 
       const isAr = currentLang === 'ar';
       if (cloudSaved) {
@@ -1299,8 +1326,10 @@
         showToast(isAr ? 'تم حفظ التعديلات وتنزيل النسخة الاحتياطية!' : 'Изменения сохранены локально!');
       }
 
-      btn.disabled = false;
-      btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
+      if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
+      }
     }
 
     function downloadDishesJs(dishes) {
@@ -1537,89 +1566,103 @@
         return;
       }
 
-      const photoUrl = document.getElementById('modalPhotoUrl').value.trim() || 'hero_dish.jpg';
-      let titleEn = document.getElementById('modalTitleEn').value.trim();
-      const category = document.getElementById('modalCategory').value;
-      const volume = document.getElementById('modalVolume').value.trim() || '350 г';
-      let descRu = document.getElementById('modalDescRu').value.trim();
-      let descAr = document.getElementById('modalDescAr').value.trim();
-      let descEn = document.getElementById('modalDescEn').value.trim();
-      const popular = document.getElementById('modalPopular').checked;
-      const outOfStock = !document.getElementById('modalInStock').checked;
+      const saveBtn = document.getElementById('btnModalSave');
+      const saveBtnText = document.getElementById('btnModalSaveText');
+      const originalText = saveBtnText ? saveBtnText.textContent : (currentLang === 'ru' ? 'Сохранить' : 'حفظ');
+      if (saveBtn) saveBtn.disabled = true;
+      if (saveBtnText) saveBtnText.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ' + (currentLang === 'ru' ? 'Сохраняем...' : 'جاري الحفظ والتحديث... ✨');
 
-      // Automatically translate Russian title and description to Arabic and English on save
-      if (titleRu) {
-        const saveBtn = document.getElementById('btnModalSave');
-        const saveBtnText = document.getElementById('btnModalSaveText');
-        const originalText = saveBtnText ? saveBtnText.textContent : '';
-        if (saveBtn) saveBtn.disabled = true;
-        if (saveBtnText) saveBtnText.textContent = currentLang === 'ru' ? 'Переводим и сохраняем...' : 'جاري الترجمة والحفظ... ✨';
-        
-        try {
-          const res = await authFetch('/api/translate', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ titleRu, descRu })
-          });
-          const data = await res.json();
-          if (data.success) {
-            if (data.titleAr) titleAr = data.titleAr;
-            if (data.titleEn) titleEn = data.titleEn;
-            if (data.descAr) descAr = data.descAr;
-            if (data.descEn) descEn = data.descEn;
+      try {
+        const photoUrl = document.getElementById('modalPhotoUrl').value.trim() || 'hero_dish.jpg';
+        let titleEn = document.getElementById('modalTitleEn').value.trim();
+        const category = document.getElementById('modalCategory').value;
+        const volume = document.getElementById('modalVolume').value.trim() || '350 г';
+        let descRu = document.getElementById('modalDescRu').value.trim();
+        let descAr = document.getElementById('modalDescAr').value.trim();
+        let descEn = document.getElementById('modalDescEn').value.trim();
+        const popular = document.getElementById('modalPopular').checked;
+        const outOfStock = !document.getElementById('modalInStock').checked;
+
+        // Automatically translate Russian title and description to Arabic and English on save if needed
+        if (titleRu && (!titleAr || !titleEn || !descAr || !descEn)) {
+          try {
+            const res = await authFetch('/api/translate', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ titleRu, descRu })
+            });
+            const data = await res.json();
+            if (data.success) {
+              if (data.titleAr && !titleAr) titleAr = data.titleAr;
+              if (data.titleEn && !titleEn) titleEn = data.titleEn;
+              if (data.descAr && !descAr) descAr = data.descAr;
+              if (data.descEn && !descEn) descEn = data.descEn;
+            }
+          } catch (e) {
+            console.warn('Auto translation fallback during save', e);
           }
-        } catch (e) {
-          console.warn('Auto translation fallback during save', e);
-        } finally {
-          if (saveBtn) saveBtn.disabled = false;
-          if (saveBtnText) saveBtnText.textContent = originalText;
         }
-      }
 
-      if (!titleAr) titleAr = titleRu;
-      if (!titleEn) titleEn = titleRu;
-      if (!descAr) descAr = descRu;
-      if (!descEn) descEn = descRu;
+        if (!titleAr) titleAr = titleRu;
+        if (!titleEn) titleEn = titleRu;
+        if (!descAr) descAr = descRu;
+        if (!descEn) descEn = descRu;
 
-      if (currentEditingId !== null) {
-        // Edit existing
-        const dish = dishesList.find(d => d.id === currentEditingId);
-        if (dish) {
-          dish.title.ru = titleRu;
-          dish.title.ar = titleAr;
-          dish.title.en = titleEn;
-          dish.price = price;
-          dish.volume = volume;
-          dish.category = category;
-          dish.photo = photoUrl;
-          dish.desc = dish.desc || {};
-          dish.desc.ru = descRu;
-          dish.desc.ar = descAr;
-          dish.desc.en = descEn;
-          dish.popular = popular;
-          dish.outOfStock = outOfStock;
+        if (currentEditingId !== null) {
+          // Edit existing
+          const dish = dishesList.find(d => d.id === currentEditingId);
+          if (dish) {
+            dish.title.ru = titleRu;
+            dish.title.ar = titleAr;
+            dish.title.en = titleEn;
+            dish.price = price;
+            dish.volume = volume;
+            dish.category = category;
+            dish.photo = photoUrl;
+            dish.desc = dish.desc || {};
+            dish.desc.ru = descRu;
+            dish.desc.ar = descAr;
+            dish.desc.en = descEn;
+            dish.popular = popular;
+            dish.outOfStock = outOfStock;
+          }
+        } else {
+          // Add new
+          const maxId = dishesList.reduce((max, d) => Math.max(max, d.id || 0), 0);
+          const newDish = {
+            id: maxId + 1,
+            title: { ru: titleRu, ar: titleAr, en: titleEn },
+            desc: { ru: descRu, ar: descAr, en: descEn },
+            price: price,
+            volume: volume,
+            category: category,
+            popular: popular,
+            outOfStock: outOfStock,
+            photo: photoUrl
+          };
+          dishesList.unshift(newDish); // Add at top
         }
-      } else {
-        // Add new
-        const maxId = dishesList.reduce((max, d) => Math.max(max, d.id || 0), 0);
-        const newDish = {
-          id: maxId + 1,
-          title: { ru: titleRu, ar: titleAr, en: titleEn },
-          desc: { ru: descRu, ar: descAr, en: descEn },
-          price: price,
-          volume: volume,
-          category: category,
-          popular: popular,
-          outOfStock: outOfStock,
-          photo: photoUrl
-        };
-        dishesList.unshift(newDish); // Add at top
-      }
 
-      markUnsaved();
-      renderAll();
-      closeDishModal();
-      showToast(currentLang === 'ru' ? 'Блюдо обновлено!' : 'تم تحديث الطبق وترجمته بنجاح!');
+        // Save directly to Cloud Firestore and LocalStorage!
+        const saved = await syncDishesToCloud();
+
+        renderAll();
+        closeDishModal();
+
+        const isAr = currentLang === 'ar';
+        if (saved) {
+          showToast(isAr ? 'تم حفظ الطبق وتحديث المتجر فوراً! ✨' : 'Блюдо сохранено в облаке и обновлено на сайте! ✨');
+        } else {
+          markUnsaved();
+          showToast(isAr ? 'تم حفظ التعديل محلياً، اضغط حفظ بالأسفل للتأكيد' : 'Сохранено локально, нажмите Сохранить внизу');
+        }
+      } catch (err) {
+        console.error('Error submitting dish modal:', err);
+        alert(currentLang === 'ru' ? 'Ошибка при сохранении блюда' : 'حدث خطأ أثناء حفظ الطبق');
+      } finally {
+        if (saveBtn) saveBtn.disabled = false;
+        if (saveBtnText) saveBtnText.textContent = originalText;
+      }
     }
 
     // --- Toast Function ---
