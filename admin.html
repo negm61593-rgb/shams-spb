@@ -20,6 +20,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="dishes.js"></script>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -616,18 +617,33 @@
         return;
       }
 
+      // Fast-track client-validated static token
+      if (token.startsWith('shams_static_') || token.startsWith('shams_session_')) {
+        hideLoginScreen();
+        loadDishes();
+        return;
+      }
+
       try {
         const res = await fetch('/api/auth/verify', {
           headers: { 'Authorization': 'Bearer ' + token }
         });
-        const data = await res.json();
-        if (data.success && data.authenticated) {
-          hideLoginScreen();
-          loadDishes();
-        } else {
+        if (res.ok) {
+          const data = await res.json();
+          if (data.success && data.authenticated) {
+            hideLoginScreen();
+            loadDishes();
+            return;
+          }
+        }
+        if (res.status === 401) {
           sessionStorage.removeItem('shams_admin_token');
           showLoginScreen();
+          return;
         }
+        // If static host or other response:
+        hideLoginScreen();
+        loadDishes();
       } catch (err) {
         // Offline or network error fallback
         hideLoginScreen();
@@ -690,6 +706,7 @@
           clearInterval(lockoutTimer);
           lockoutTimer = null;
           lockoutRemainingSeconds = 0;
+          localStorage.removeItem('shams_lockout_until');
 
           if (input) {
             input.disabled = false;
@@ -733,7 +750,15 @@
         setTimeout(() => input.focus(), 150);
       }
 
-      // Proactively check lockout status from server
+      // 1. Proactively check local lockout
+      const localLockout = parseInt(localStorage.getItem('shams_lockout_until') || '0', 10);
+      const now = Date.now();
+      if (localLockout > now) {
+        startLockoutCountdown(Math.ceil((localLockout - now) / 1000));
+        return;
+      }
+
+      // 2. Proactively check server lockout
       try {
         const res = await fetch('/api/auth/lockout');
         if (res.ok) {
@@ -765,6 +790,35 @@
       }
     }
 
+    function renderWrongPasswordUI(remaining, total) {
+      const errEl = document.getElementById('pinError');
+      const input = document.getElementById('passwordInput');
+      const isAr = currentLang === 'ar';
+
+      if (errEl) {
+        errEl.className = 'w-full text-xs font-semibold text-red-300 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
+        errEl.classList.remove('hidden');
+        errEl.innerHTML = `
+          <div class="flex items-center justify-center gap-1.5 font-bold text-red-400">
+            <i class="fa-solid fa-circle-xmark"></i>
+            <span>${isAr ? 'كلمة المرور غير صحيحة!' : 'Неверный пароль!'}</span>
+          </div>
+          <div class="text-[11px] text-stone-300 mt-1">
+            ${isAr 
+              ? `متبقي <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> من أصل ${total} محاولات`
+              : `Осталось попыток: <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> из ${total}`}
+          </div>
+        `;
+      }
+
+      if (input) {
+        input.classList.add('border-red-500', 'ring-2', 'ring-red-500/30');
+        setTimeout(() => input.classList.remove('border-red-500', 'ring-2', 'ring-red-500/30'), 1500);
+        input.focus();
+        input.select();
+      }
+    }
+
     async function handleLoginSubmit(e) {
       if (e) e.preventDefault();
       if (lockoutTimer) return;
@@ -776,6 +830,14 @@
       const btnText = document.getElementById('btnLoginText');
       const btnIcon = document.getElementById('loginBtnIcon');
       const originalText = btnText ? btnText.textContent : '';
+
+      // Check local lockout timer
+      const localLockout = parseInt(localStorage.getItem('shams_lockout_until') || '0', 10);
+      const now = Date.now();
+      if (localLockout > now) {
+        startLockoutCountdown(Math.ceil((localLockout - now) / 1000));
+        return;
+      }
 
       if (!password) {
         errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
@@ -795,69 +857,84 @@
       if (btnText) btnText.textContent = currentLang === 'ru' ? 'Проверка...' : 'جاري التحقق...';
       if (btnIcon) btnIcon.className = 'fa-solid fa-spinner fa-spin text-xs';
 
+      let serverResponded = false;
+
       try {
         const res = await fetch('/api/auth', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ password })
         });
-        const data = await res.json();
+        
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success && data.token) {
+            serverResponded = true;
+            if (lockoutTimer) {
+              clearInterval(lockoutTimer);
+              lockoutTimer = null;
+            }
+            localStorage.removeItem('shams_failed_attempts');
+            localStorage.removeItem('shams_lockout_until');
+            sessionStorage.setItem('shams_admin_token', data.token);
+            hideLoginScreen();
+            loadDishes();
+            showToast(currentLang === 'ru' ? 'Добро пожаловать в панель «Шамс»!' : 'أهلاً بك في لوحة تحكم «شمس»! ✨');
+            return;
+          }
+        } else if (res.status === 429) {
+          serverResponded = true;
+          const data = await res.json();
+          const secs = data.remainingSeconds || (15 * 60);
+          startLockoutCountdown(secs);
+          return;
+        } else if (res.status === 401) {
+          serverResponded = true;
+          const data = await res.json();
+          const remaining = data.remaining !== undefined ? data.remaining : 4;
+          const total = data.maxAttempts || 5;
+          renderWrongPasswordUI(remaining, total);
+          return;
+        }
+      } catch (err) {
+        // Fetch failed (network error, offline, or 404 HTML on static host like Vercel)
+        serverResponded = false;
+      }
 
-        if (res.ok && data.success && data.token) {
+      // If server is not running (e.g. static hosting on Vercel) -> Client Fallback Authentication
+      if (!serverResponded) {
+        const validPasswords = ['Sh@61K', 'Spb#61'];
+        if (validPasswords.includes(password)) {
           if (lockoutTimer) {
             clearInterval(lockoutTimer);
             lockoutTimer = null;
           }
-          sessionStorage.setItem('shams_admin_token', data.token);
+          localStorage.removeItem('shams_failed_attempts');
+          localStorage.removeItem('shams_lockout_until');
+          sessionStorage.setItem('shams_admin_token', 'shams_static_' + Date.now());
           hideLoginScreen();
           loadDishes();
           showToast(currentLang === 'ru' ? 'Добро пожаловать в панель «Шамс»!' : 'أهلاً بك في لوحة تحكم «شمس»! ✨');
-        } else if (res.status === 429 || data.code === 'LOCKED') {
-          // Locked out - Start live countdown timer!
-          const secs = data.remainingSeconds || (15 * 60);
-          startLockoutCountdown(secs);
-        } else if (res.status === 401 || data.code === 'INVALID_PASSWORD') {
-          // Wrong password - show attempts decrement counter
-          const remaining = data.remaining !== undefined ? data.remaining : 4;
-          const total = data.maxAttempts || 5;
-          const isAr = currentLang === 'ar';
-
-          errEl.className = 'w-full text-xs font-semibold text-red-300 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
-          errEl.classList.remove('hidden');
-
-          errEl.innerHTML = `
-            <div class="flex items-center justify-center gap-1.5 font-bold text-red-400">
-              <i class="fa-solid fa-circle-xmark"></i>
-              <span>${isAr ? 'كلمة المرور غير صحيحة!' : 'Неверный пароль!'}</span>
-            </div>
-            <div class="text-[11px] text-stone-300 mt-1">
-              ${isAr 
-                ? `متبقي <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> من أصل ${total} محاولات`
-                : `Осталось попыток: <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> из ${total}`}
-            </div>
-          `;
-
-          if (input) {
-            input.classList.add('border-red-500', 'ring-2', 'ring-red-500/30');
-            setTimeout(() => input.classList.remove('border-red-500', 'ring-2', 'ring-red-500/30'), 1500);
-            input.focus();
-            input.select();
-          }
         } else {
-          errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
-          errEl.classList.remove('hidden');
-          errEl.textContent = data.message || (currentLang === 'ru' ? 'Ошибка входа!' : 'حدث خطأ في تسجيل الدخول!');
+          let attempts = parseInt(localStorage.getItem('shams_failed_attempts') || '0', 10) + 1;
+          localStorage.setItem('shams_failed_attempts', attempts);
+
+          if (attempts >= 5) {
+            const lockoutDuration = 15 * 60; // 15 mins
+            localStorage.setItem('shams_lockout_until', Date.now() + (lockoutDuration * 1000));
+            localStorage.removeItem('shams_failed_attempts');
+            startLockoutCountdown(lockoutDuration);
+          } else {
+            const remaining = 5 - attempts;
+            renderWrongPasswordUI(remaining, 5);
+          }
         }
-      } catch (err) {
-        errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
-        errEl.classList.remove('hidden');
-        errEl.textContent = currentLang === 'ru' ? 'Ошибка связи с сервером' : 'تعذر الاتصال بالسيرفر، يرجى المحاولة ثانية';
-      } finally {
-        if (!lockoutTimer) {
-          if (btn) btn.disabled = false;
-          if (btnText) btnText.textContent = originalText;
-          if (btnIcon) btnIcon.className = 'fa-solid fa-arrow-right-to-bracket text-xs';
-        }
+      }
+
+      if (!lockoutTimer) {
+        if (btn) btn.disabled = false;
+        if (btnText) btnText.textContent = originalText;
+        if (btnIcon) btnIcon.className = 'fa-solid fa-arrow-right-to-bracket text-xs';
       }
     }
 
@@ -868,18 +945,48 @@
 
     // --- Load Dishes ---
     async function loadDishes() {
+      // 1. Try local customized dishes saved on this device
+      try {
+        const rawLocal = localStorage.getItem('shams_custom_dishes');
+        if (rawLocal) {
+          const parsed = JSON.parse(rawLocal);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            dishesList = parsed;
+            renderAll();
+            return;
+          }
+        }
+      } catch (e) {}
+
+      // 2. Try fetching live backend /api/dishes
       try {
         const res = await fetch('/api/dishes');
         if (res.ok) {
           const data = await res.json();
-          dishesList = data.dishes;
-        } else {
-          throw new Error('Fallback to local');
+          if (data && data.dishes && Array.isArray(data.dishes) && data.dishes.length > 0) {
+            dishesList = data.dishes;
+            renderAll();
+            return;
+          }
         }
-      } catch (err) {
-        if (window.SHAMS_MENU && Array.isArray(window.SHAMS_MENU)) {
-          dishesList = JSON.parse(JSON.stringify(window.SHAMS_MENU));
+      } catch (err) {}
+
+      // 3. Try fetching clean_dishes.json (static file)
+      try {
+        const res = await fetch('clean_dishes.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (Array.isArray(data) && data.length > 0) {
+            dishesList = data;
+            renderAll();
+            return;
+          }
         }
+      } catch (e) {}
+
+      // 4. Fallback to window.SHAMS_MENU from dishes.js
+      if (window.SHAMS_MENU && Array.isArray(window.SHAMS_MENU) && window.SHAMS_MENU.length > 0) {
+        dishesList = JSON.parse(JSON.stringify(window.SHAMS_MENU));
       }
       renderAll();
     }
@@ -1120,33 +1227,41 @@
       btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ...';
 
+      let serverSaved = false;
       try {
         const res = await authFetch('/api/dishes', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ dishes: dishesList })
         });
-        const data = await res.json();
-        if (data.success) {
-          hasUnsavedChanges = false;
-          document.getElementById('unsavedBar').classList.add('hidden');
-          showToast(i18n[currentLang].savedSuccess);
-        } else {
-          throw new Error(data.message || 'Server error');
+        if (res.ok) {
+          const data = await res.json();
+          if (data && data.success) {
+            serverSaved = true;
+          }
         }
       } catch (err) {
-        console.warn('API save unavailable, offering local download fallback:', err);
-        downloadDishesJs(dishesList);
-        hasUnsavedChanges = false;
-        document.getElementById('unsavedBar').classList.add('hidden');
-        const isAr = currentLang === 'ar';
-        alert(isAr 
-          ? 'تم تنزيل ملف (dishes.js) المحدث لجهازك بنجاح! استبدل الملف في المجلد وسيتحدث الموقع فوراً.' 
-          : 'Файл меню (dishes.js) успешно скачан на ваше устройство!');
-      } finally {
-        btn.disabled = false;
-        btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
+        serverSaved = false;
       }
+
+      // Always persist to localStorage for instant local preview
+      try {
+        localStorage.setItem('shams_custom_dishes', JSON.stringify(dishesList));
+      } catch (e) {}
+
+      hasUnsavedChanges = false;
+      document.getElementById('unsavedBar').classList.add('hidden');
+
+      if (serverSaved) {
+        showToast(i18n[currentLang].savedSuccess);
+      } else {
+        downloadDishesJs(dishesList);
+        const isAr = currentLang === 'ar';
+        showToast(isAr ? 'تم حفظ التعديلات وتنزيل ملف dishes.js المحدث!' : 'Изменения сохранены и скачан файл dishes.js!');
+      }
+
+      btn.disabled = false;
+      btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
     }
 
     function downloadDishesJs(dishes) {

@@ -2125,6 +2125,18 @@
 
       setLanguage(initialLang);
 
+      // Sync with locally saved edits in browser if available
+      try {
+        const localDishes = localStorage.getItem('shams_custom_dishes');
+        if (localDishes) {
+          const parsed = JSON.parse(localDishes);
+          if (Array.isArray(parsed) && parsed.length > 0) {
+            menuData = parsed;
+            renderMenu();
+          }
+        }
+      } catch (e) {}
+
       // Real-time dynamic sync with live server menu (/api/dishes)
       try {
         fetch('/api/dishes')
