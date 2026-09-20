@@ -19,6 +19,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <!-- FontAwesome 6 Free Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="dishes.js"></script>
   <!-- Firebase App & Cloud Firestore SDK (Compat) -->
   <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -190,8 +192,8 @@
 
       <!-- Lang toggle on lock screen -->
       <div class="mt-6 flex items-center gap-2 text-xs">
-        <button type="button" onclick="switchLang('ru')" class="px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-amber-400 font-bold hover:border-amber-500/40 transition">Русский</button>
-        <button type="button" onclick="switchLang('ar')" class="px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400 font-bold hover:text-white hover:border-amber-500/40 transition">العربية</button>
+        <button type="button" id="lockLangRu" onclick="switchLang('ru')" class="px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400 font-bold hover:text-white transition">Русский</button>
+        <button type="button" id="lockLangAr" onclick="switchLang('ar')" class="px-3.5 py-1.5 rounded-full bg-amber-500 text-stone-950 font-black shadow transition">العربية</button>
       </div>
 
     </div>
@@ -227,9 +229,9 @@
           </a>
 
           <!-- Language Toggle (Never wraps, sleek pill) -->
-          <button onclick="toggleLang()" class="h-8 sm:h-9 px-2.5 sm:px-3 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-500/40 text-[11px] sm:text-xs font-bold text-stone-300 hover:text-white transition whitespace-nowrap active:scale-95 flex items-center gap-1.5" id="langSwitchBtn">
-            <i class="fa-solid fa-globe text-amber-400 text-[11px]"></i>
-            <span id="langSwitchText">RU</span>
+          <button onclick="toggleLang()" class="h-8 sm:h-9 px-2.5 sm:px-3 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-500/40 text-[11px] sm:text-xs font-bold text-stone-200 hover:text-white transition whitespace-nowrap active:scale-95 flex items-center gap-1.5 shadow-sm cursor-pointer" id="langSwitchBtn" title="تغيير اللغة / Сменить язык">
+            <i class="fa-solid fa-globe text-amber-400 text-xs"></i>
+            <span id="langSwitchText">Русский</span>
           </button>
 
           <!-- Logout -->
@@ -1167,12 +1169,12 @@
               </div>
 
               <!-- Edit & Delete Buttons -->
-              <div class="flex items-center gap-1">
-                <button onclick="openEditModal(${dish.id})" class="p-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-amber-400 border border-stone-800 transition active:scale-95" title="Редактировать">
-                  <i class="fa-solid fa-pen text-xs"></i>
+              <div class="flex items-center gap-1.5">
+                <button onclick="openEditModal(${dish.id})" class="w-8 h-8 rounded-xl bg-stone-900 hover:bg-amber-500/20 text-stone-300 hover:text-amber-400 border border-stone-800 flex items-center justify-center transition active:scale-95 shadow-sm" title="${isAr ? 'تعديل الطبق' : 'Редактировать'}">
+                  <i class="fa-solid fa-pen-to-square text-xs"></i>
                 </button>
-                <button onclick="deleteDish(${dish.id})" class="p-2 rounded-xl bg-stone-900 hover:bg-red-500/20 text-stone-400 hover:text-red-400 border border-stone-800 transition active:scale-95" title="Удалить">
-                  <i class="fa-solid fa-trash text-xs"></i>
+                <button onclick="deleteDish(${dish.id})" class="w-8 h-8 rounded-xl bg-stone-900 hover:bg-red-500/20 text-stone-400 hover:text-red-400 border border-stone-800 flex items-center justify-center transition active:scale-95 shadow-sm" title="${isAr ? 'حذف الطبق' : 'Удалить'}">
+                  <i class="fa-solid fa-trash-can text-xs"></i>
                 </button>
               </div>
 
@@ -1354,11 +1356,13 @@
       document.getElementById('modalPhotoPreview').src = 'hero_dish.jpg';
       document.getElementById('modalPhotoUrl').value = 'hero_dish.jpg';
       document.getElementById('modalTitleRu').value = '';
+      document.getElementById('modalTitleRu').placeholder = currentLang === 'ar' ? 'مثال: شاورما دجاج كلاسيك' : 'Например: Шаверма Классик';
       document.getElementById('modalTitleAr').value = '';
       document.getElementById('modalCategory').value = activeCategory === 'all' ? 'shawarma' : activeCategory;
       document.getElementById('modalVolume').value = '';
       document.getElementById('modalPrice').value = '';
       document.getElementById('modalDescRu').value = '';
+      document.getElementById('modalDescRu').placeholder = currentLang === 'ar' ? 'وصف الطبق ومكوناته...' : 'Описание и состав блюда...';
       document.getElementById('modalDescAr').value = '';
       document.getElementById('modalTitleEn').value = '';
       document.getElementById('modalDescEn').value = '';
@@ -1383,12 +1387,14 @@
 
       document.getElementById('modalPhotoPreview').src = dish.photo || 'hero_dish.jpg';
       document.getElementById('modalPhotoUrl').value = dish.photo || '';
-      document.getElementById('modalTitleRu').value = dish.title?.ru || '';
+      document.getElementById('modalTitleRu').value = dish.title?.ru || dish.title?.ar || '';
+      document.getElementById('modalTitleRu').placeholder = currentLang === 'ar' ? 'اسم الطبق' : 'Название блюда';
       document.getElementById('modalTitleAr').value = dish.title?.ar || '';
       document.getElementById('modalCategory').value = dish.category || 'shawarma';
       document.getElementById('modalVolume').value = dish.volume || '';
       document.getElementById('modalPrice').value = dish.price || '';
-      document.getElementById('modalDescRu').value = dish.desc?.ru || '';
+      document.getElementById('modalDescRu').value = dish.desc?.ru || dish.desc?.ar || '';
+      document.getElementById('modalDescRu').placeholder = currentLang === 'ar' ? 'وصف ومكونات الطبق' : 'Описание и состав';
       document.getElementById('modalDescAr').value = dish.desc?.ar || '';
       document.getElementById('modalTitleEn').value = dish.title?.en || '';
       document.getElementById('modalDescEn').value = dish.desc?.en || '';
@@ -1687,7 +1693,7 @@
       document.documentElement.dir = isAr ? 'rtl' : 'ltr';
       document.body.dir = isAr ? 'rtl' : 'ltr';
 
-      const t = i18n[lang];
+      const t = i18n[lang] || i18n.ar;
 
       // Helpers
       const setEl = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
@@ -1700,39 +1706,56 @@
       };
 
       // --- Dashboard elements ---
-      document.getElementById('pinTitle').textContent = t.pinTitle;
-      document.getElementById('pinSubtitle').textContent = t.pinSubtitle;
+      setEl('pinTitle', t.pinTitle);
+      setEl('pinSubtitle', t.pinSubtitle);
       const passInput = document.getElementById('passwordInput');
       if (passInput) passInput.placeholder = t.passPlaceholder;
       setEl('btnLoginText', t.btnLoginText);
-      document.getElementById('headerTitle').textContent = t.headerTitle;
-      document.getElementById('headerSub').textContent = t.headerSub;
-      document.getElementById('btnLiveStore').textContent = t.btnLiveStore;
-      document.getElementById('statDishesLabel').textContent = t.statDishesLabel;
-      document.getElementById('statCatsLabel').textContent = t.statCatsLabel;
-      document.getElementById('statCatsSub').textContent = t.statCatsSub;
-      document.getElementById('statOosLabel').textContent = t.statOosLabel;
-      document.getElementById('statOosSub').textContent = t.statOosSub;
-      document.getElementById('searchInput').placeholder = t.searchInput;
-      document.getElementById('btnAddDish').textContent = t.btnAddDish;
-      document.getElementById('emptyStateText').textContent = t.emptyStateText;
-      document.getElementById('unsavedText').textContent = t.unsavedText;
-      document.getElementById('btnDiscard').textContent = t.btnDiscard;
-      document.getElementById('btnSaveAll').textContent = t.btnSaveAll;
-      setEl('langSwitchText', isAr ? 'RU' : 'AR');
+      setEl('headerTitle', t.headerTitle);
+      setEl('headerSub', t.headerSub);
+      setEl('btnLiveStore', t.btnLiveStore);
+      setEl('statDishesLabel', t.statDishesLabel);
+      setEl('statCatsLabel', t.statCatsLabel);
+      setEl('statCatsSub', t.statCatsSub);
+      setEl('statOosLabel', t.statOosLabel);
+      setEl('statOosSub', t.statOosSub);
+      const searchInput = document.getElementById('searchInput');
+      if (searchInput) searchInput.placeholder = t.searchInput;
+      setEl('btnAddDish', t.btnAddDish);
+      setEl('emptyStateText', t.emptyStateText);
+      setEl('unsavedText', t.unsavedText);
+      setEl('btnDiscard', t.btnDiscard);
+      setEl('btnSaveAll', t.btnSaveAll);
 
-      setLblText('lblTitleRu', isAr ? 'اسم الطبق بالروسية *' : 'Название блюда (рус) *');
+      // Language toggle button text & title
+      setEl('langSwitchText', isAr ? 'Русский' : 'العربية');
+      const langBtn = document.getElementById('langSwitchBtn');
+      if (langBtn) langBtn.title = isAr ? 'التبديل إلى الروسية / Switch to Russian' : 'التبديل إلى العربية / Switch to Arabic';
+
+      // Lock screen buttons styling
+      const lockRu = document.getElementById('lockLangRu');
+      const lockAr = document.getElementById('lockLangAr');
+      if (lockRu && lockAr) {
+        if (isAr) {
+          lockAr.className = "px-3.5 py-1.5 rounded-full bg-amber-500 text-stone-950 font-black shadow transition";
+          lockRu.className = "px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400 font-bold hover:text-white transition";
+        } else {
+          lockRu.className = "px-3.5 py-1.5 rounded-full bg-amber-500 text-stone-950 font-black shadow transition";
+          lockAr.className = "px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400 font-bold hover:text-white transition";
+        }
+      }
+
+      setLblText('lblTitleRu', isAr ? 'اسم الطبق *' : 'Название блюда (рус) *');
       setEl('lblCategory', isAr ? 'القسم' : 'Категория');
       setEl('lblPrice', isAr ? 'السعر ₽ *' : 'Цена ₽ *');
       setEl('lblVolume', isAr ? 'الوزن' : 'Вес');
-      setLblText('lblDescRu', isAr ? 'وصف ومكونات الطبق (بالروسية)' : 'Описание и состав (рус)');
+      setLblText('lblDescRu', isAr ? 'وصف ومكونات الطبق' : 'Описание и состав (рус)');
 
       const badges = document.querySelectorAll('.lbl-badge');
       badges.forEach(b => { b.textContent = isAr ? '✨ يترجم تلقائياً للعربية والإنجليزية' : '✨ Автоперевод на арабский и английский'; });
 
       setEl('btnPickGallery', isAr ? 'معرض الصور' : 'Галерея');
       setEl('btnPickCamera', isAr ? 'الكاميرا' : 'Камера');
-      setEl('btnAutoTranslateText', isAr ? 'ترجمة تلقائية ✨' : 'Автоперевод ✨');
       setEl('lblPopular', isAr ? '⭐ مميز' : '⭐ Популярное');
       setEl('lblInStock', isAr ? '✅ متوفر' : '✅ В наличии');
       setEl('btnModalCancel', t.btnModalCancel);
