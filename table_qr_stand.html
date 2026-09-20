@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>بطاقة طاولة وبوستر المنيو المطبوع • مطعم شمس СПб</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body {
+      font-family: 'Cairo', 'Plus Jakarta Sans', sans-serif;
+      background-color: #0c0a09;
+      color: #fafaf9;
+      margin: 0;
+      padding: 24px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+
+    .print-card {
+      width: 100%;
+      max-width: 480px;
+      background: linear-gradient(165deg, #1c1917 0%, #0c0a09 100%);
+      border: 3px solid #f59e0b;
+      border-radius: 36px;
+      padding: 36px 28px;
+      box-shadow: 0 25px 60px -15px rgba(0, 0, 0, 0.9), 0 0 40px rgba(245, 158, 11, 0.15);
+      position: relative;
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .qr-frame {
+      position: relative;
+      background: #ffffff;
+      padding: 16px;
+      border-radius: 28px;
+      display: inline-block;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    }
+
+    .corner-decor {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border-color: #f59e0b;
+      pointer-events: none;
+    }
+    .corner-tl { top: -6px; left: -6px; border-top: 4px solid #f59e0b; border-left: 4px solid #f59e0b; border-top-left-radius: 12px; }
+    .corner-tr { top: -6px; right: -6px; border-top: 4px solid #f59e0b; border-right: 4px solid #f59e0b; border-top-right-radius: 12px; }
+    .corner-bl { bottom: -6px; left: -6px; border-bottom: 4px solid #f59e0b; border-left: 4px solid #f59e0b; border-bottom-left-radius: 12px; }
+    .corner-br { bottom: -6px; right: -6px; border-bottom: 4px solid #f59e0b; border-right: 4px solid #f59e0b; border-bottom-right-radius: 12px; }
+
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-card {
+        box-shadow: none !important;
+        border: 2px solid #d97706 !important;
+        max-width: 100% !important;
+        page-break-inside: avoid;
+        margin: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Action Bar (hidden when printing) -->
+  <div class="no-print max-w-[480px] w-full mb-6 flex items-center justify-between gap-3 bg-stone-900/90 border border-stone-800 p-4 rounded-2xl shadow-lg backdrop-blur">
+    <button onclick="window.print()" class="flex-1 py-3 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-black text-sm flex items-center justify-center gap-2 shadow-md transition active:scale-98 cursor-pointer">
+      <i class="fa-solid fa-print text-base"></i>
+      <span>طباعة البطاقة فوراً (Print)</span>
+    </button>
+    <a href="shams_menu_qr.svg" download="shams_menu_qr.svg" class="py-3 px-4 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-200 font-bold text-xs flex items-center gap-2 border border-stone-700 transition cursor-pointer">
+      <i class="fa-solid fa-download"></i>
+      <span>تحميل SVG فيكتور</span>
+    </a>
+  </div>
+
+  <!-- Physical Print Card / Table Stand -->
+  <div class="print-card">
+
+    <!-- Glowing Top Accent -->
+    <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-64 h-32 bg-amber-500/20 blur-3xl rounded-full pointer-events-none"></div>
+
+    <!-- Header / Brand -->
+    <div class="flex flex-col items-center mb-5">
+      <div class="w-20 h-20 rounded-2xl p-1 bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-600 shadow-xl mb-3">
+        <img src="logo.jpg" alt="Shams Logo" class="w-full h-full object-cover rounded-[14px]" />
+      </div>
+
+      <h1 class="text-3xl font-black text-white tracking-wide mb-1">
+        مطعم شمس • ШАМС
+      </h1>
+      <p class="text-xs font-bold text-amber-400 tracking-wider">
+        АУТЕНТИЧНАЯ ЕГИПЕТСКАЯ КУХНЯ В СПБ
+      </p>
+      <p class="text-[11px] text-stone-400 mt-0.5">
+        شاورما مصرية أصلية • لحوم حلال 100% طازجة يومياً
+      </p>
+    </div>
+
+    <!-- Verification Badges -->
+    <div class="flex items-center justify-center gap-2 mb-6">
+      <div class="px-3 py-1 rounded-full bg-emerald-950/80 border border-emerald-500/40 text-emerald-300 text-[11px] font-bold flex items-center gap-1.5">
+        <i class="fa-solid fa-shield-halved text-[10px]"></i>
+        <span>100% ХАЛЯЛЬ (حلال)</span>
+      </div>
+
+      <div class="px-3 py-1 rounded-full bg-amber-950/80 border border-amber-500/40 text-amber-300 text-[11px] font-bold flex items-center gap-1.5">
+        <i class="fa-solid fa-star text-[10px] text-amber-400"></i>
+        <span>5.0 НА ЯНДЕКС КАРТАХ (470+)</span>
+      </div>
+    </div>
+
+    <!-- QR Code Section -->
+    <div class="mb-6">
+      <div class="qr-frame">
+        <div class="corner-decor corner-tl"></div>
+        <div class="corner-decor corner-tr"></div>
+        <div class="corner-decor corner-bl"></div>
+        <div class="corner-decor corner-br"></div>
+        
+        <img 
+          src="shams_menu_qr.png" 
+          alt="Shams Menu QR Code" 
+          class="w-56 h-56 sm:w-64 sm:h-64 object-contain rounded-xl block"
+        />
+      </div>
+    </div>
+
+    <!-- Multilingual Scan CTA -->
+    <div class="space-y-1 mb-6">
+      <div class="text-lg font-black text-amber-400 flex items-center justify-center gap-2">
+        <i class="fa-solid fa-qrcode animate-bounce"></i>
+        <span>امسح الكود لتصفح المنيو والطلب الفوري</span>
+      </div>
+      <div class="text-sm font-black text-white" dir="ltr">
+        Сканируйте QR-код для просмотра меню и заказа
+      </div>
+      <div class="text-xs font-semibold text-stone-400" dir="ltr">
+        Scan QR Code to browse our digital menu & order
+      </div>
+    </div>
+
+    <!-- Permanent URL Display -->
+    <div class="bg-stone-900/90 border border-amber-500/30 rounded-2xl py-2 px-3 mb-5 inline-block">
+      <div class="text-[10px] text-stone-400 mb-0.5">رابط المتجر الثابت والدائم:</div>
+      <div class="text-sm font-mono font-bold text-amber-300 select-all" dir="ltr">
+        https://shams-spb.onrender.com
+      </div>
+    </div>
+
+    <!-- Footer Info / Location -->
+    <div class="pt-4 border-t border-stone-800 text-stone-400 text-[11px] space-y-1 leading-relaxed" dir="ltr">
+      <div class="flex items-center justify-center gap-1.5 font-bold text-stone-200">
+        <i class="fa-solid fa-location-dot text-amber-400"></i>
+        <span>Санкт-Петербург, Комендантский пр., 61К (ЖК Yoga)</span>
+      </div>
+      <div class="flex items-center justify-center gap-3 text-stone-400">
+        <span>🕒 Ежедневно 10:00 — 01:00</span>
+        <span>•</span>
+        <a href="tel:+79990371312" class="text-amber-400 font-bold hover:underline">📞 +7 (999) 037-13-12</a>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="no-print text-center text-xs text-stone-500 mt-6 max-w-[480px]">
+    💡 <strong>نصيحة الطباعة:</strong> اضغط على زر "طباعة البطاقة" واضبط الحجم على A5 أو ورقة نصفية مناسبة لقوائم الطاولات الاكريليك الشفافة (Acrylic Table Stands). الباركود ثابت للأبد ولن تحتاج لإعادة طباعته حتى لو قمت بتعديل الأسعار أو المنيو.
+  </div>
+
+</body>
+</html>
