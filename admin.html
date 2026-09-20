@@ -1132,15 +1132,34 @@
           document.getElementById('unsavedBar').classList.add('hidden');
           showToast(i18n[currentLang].savedSuccess);
         } else {
-          alert(data.message || 'Ошибка сохранения');
+          throw new Error(data.message || 'Server error');
         }
       } catch (err) {
-        console.error(err);
-        alert('Ошибка связи с сервером. Попробуйте еще раз.');
+        console.warn('API save unavailable, offering local download fallback:', err);
+        downloadDishesJs(dishesList);
+        hasUnsavedChanges = false;
+        document.getElementById('unsavedBar').classList.add('hidden');
+        const isAr = currentLang === 'ar';
+        alert(isAr 
+          ? 'تم تنزيل ملف (dishes.js) المحدث لجهازك بنجاح! استبدل الملف في المجلد وسيتحدث الموقع فوراً.' 
+          : 'Файл меню (dishes.js) успешно скачан на ваше устройство!');
       } finally {
         btn.disabled = false;
         btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
       }
+    }
+
+    function downloadDishesJs(dishes) {
+      const content = 'window.SHAMS_MENU = ' + JSON.stringify(dishes, null, 2) + ';\n';
+      const blob = new Blob([content], { type: 'application/javascript;charset=utf-8' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'dishes.js';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+      URL.revokeObjectURL(url);
     }
 
     // --- Edit / Add Modal Logic ---
