@@ -19,8 +19,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <script src="dishes.js"></script>
+  <!-- Firebase App & Cloud Firestore SDK (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -492,6 +494,28 @@
     let hasUnsavedChanges = false;
     let currentEditingId = null;
 
+    // --- Cloud Firestore Integration ---
+    const firebaseConfig = {
+      apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
+      authDomain: "shams-spb.firebaseapp.com",
+      projectId: "shams-spb",
+      storageBucket: "shams-spb.firebasestorage.app",
+      messagingSenderId: "386620074446",
+      appId: "1:386620074446:web:ed6443e3dc25495873239f"
+    };
+
+    let firestoreDb = null;
+    try {
+      if (typeof firebase !== 'undefined') {
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
+        }
+        firestoreDb = firebase.firestore();
+      }
+    } catch (err) {
+      console.warn('Firebase init error in admin:', err);
+    }
+
     // --- Translations Dictionary ---
     const i18n = {
       ru: {
@@ -945,7 +969,36 @@
 
     // --- Load Dishes ---
     async function loadDishes() {
-      // 1. Try local customized dishes saved on this device
+      // 1. First priority: Cloud Firestore (cloud source of truth)
+      if (firestoreDb) {
+        try {
+          const doc = await firestoreDb.collection('settings').doc('menu').get();
+          if (doc.exists) {
+            const data = doc.data();
+            if (data && Array.isArray(data.dishes) && data.dishes.length > 0) {
+              dishesList = data.dishes;
+              renderAll();
+              return;
+            }
+          } else {
+            // First-time setup: automatically seed Firestore with default dishes!
+            const defaultDishes = (window.SHAMS_MENU && Array.isArray(window.SHAMS_MENU)) ? window.SHAMS_MENU : [];
+            if (defaultDishes.length > 0) {
+              dishesList = JSON.parse(JSON.stringify(defaultDishes));
+              firestoreDb.collection('settings').doc('menu').set({
+                dishes: dishesList,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+              }).catch(e => console.warn('Auto-seed error:', e));
+              renderAll();
+              return;
+            }
+          }
+        } catch (e) {
+          console.warn('Firestore load failed, falling back:', e);
+        }
+      }
+
+      // 2. Try local customized dishes saved on this device
       try {
         const rawLocal = localStorage.getItem('shams_custom_dishes');
         if (rawLocal) {
@@ -957,19 +1010,6 @@
           }
         }
       } catch (e) {}
-
-      // 2. Try fetching live backend /api/dishes
-      try {
-        const res = await fetch('/api/dishes');
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.dishes && Array.isArray(data.dishes) && data.dishes.length > 0) {
-            dishesList = data.dishes;
-            renderAll();
-            return;
-          }
-        }
-      } catch (err) {}
 
       // 3. Try fetching clean_dishes.json (static file)
       try {
@@ -1227,24 +1267,23 @@
       btn.disabled = true;
       btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ...';
 
-      let serverSaved = false;
-      try {
-        const res = await authFetch('/api/dishes', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ dishes: dishesList })
-        });
-        if (res.ok) {
-          const data = await res.json();
-          if (data && data.success) {
-            serverSaved = true;
-          }
+      let cloudSaved = false;
+
+      // 1. Save directly to Cloud Firestore!
+      if (firestoreDb) {
+        try {
+          await firestoreDb.collection('settings').doc('menu').set({
+            dishes: dishesList,
+            updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          cloudSaved = true;
+        } catch (err) {
+          console.error('Firestore save failed:', err);
+          cloudSaved = false;
         }
-      } catch (err) {
-        serverSaved = false;
       }
 
-      // Always persist to localStorage for instant local preview
+      // 2. Persist in localStorage for instant local preview
       try {
         localStorage.setItem('shams_custom_dishes', JSON.stringify(dishesList));
       } catch (e) {}
@@ -1252,12 +1291,12 @@
       hasUnsavedChanges = false;
       document.getElementById('unsavedBar').classList.add('hidden');
 
-      if (serverSaved) {
-        showToast(i18n[currentLang].savedSuccess);
+      const isAr = currentLang === 'ar';
+      if (cloudSaved) {
+        showToast(isAr ? 'تم حفظ التعديلات سحابياً وتحديث المتجر فوراً! ✨' : 'Меню сохранено в облаке и обновлено на сайте! ✨');
       } else {
         downloadDishesJs(dishesList);
-        const isAr = currentLang === 'ar';
-        showToast(isAr ? 'تم حفظ التعديلات وتنزيل ملف dishes.js المحدث!' : 'Изменения сохранены и скачан файл dishes.js!');
+        showToast(isAr ? 'تم حفظ التعديلات وتنزيل النسخة الاحتياطية!' : 'Изменения сохранены локально!');
       }
 
       btn.disabled = false;

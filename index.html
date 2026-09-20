@@ -971,6 +971,9 @@
 
   <!-- ==================== SCRIPTS ==================== -->
   <script src="dishes.js"></script>
+  <!-- Firebase App & Cloud Firestore SDK (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
   <script>
     
@@ -2125,29 +2128,47 @@
 
       setLanguage(initialLang);
 
-      // Sync with locally saved edits in browser if available
+      // Real-time dynamic sync with Cloud Firestore
+      try {
+        const firebaseConfig = {
+          apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
+          authDomain: "shams-spb.firebaseapp.com",
+          projectId: "shams-spb",
+          storageBucket: "shams-spb.firebasestorage.app",
+          messagingSenderId: "386620074446",
+          appId: "1:386620074446:web:ed6443e3dc25495873239f"
+        };
+        if (typeof firebase !== 'undefined') {
+          if (!firebase.apps.length) {
+            firebase.initializeApp(firebaseConfig);
+          }
+          const db = firebase.firestore();
+          db.collection('settings').doc('menu').onSnapshot((doc) => {
+            if (doc.exists) {
+              const data = doc.data();
+              if (data && Array.isArray(data.dishes) && data.dishes.length > 0) {
+                menuData = data.dishes;
+                renderMenu();
+              }
+            }
+          }, (err) => {
+            console.warn('Firestore sync fallback:', err);
+          });
+        }
+      } catch (e) {
+        console.warn('Firebase init error:', e);
+      }
+
+      // Secondary fallback: local storage
       try {
         const localDishes = localStorage.getItem('shams_custom_dishes');
-        if (localDishes) {
+        if (localDishes && (!menuData || menuData.length === 0)) {
           const parsed = JSON.parse(localDishes);
           if (Array.isArray(parsed) && parsed.length > 0) {
             menuData = parsed;
             renderMenu();
           }
         }
-      } catch (e) {}
-
-      // Real-time dynamic sync with live server menu (/api/dishes)
-      try {
-        fetch('/api/dishes')
-          .then(r => r.ok ? r.json() : null)
-          .then(data => {
-            if (data && data.success && Array.isArray(data.dishes) && data.dishes.length > 0) {
-              menuData = data.dishes;
-              renderMenu();
-            }
-          })
-          .catch(() => {});
       } catch (e) {}
     });
   </script>
