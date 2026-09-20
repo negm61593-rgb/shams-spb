@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DescriptionValidator Test</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 900px;
+            margin: 40px auto;
+            padding: 20px;
+            background: #0B0F17;
+            color: #E5E7EB;
+        }
+        h1 {
+            color: #F59E0B;
+            border-bottom: 2px solid #F59E0B;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #FBBF24;
+            margin-top: 30px;
+        }
+        .test-case {
+            background: #1F2937;
+            border: 1px solid #374151;
+            border-radius: 8px;
+            padding: 20px;
+            margin: 20px 0;
+        }
+        .test-case h3 {
+            margin-top: 0;
+            color: #60A5FA;
+        }
+        .description {
+            background: #111827;
+            padding: 15px;
+            border-radius: 4px;
+            margin: 10px 0;
+            border-left: 3px solid #6B7280;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        .result {
+            margin-top: 15px;
+            padding: 15px;
+            border-radius: 4px;
+            font-family: 'Courier New', monospace;
+            font-size: 13px;
+            white-space: pre-wrap;
+        }
+        .result.pass {
+            background: #064E3B;
+            border-left: 4px solid #10B981;
+        }
+        .result.fail {
+            background: #7F1D1D;
+            border-left: 4px solid #EF4444;
+        }
+        .stats {
+            background: #1F2937;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        .stat {
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: bold;
+            color: #F59E0B;
+        }
+        .stat-label {
+            color: #9CA3AF;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>DescriptionValidator Test Suite</h1>
+    <p>Testing the DescriptionValidator class with various scenarios.</p>
+
+    <div id="results"></div>
+    <div id="stats" class="stats"></div>
+
+    <script src="DescriptionValidator.js"></script>
+    <script>
+        const validator = new DescriptionValidator();
+        const resultsContainer = document.getElementById('results');
+        const statsContainer = document.getElementById('stats');
+        
+        let totalTests = 0;
+        let passedTests = 0;
+
+        // Test cases
+        const testCases = [
+            {
+                name: "Valid Complete Description",
+                description: "Сочная куриная шаверма с ароматными специями, свежими овощами и нежным чесночным соусом. Мясо маринуется по традиционному египетскому рецепту и обжаривается до золотистой корочки. Подается в теплом лаваше с хрустящими огурцами, спелыми помидорами и пикантным соусом тахини.",
+                expectValid: true
+            },
+            {
+                name: "Too Short Description",
+                description: "Вкусная шаверма с курицей.",
+                expectValid: false
+            },
+            {
+                name: "Truncated Description (ends with ellipsis)",
+                description: "Сочная куриная шаверма с ароматными специями, свежими овощами и нежным чесночным соусом. Мясо маринуется по традиционному египетскому рецепту...",
+                expectValid: false
+            },
+            {
+                name: "Truncated Description (no punctuation)",
+                description: "Сочная куриная шаверма с ароматными специями, свежими овощами и нежным чесночным соусом. Мясо маринуется по традиционному египетскому рецепту и обжаривается",
+                expectValid: false
+            },
+            {
+                name: "Missing Ingredients",
+                description: "Это блюдо готовится очень тщательно и подается с любовью. Наши повара работают над ним долго, чтобы получился идеальный вкус. Вы обязательно останетесь довольны результатом и захотите попробовать еще раз. Приходите к нам снова!",
+                expectValid: false
+            },
+            {
+                name: "Missing Preparation Details",
+                description: "Наша шаверма содержит курицу, помидоры, огурцы, салат и вкусный соус. Очень вкусная и ароматная. Вам понравится это блюдо. Ингредиенты свежие и качественные. Попробуйте обязательно. Это очень хороший выбор для обеда или ужина.",
+                expectValid: false
+            },
+            {
+                name: "Missing Flavor Descriptors",
+                description: "Шаверма готовится из курицы, которая маринуется в специях. Добавляются огурцы, помидоры и соус. Все заворачивается в лаваш. Подается сразу после приготовления. Содержит овощи и мясо. Это традиционное блюдо египетской кухни.",
+                expectValid: false
+            },
+            {
+                name: "Empty Description",
+                description: "",
+                expectValid: false
+            },
+            {
+                name: "Null Description",
+                description: null,
+                expectValid: false
+            },
+            {
+                name: "Valid Long Description (near 400 chars)",
+                description: "Традиционная египетская фалафель - хрустящие шарики из нута, приготовленные по старинному рецепту. Нут тщательно измельчается с кинзой, петрушкой и ароматными специями, затем обжаривается в масле до золотистой корочки. Внутри нежная, снаружи хрустящая текстура создает идеальный баланс. Подается с тахини соусом, свежими овощами и маринованными огурчиками в теплой пите.",
+                expectValid: true
+            },
+            {
+                name: "Too Long Description (over 400 chars)",
+                description: "Эта невероятно вкусная шаверма готовится из самых лучших ингредиентов. Курица маринуется в специальной смеси специй более 12 часов, что придает ей неповторимый аромат и нежность. Затем мясо медленно обжаривается на вертикальном гриле до идеальной готовности. Свежие овощи нарезаются непосредственно перед подачей. Соус готовится по секретному египетскому рецепту. Все это заворачивается в мягкий теплый лаваш, который выпекается прямо на месте. Получается настоящий кулинарный шедевр восточной кухни.",
+                expectValid: false
+            },
+            {
+                name: "Valid Arabic Description",
+                description: "شاورما الدجاج اللذيذة مع التوابل العطرية والخضروات الطازجة وصوص الثوم الطري. يُتبل اللحم بالوصفة المصرية التقليدية ويُشوى حتى يصبح ذهبيًا. يُقدم في خبز لافاش الدافئ مع الخيار المقرمش والطماطم الناضجة وصوص الطحينة الحار.",
+                expectValid: true
+            },
+            {
+                name: "Valid English Description",
+                description: "Delicious chicken shawarma with aromatic spices, fresh vegetables and tender garlic sauce. The meat is marinated using a traditional Egyptian recipe and grilled to golden perfection. Served in warm lavash bread with crispy cucumbers, ripe tomatoes and tangy tahini sauce.",
+                expectValid: true
+            }
+        ];
+
+        // Run tests
+        testCases.forEach((testCase, index) => {
+            totalTests++;
+            const { valid, analysis } = validator.validate(testCase.description);
+            const passed = valid === testCase.expectValid;
+            if (passed) passedTests++;
+
+            const testDiv = document.createElement('div');
+            testDiv.className = 'test-case';
+            testDiv.innerHTML = `
+                <h3>Test ${index + 1}: ${testCase.name}</h3>
+                <div class="description">${testCase.description !== null ? testCase.description : '<em>null</em>'}</div>
+                <div class="result ${passed ? 'pass' : 'fail'}">
+${validator.getValidationReport(testCase.description)}
+
+Expected Valid: ${testCase.expectValid}
+Actual Valid: ${valid}
+Test Result: ${passed ? 'PASS ✓' : 'FAIL ✗'}
+                </div>
+            `;
+            resultsContainer.appendChild(testDiv);
+        });
+
+        // Display stats
+        statsContainer.innerHTML = `
+            <div class="stat">
+                <div class="stat-value">${totalTests}</div>
+                <div class="stat-label">Total Tests</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">${passedTests}</div>
+                <div class="stat-label">Passed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">${totalTests - passedTests}</div>
+                <div class="stat-label">Failed</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">${Math.round((passedTests / totalTests) * 100)}%</div>
+                <div class="stat-label">Success Rate</div>
+            </div>
+        `;
+    </script>
+</body>
+</html>

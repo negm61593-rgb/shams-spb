@@ -1,0 +1,134 @@
+/**
+ * Design System CSS Custom Properties
+ * Complete design tokens for the Shams Restaurant website
+ * 
+ * This file contains all design tokens as CSS custom properties derived from
+ * the JavaScript design system modules (colors.js, spacing.js, typography.js, breakpoints.js).
+ * 
+ * Requirements: 18.1, 18.2, 18.3, 18.5
+ */
+
+:root {
+  /* ==================== Colors ==================== */
+  
+  /* Brand Identity Colors */
+  --color-primary-gold: #F59E0B;
+  --color-primary-amber: #D97706;
+  --color-primary-fire: #EA580C;
+  --color-primary-warm-orange: #FB923C;
+  --color-primary-pale-gold: #FDE68A;
+
+  /* Background System */
+  --color-bg-deep: #0B0F17;
+  --color-bg-elevated: #151D2A;
+  --color-bg-elevated2: #1E293B;
+  --color-bg-elevated3: #273447;
+  --color-bg-overlay: rgba(11, 15, 23, 0.95);
+
+  /* Border System */
+  --color-border-subtle: #1E293B;
+  --color-border-default: #243248;
+  --color-border-emphasis: #334155;
+  --color-border-accent: #F59E0B;
+  --color-border-accent-subtle: rgba(245, 158, 11, 0.3);
+
+  /* Text System */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #E5E7EB;
+  --color-text-tertiary: #9CA3AF;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #0F172A;
+  --color-text-brand: #FBBF24;
+
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-error: #EF4444;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-info: #3B82F6;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+  --color-rating: #FBBF24;
+
+  /* Gradients */
+  --gradient-brand-primary: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
+  --gradient-brand-subtle: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(234, 88, 12, 0.1) 100%);
+  --gradient-hero-glow: radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.18) 0%, rgba(11, 15, 23, 0) 70%);
+  --gradient-card-hover: linear-gradient(180deg, rgba(251, 191, 36, 0.05) 0%, transparent 100%);
+  --gradient-text: linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #F97316 100%);
+
+  /* ==================== Spacing ==================== */
+  
+  --spacing-0\.5: 2px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+
+  /* ==================== Typography ==================== */
+  
+  /* Font Families */
+  --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Cairo', 'Montserrat', sans-serif;
+  --font-monospace: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tighter: -0.02em;
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ==================== Layout ==================== */
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 0px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+
+  /* Container Widths */
+  --container-mobile: 100%;
+  --container-tablet: 720px;
+  --container-desktop: 1200px;
+  --container-wide: 1440px;
+
+  /* Grid Gaps */
+  --grid-gap-mobile: 16px;
+  --grid-gap-tablet: 20px;
+  --grid-gap-desktop: 24px;
+}

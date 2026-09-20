@@ -1,0 +1,367 @@
+/**
+ * Design System CSS Custom Properties
+ * Complete design tokens for the Shams Restaurant website
+ * 
+ * This file contains all design tokens as CSS custom properties.
+ * Include this file in your HTML or import in your CSS to use the design system.
+ */
+
+:root {
+  /* ==================== Colors ==================== */
+  
+  /* Brand Identity Colors */
+  --color-primary-gold: #F59E0B;
+  --color-primary-amber: #D97706;
+  --color-primary-fire: #EA580C;
+  --color-primary-warm-orange: #FB923C;
+  --color-primary-pale-gold: #FDE68A;
+
+  /* Background System */
+  --color-bg-deep: #0B0F17;
+  --color-bg-elevated: #151D2A;
+  --color-bg-elevated2: #1E293B;
+  --color-bg-elevated3: #273447;
+  --color-bg-overlay: rgba(11, 15, 23, 0.95);
+
+  /* Border System */
+  --color-border-subtle: #1E293B;
+  --color-border-default: #243248;
+  --color-border-emphasis: #334155;
+  --color-border-accent: #F59E0B;
+  --color-border-accent-subtle: rgba(245, 158, 11, 0.3);
+
+  /* Text System */
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #E5E7EB;
+  --color-text-tertiary: #9CA3AF;
+  --color-text-muted: #6B7280;
+  --color-text-inverse: #0F172A;
+  --color-text-brand: #FBBF24;
+
+  /* Semantic Colors */
+  --color-success: #10B981;
+  --color-success-bg: rgba(16, 185, 129, 0.1);
+  --color-error: #EF4444;
+  --color-error-bg: rgba(239, 68, 68, 0.1);
+  --color-info: #3B82F6;
+  --color-info-bg: rgba(59, 130, 246, 0.1);
+  --color-rating: #FBBF24;
+
+  /* Gradients */
+  --gradient-brand-primary: linear-gradient(135deg, #F59E0B 0%, #EA580C 100%);
+  --gradient-brand-subtle: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(234, 88, 12, 0.1) 100%);
+  --gradient-hero-glow: radial-gradient(circle at 50% 20%, rgba(245, 158, 11, 0.18) 0%, rgba(11, 15, 23, 0) 70%);
+  --gradient-card-hover: linear-gradient(180deg, rgba(251, 191, 36, 0.05) 0%, transparent 100%);
+  --gradient-text: linear-gradient(90deg, #FBBF24 0%, #F59E0B 50%, #F97316 100%);
+
+  /* ==================== Spacing ==================== */
+  
+  --spacing-0\.5: 2px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 12px;
+  --spacing-4: 16px;
+  --spacing-5: 20px;
+  --spacing-6: 24px;
+  --spacing-8: 32px;
+  --spacing-10: 40px;
+  --spacing-12: 48px;
+  --spacing-16: 64px;
+  --spacing-20: 80px;
+  --spacing-24: 96px;
+
+  /* ==================== Typography ==================== */
+  
+  /* Font Families */
+  --font-primary: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-arabic: 'Cairo', 'Montserrat', sans-serif;
+  --font-monospace: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+
+  /* Font Sizes */
+  --font-size-xs: 12px;
+  --font-size-sm: 14px;
+  --font-size-base: 16px;
+  --font-size-lg: 18px;
+  --font-size-xl: 20px;
+  --font-size-2xl: 24px;
+  --font-size-3xl: 30px;
+  --font-size-4xl: 36px;
+  --font-size-5xl: 48px;
+  --font-size-6xl: 60px;
+
+  /* Font Weights */
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+  --font-weight-extrabold: 800;
+  --font-weight-black: 900;
+
+  /* Line Heights */
+  --line-height-tight: 1.2;
+  --line-height-snug: 1.35;
+  --line-height-normal: 1.5;
+  --line-height-relaxed: 1.625;
+  --line-height-loose: 1.75;
+
+  /* Letter Spacing */
+  --letter-spacing-tighter: -0.02em;
+  --letter-spacing-tight: -0.01em;
+  --letter-spacing-normal: 0;
+  --letter-spacing-wide: 0.025em;
+  --letter-spacing-wider: 0.05em;
+
+  /* ==================== Layout ==================== */
+  
+  /* Breakpoints */
+  --breakpoint-mobile: 0px;
+  --breakpoint-tablet: 768px;
+  --breakpoint-desktop: 1024px;
+  --breakpoint-wide: 1440px;
+
+  /* Container Widths */
+  --container-mobile: 100%;
+  --container-tablet: 720px;
+  --container-desktop: 1200px;
+  --container-wide: 1440px;
+
+  /* Grid Gaps */
+  --grid-gap-mobile: 16px;
+  --grid-gap-tablet: 20px;
+  --grid-gap-desktop: 24px;
+}
+
+/* ==================== Font Family Application ==================== */
+
+/* ==================== Base Styles ==================== */
+
+body {
+  font-family: var(--font-primary);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-secondary);
+  background-color: var(--color-bg-deep);
+  margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Apply background elevation levels for cards and surfaces */
+.bg-elevated {
+  background-color: var(--color-bg-elevated);
+}
+
+.bg-elevated2 {
+  background-color: var(--color-bg-elevated2);
+}
+
+.bg-elevated3 {
+  background-color: var(--color-bg-elevated3);
+}
+
+.bg-overlay {
+  background-color: var(--color-bg-overlay);
+}
+
+/* ==================== Text Color Hierarchy ==================== */
+
+.text-primary {
+  color: var(--color-text-primary);
+}
+
+.text-secondary {
+  color: var(--color-text-secondary);
+}
+
+.text-tertiary {
+  color: var(--color-text-tertiary);
+}
+
+.text-muted {
+  color: var(--color-text-muted);
+}
+
+.text-brand {
+  color: var(--color-text-brand);
+}
+
+.text-inverse {
+  color: var(--color-text-inverse);
+}
+
+/* ==================== Border System ==================== */
+
+.border-subtle {
+  border-color: var(--color-border-subtle);
+}
+
+.border-default {
+  border-color: var(--color-border-default);
+}
+
+.border-emphasis {
+  border-color: var(--color-border-emphasis);
+}
+
+.border-accent {
+  border-color: var(--color-border-accent);
+}
+
+.border-accent-subtle {
+  border-color: var(--color-border-accent-subtle);
+}
+
+/* ==================== Semantic Colors ==================== */
+
+.text-success {
+  color: var(--color-success);
+}
+
+.bg-success {
+  background-color: var(--color-success-bg);
+}
+
+.text-error {
+  color: var(--color-error);
+}
+
+.bg-error {
+  background-color: var(--color-error-bg);
+}
+
+.text-info {
+  color: var(--color-info);
+}
+
+.bg-info {
+  background-color: var(--color-info-bg);
+}
+
+.text-rating {
+  color: var(--color-rating);
+}
+
+/* ==================== Gradient Utilities ==================== */
+
+.gradient-brand-primary {
+  background: var(--gradient-brand-primary);
+}
+
+.gradient-brand-subtle {
+  background: var(--gradient-brand-subtle);
+}
+
+.gradient-hero-glow {
+  background: var(--gradient-hero-glow);
+}
+
+.gradient-card-hover {
+  background: var(--gradient-card-hover);
+}
+
+.gradient-text {
+  background: var(--gradient-text);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+html[lang="ar"] body,
+html[dir="rtl"] body {
+  font-family: var(--font-arabic);
+}
+
+code, pre {
+  font-family: var(--font-monospace);
+}
+
+/* ==================== Typography Presets ==================== */
+
+h1, .text-h1 {
+  font-size: var(--font-size-4xl);
+  font-weight: var(--font-weight-black);
+  line-height: var(--line-height-tight);
+  letter-spacing: var(--letter-spacing-tighter);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-4);
+}
+
+h2, .text-h2 {
+  font-size: var(--font-size-2xl);
+  font-weight: var(--font-weight-extrabold);
+  line-height: var(--line-height-snug);
+  letter-spacing: var(--letter-spacing-tight);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-3);
+}
+
+h3, .text-h3 {
+  font-size: var(--font-size-xl);
+  font-weight: var(--font-weight-bold);
+  line-height: var(--line-height-snug);
+  color: var(--color-text-primary);
+  margin-bottom: var(--spacing-2);
+}
+
+p, .text-body {
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-normal);
+  line-height: var(--line-height-relaxed);
+  color: var(--color-text-secondary);
+  margin-bottom: var(--spacing-3);
+}
+
+.text-small {
+  font-size: var(--font-size-sm);
+  line-height: var(--line-height-normal);
+  color: var(--color-text-tertiary);
+}
+
+.text-meta {
+  font-size: var(--font-size-xs);
+  font-weight: var(--font-weight-semibold);
+  line-height: var(--line-height-normal);
+  letter-spacing: var(--letter-spacing-wide);
+  text-transform: uppercase;
+  color: var(--color-text-brand);
+}
+
+/* ==================== Responsive Typography ==================== */
+
+@media (min-width: 768px) {
+  h1, .text-h1 {
+    font-size: var(--font-size-5xl);
+  }
+
+  h2, .text-h2 {
+    font-size: var(--font-size-3xl);
+  }
+
+  h3, .text-h3 {
+    font-size: var(--font-size-2xl);
+  }
+}
+
+@media (min-width: 1024px) {
+  h1, .text-h1 {
+    font-size: var(--font-size-6xl);
+  }
+}
+
+/* ==================== Arabic Text Adjustments ==================== */
+
+html[dir="rtl"] h1 {
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+html[dir="rtl"] h2,
+html[dir="rtl"] h3 {
+  line-height: 1.38;
+}
+
+html[dir="rtl"] p {
+  line-height: 1.7;
+}

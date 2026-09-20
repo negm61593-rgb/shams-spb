@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: shams-spb
+    env: node
+    plan: free
+    buildCommand: ""
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: ADMIN_PASSWORD
+        value: Sh@61K

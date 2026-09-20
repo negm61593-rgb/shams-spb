@@ -1,0 +1,22 @@
+{
+  "name": "shams-spb",
+  "version": "1.0.0",
+  "description": "Shams Restaurant SPb - Egyptian Cuisine Online Menu & Admin Panel",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "shams",
+    "restaurant",
+    "menu",
+    "shawarma",
+    "egyptian-cuisine",
+    "spb"
+  ],
+  "author": "Shams SPb",
+  "license": "ISC"
+}

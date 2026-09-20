@@ -1,0 +1,41 @@
+# Node dependencies
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Environment & credentials
+.env
+.env.local
+
+# Logs
+*.log
+
+# Temporary test screenshots and preview artifacts
+shams_*.png
+wifi_*.png
+mobile_*.png
+qr_admin.png
+mobile_qr.png
+
+# Scraped raw/intermediate data files
+yandex_*.html
+gallery_dom.html
+state_*.json
+downloaded.json
+goods.json
+photos.json
+products.json
+unique_dishes.json
+all_yandex_dishes.json
+dishes_catalog.json
+menu.json
+
+# Local scratch and tooling
+.kiro/
+scratch/
+start_preview.bat
+
+# OS files
+Thumbs.db
+.DS_Store

@@ -1,0 +1,1237 @@
+[
+  {
+    "id": 1,
+    "title": {
+      "ru": "Шаверма в лаваше Классик",
+      "ar": "شاورما كلاسيك في خبز الصاج",
+      "en": "Classic Shawarma in Lavash"
+    },
+    "desc": {
+      "ru": "Вкуснейшая классическая шаверма в хрустящем лаваше. Мясо курицы так долго томилось на гриле и впитывало ароматные специи, что просто тает во рту. Свежие хрустящие огурчики, сочные помидоры, пекинская капуста и наш легендарный чесночный соус.",
+      "ar": "شاورما دجاج كلاسيك محضرة على السيخ بتتبيلة مصرية أصيلة، ملفوفة في خبز صاج مقرمش مع مخلل، طماطم، وخيار وصوص ثومية كريمي شهي.",
+      "en": "Classic Egyptian-style shawarma in crispy lavash bread, loaded with spiced roasted meat, fresh tomatoes, cucumbers, and authentic garlic sauce."
+    },
+    "price": 380,
+    "volume": "380 г",
+    "category": "shawarma",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_1.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19513998/84a836ed99054bf891f0f777671d8bdd/orig"
+  },
+  {
+    "id": 2,
+    "title": {
+      "ru": "Шаверма в пите",
+      "ar": "شاورما فراخ في خبز البيتا",
+      "en": "Chicken Shawarma in Pita Pocket"
+    },
+    "desc": {
+      "ru": "Внимание! Перед вами - шаверма в пите, блюдо с секретным отделением! Пита хитроумно устроена: снаружи - хрустящая, внутри - мягкая, а между стенками прячется целый мир вкуса. Заглядываете внутрь - а там: нежное сочное мясо, замаринованное в восточных специях, свежие овощи и фирменный чесночный соус.",
+      "ar": "شاورما فراخ مميزة في خبز البيتا المنتفخ الطازج، محشوة بقطع الدجاج المتبلة، خضروات مقرمشة وصوص شمس السري اللذيذ.",
+      "en": "Tender spiced chicken shawarma tucked into a soft, warm pita pocket with fresh vegetables and signature house sauce."
+    },
+    "price": 350,
+    "volume": "350 г",
+    "category": "shawarma",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_2.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19513998/fd8c4d0888274e75b269ccb00ad86381/orig"
+  },
+  {
+    "id": 3,
+    "title": {
+      "ru": "Шаверма двойная в лаваше XL",
+      "ar": "شاورما دبل حجم XL في عيش صاج",
+      "en": "Double Shawarma XL in Lavash"
+    },
+    "desc": {
+      "ru": "Помимо удвоенного мяса, вас ждут свежие огурцы, хрустящая пекинская капуста, сочные помидоры, красный лук и фирменный соус — обычно чесночный. Всё это аккуратно (ну, почти аккуратно) завёрнуто в мягкий лаваш. Сразу предупреждаю: из-за «двойной» начинки она очень сытная.",
+      "ar": "شاورما دبل حجم XL في عيش صاج - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Extra-large shawarma with double roasted meat, crisp Chinese cabbage, fresh cucumbers, juicy tomatoes, red onion, and rich garlic sauce in toasted lavash."
+    },
+    "price": 510,
+    "volume": "450 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_3.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19513998/6c5ba5796c1f413f9eaa404afa4b14cd/orig"
+  },
+  {
+    "id": 4,
+    "title": {
+      "ru": "Шаверма на тарелке Классик",
+      "ar": "وجبة شاورما عربي على طبق كلاسيك",
+      "en": "Classic Shawarma Platter Plate"
+    },
+    "desc": {
+      "ru": "Сытное и удобное блюдо на большой тарелке: сочное куриное мясо на гриле, свежие огурцы, сочные помидоры, хрустящая китайская капуста, красный лук, золотистый картофель фри, пикантная морковь по-корейски, теплая хрустящая пита и порция фирменного чесночного соуса.",
+      "ar": "وجبة شاورما عربي على طبق كبير مع بطاطس مقلية ذهبية، جزر مبشور بالتتبيلة، مخللات مشكلة، خبز بيتا ساخن وصوص ثومية فاخر.",
+      "en": "Generous serving of spiced chicken shawarma served with golden crispy french fries, fresh salad, Korean-style carrots, and signature garlic toum sauce with pita bread."
+    },
+    "price": 610,
+    "volume": "480 г",
+    "category": "shawarma",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_4.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17768400/b1aba26d469049ef9dc7e918a8bf4d06/orig"
+  },
+  {
+    "id": 5,
+    "title": {
+      "ru": "Шаверма на тарелке двойная XL",
+      "ar": "وجبة شاورما على طبق دبل لحم XL",
+      "en": "Double Shawarma Platter XL"
+    },
+    "desc": {
+      "ru": "Двойная порция для богатырского аппетита! Огромная порция нежного куриного мяса, свежие овощи, хрустящая китайская капуста, красный лук, двойная порция картофеля фри, витаминный салат, хрустящая пита и фирменный чесночный соус.",
+      "ar": "وجبة سوبر بحجم XL مع كمية مضاعفة من شاورما الدجاج، بطاطس مقلية مقرمشة، سلطة طازجة، خبز بيتا وصوص ثومية غني.",
+      "en": "Super-sized platter featuring a double portion of roasted chicken, crunchy fries, vibrant fresh salad, spiced carrots, and authentic garlic sauce."
+    },
+    "price": 670,
+    "volume": "600 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_5.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18473941/6dc996b0a92b407092c30de5b2730d63/orig"
+  },
+  {
+    "id": 6,
+    "title": {
+      "ru": "Шаверма по-сирийски двойная острая",
+      "ar": "شاورما سوري دبل حارة سبايسي",
+      "en": "Spicy Syrian Style Double Shawarma"
+    },
+    "desc": {
+      "ru": "Для любителей по-настоящему острых ощущений! Двойная порция куриного мяса, пикантный соус с острым перцем, соленые огурчики, свежие овощи и золотистый картофель фри — всё завернуто в хрустящий пышный лаваш.",
+      "ar": "شاورما سوري حارة دبل مع صوص الشطة والأدجيكا الحارة، مخلل خيار مقرمش، بطاطس وخضروات طازجة داخل خبز صاج محمص.",
+      "en": "Spicy double shawarma packed with spiced grilled chicken, french fries, fiery red adjika, pickled gherkins, fresh veggies, and rich savory sauce in warm flatbread."
+    },
+    "price": 530,
+    "volume": "450 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_6.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18014981/a740b687822210094e4f38eb6fd7257b/orig"
+  },
+  {
+    "id": 7,
+    "title": {
+      "ru": "Шаверма с соусом барбекю в лаваше",
+      "ar": "شاورما صوص باربيكيو في الصاج",
+      "en": "BBQ Sauce Shawarma in Lavash"
+    },
+    "desc": {
+      "ru": "«Соус барбекю в этой шаверме не для фона — он главный герой. Мясо, овощи и лаваш просто подчеркивают его глубокий дымный вкус». Ароматное куриное филе на гриле со свежими томатами и огурцами.",
+      "ar": "شاورما صوص باربيكيو مدخن مع قطع الدجاج المشوي، بصل مقرمش، خضار طازج وصوص باربيكيو يمنحك طعماً مدخناً رائعاً.",
+      "en": "Roasted chicken shawarma wrapped in toasted flatbread with smoky barbecue sauce, fresh crisp veggies, and herbs."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_7.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17635794/7a8ee7af3d434472a312042e56eaf2c8/orig"
+  },
+  {
+    "id": 8,
+    "title": {
+      "ru": "Шаверма суперСыр",
+      "ar": "شاورما سوبر جبنة سايحة غنية",
+      "en": "Super Cheese Shawarma"
+    },
+    "desc": {
+      "ru": "Сочная шаверма с двойным расплавленным сыром, нежным куриным мясом, свежими овощами и фирменным соусом в хрустящем лаваше.",
+      "ar": "شاورما سوبر جبنة سايحة محشوة بجبنة موزاريلا وجودا غنية تذوب مع كل قضمة مع قطع الدجاج المتبل والخضار.",
+      "en": "Super Cheese Shawarma packed with roasted spiced chicken, melted mozzarella, Gouda cheese, crunchy vegetables, and signature creamy garlic dressing in toasted lavash."
+    },
+    "price": 460,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_8.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16995589/a65f39bff6a648098fec50fcf4c7329e/orig"
+  },
+  {
+    "id": 9,
+    "title": {
+      "ru": "Шамс Уадж «говяжья колбаска» в булке",
+      "ar": "هوت دوج ملوكي سجق بقري في الصمون",
+      "en": "Shams Royal Beef Sausage Hot Dog"
+    },
+    "desc": {
+      "ru": "Царский скипер среди хот-догов: классическое сочетание колбаски на гриле, горчицы и хрустящего лука. Символ вечного вкуса и гармонии. Фотография носит информационный характер.",
+      "ar": "هوت دوج ملوكي سجق بقري في الصمون - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Grilled premium beef sausage served in a fresh hot dog bun with mustard, ketchup, and crispy fried onions."
+    },
+    "price": 319,
+    "volume": "320 г",
+    "category": "hotdog",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_9.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16454428/f8bdea55e42242c69e7186d31e3e7fa5/orig"
+  },
+  {
+    "id": 10,
+    "title": {
+      "ru": "Картофель фри",
+      "ar": "بطاطس مقلية مقرمشة ذهبية",
+      "en": "Crispy French Fries"
+    },
+    "desc": {
+      "ru": "Золотистый, хрустящий снаружи и мягкий внутри картофель фри, обжаренный во фритюре до идеальной корочки со щепоткой морской соли.",
+      "ar": "أصابع بطاطس مقلية ذهبية مقرمشة وساخنة مع رشة خفيفة من ملح الطعام، محضرة طازجة عند الطلب.",
+      "en": "Golden crispy french fries cooked to perfection and lightly salted."
+    },
+    "price": 119,
+    "volume": "120 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_10.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18412808/299eff4e04ee4b428960f5e2b5c88623/orig"
+  },
+  {
+    "id": 11,
+    "title": {
+      "ru": "В пите Фирменная",
+      "ar": "شاورما شمس الخاصة في البيتا",
+      "en": "Signature Shawarma in Pita"
+    },
+    "desc": {
+      "ru": "Хотите попробовать настоящую шаверму? Тогда вам к нам! В этом блюде: аппетитная курочка с картошечкой, пикантная аджика и соленья, свежие овощи, лук и густой соус. И всё это вместе в пышной пите.",
+      "ar": "شاورما شمس الخاصة في البيتا - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Shams special recipe shawarma inside fresh pita bread with tender chicken, spiced potatoes, house pickles, and savory dressing."
+    },
+    "price": 370,
+    "volume": "300 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_11.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18030408/628773bc439a4e60b0fd8a9292579bc2/orig"
+  },
+  {
+    "id": 12,
+    "title": {
+      "ru": "Мини-Шаверма с сыром гауда",
+      "ar": "ميني شاورما مع جبنة جودا",
+      "en": "Mini Shawarma with Gouda Cheese"
+    },
+    "desc": {
+      "ru": "Мини-шаверма с сыром гауда — хрустящий тонкий лаваш, сочное куриное филе, свежие огурцы, помидоры, лук и благородный сыр гауда: он тает и аппетитно тянется при каждом укусе.",
+      "ar": "ميني شاورما مع جبنة جودا هولندية أصيلة تذوب مع الدجاج المشوي في خبز صاج محمص خفيف ولذيذ.",
+      "en": "Compact shawarma roll with melted Dutch Gouda cheese, tender seasoned chicken, and fresh crunchy vegetables."
+    },
+    "price": 345,
+    "volume": "300 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_12.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18753459/03cae357c2344f5aa1424ed910c926ed/orig"
+  },
+  {
+    "id": 13,
+    "title": {
+      "ru": "Мини-шаверма в лаваше",
+      "ar": "ميني شاورما خفيفة في الصاج",
+      "en": "Mini Shawarma in Lavash"
+    },
+    "desc": {
+      "ru": "Мини-шаверма — это компактное счастье в лавашной обёртке! Маленькая снаружи, но огромная по вкусу внутри. Идеальна для легкого перекуса на ходу: сочное куриное мясо, свежие овощи и специи — всё на своих местах.",
+      "ar": "ميني شاورما خفيفة وسريعة، محشوة بالدجاج المشوي المتبل والخضار الطازج وصوص الثومية، مناسبة للوجبات الخفيفة.",
+      "en": "Light and handy mini shawarma rolled in thin toasted lavash with fresh meat, garden salad, and authentic sauce."
+    },
+    "price": 310,
+    "volume": "300 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_13.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17635794/1cc32a2a04bc4b12a59024f1d98885ba/orig"
+  },
+  {
+    "id": 14,
+    "title": {
+      "ru": "Мини-шаверма с сыром моцарелла",
+      "ar": "ميني شاورما مع جبنة موزاريلا",
+      "en": "Mini Shawarma with Mozzarella"
+    },
+    "desc": {
+      "ru": "Знакомьтесь: шаверма с моцареллой — тот самый случай, когда восточный стритфуд встречается с итальянской нежностью. Тягучая сливочная моцарелла тает внутри теплого лаваша, идеально дополняя сочную курочку и свежие овощи.",
+      "ar": "ميني شاورما مع جبنة موزاريلا إيطالية مطاطية تذوب داخل الخبز مع الدجاج الطازج والخضار المقرمش.",
+      "en": "Mini shawarma with stringy melted mozzarella cheese, grilled chicken, and fresh crisp salad."
+    },
+    "price": 345,
+    "volume": "300 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_14.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/20412437/34c7bc1cec2449369b7bd5faa72def16/orig"
+  },
+  {
+    "id": 15,
+    "title": {
+      "ru": "Шаверма Мини (лаваш сырный)",
+      "ar": "ميني شاورما في عيش صاج بالجبنة",
+      "en": "Mini Shawarma in Cheese Lavash"
+    },
+    "desc": {
+      "ru": "Мини-шаверма в ароматном сырном лаваше — компактное счастье с выраженным сырным вкусом! Сочное куриное филе с вертела, свежие томаты, огурцы и наш фирменный соус.",
+      "ar": "ميني شاورما في عيش صاج بالجبنة بنكهة مميزة ولون ذهبي، محشوة بالدجاج والخضار الطازج وصوص شمس الخاص.",
+      "en": "Mini chicken shawarma rolled in special golden cheddar-infused cheese lavash bread."
+    },
+    "price": 330,
+    "volume": "300 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_15.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17726510/86a90c8f08274a8db9a1164bba864fee/orig"
+  },
+  {
+    "id": 16,
+    "title": {
+      "ru": "Шаверма в лаваше с брынзой",
+      "ar": "شاورما في الصاج مع جبنة بيضاء (برينزا)",
+      "en": "Shawarma with Brynza Cheese in Lavash"
+    },
+    "desc": {
+      "ru": "Шаверма с брынзой — классика с ноткой балканского шарма! Хрустящий лаваш, сочное восточное мясо, свежайшие овощи и нежная брынза, которая придаёт блюду приятную сливочную солоноватость.",
+      "ar": "شاورما في خبز الصاج مع جبنة برينزا بيضاء معتدلة الملوحة تمنح الشاورما نكهة بحر متوسطية فريدة ولذيذة.",
+      "en": "Eastern shawarma complemented with savory crumbly brynza cheese, tender meat, and garden vegetables in crisp flatbread."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_16.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18155812/168bac26fe8943ef93f2e30791ebd93f/orig"
+  },
+  {
+    "id": 17,
+    "title": {
+      "ru": "Шаверма в лаваше с картофелем фри",
+      "ar": "شاورما مع بطاطس مقلية داخل الساندوتش",
+      "en": "Shawarma with French Fries inside"
+    },
+    "desc": {
+      "ru": "Шаверма с картофелем фри - это не просто еда, это стратегия победы над голодом в два хода! Первый ход: сочное мясо, свежие овощи и ароматные специи в хрустящем лаваше. Второй ход - неожиданный апперкот: золотистый, хрустящий картофель фри, который решает всё.",
+      "ar": "شاورما مع بطاطس مقلية داخل الساندوتش - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Classic wrap packed with spiced chicken, crisp golden fries right inside the lavash, fresh vegetables, and garlic toum."
+    },
+    "price": 419,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_17.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18753459/c675498efa1349d786f5a3716086ac8c/orig"
+  },
+  {
+    "id": 18,
+    "title": {
+      "ru": "Шаверма в лаваше с морковкой",
+      "ar": "شاورما مع مخلل وجزر متبل",
+      "en": "Shawarma with Spiced Carrot in Lavash"
+    },
+    "desc": {
+      "ru": "Шаверма с морковкой — витаминный заряд и приятный хруст в лаваше! Внутри — сочное куриное мясо, свежие овощи и пикантная морковь по-корейски с пряными специями. Один укус — и вы влюбляетесь в этот сочный вкус!",
+      "ar": "شاورما مع جزر متبل بالتوابل الشرقية، تمنحك قرمشة ممتعة مع طراوة الدجاج والخضروات وصوص الثوم.",
+      "en": "Tender shawarma enriched with zesty spiced Korean-style shredded carrots and crisp salad for an extra burst of flavor."
+    },
+    "price": 419,
+    "volume": "350 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_18.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/14790567/090d2da38f474e158919a72ba323bf76/orig"
+  },
+  {
+    "id": 19,
+    "title": {
+      "ru": "Шаверма в сырном лаваше",
+      "ar": "شاورما ملفوفة بعيش صاج بالجبن",
+      "en": "Shawarma in Cheesy Lavash"
+    },
+    "desc": {
+      "ru": "Сочная шаверма с куриным мясом и обилием овощей: спелых помидоров, хрустящих огурцов, пекинской капусты и сладкого лука. Сырный лаваш пропитан чесночным соусом, а расплавленный сыр придаёт приятную тягучую текстуру.",
+      "ar": "شاورما دجاج في عيش صاج بنكهة الجبنة الغنية مع صوص الثومية والجبنة الذائبة، دسمة ومغذية.",
+      "en": "Juicy grilled chicken shawarma wrapped in warm cheese-flavored lavash with fresh tomatoes and creamy dressing."
+    },
+    "price": 419,
+    "volume": "350 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_19.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17726510/1dc2e4e7c10f41fb896a565e3b5023d5/orig"
+  },
+  {
+    "id": 20,
+    "title": {
+      "ru": "Шаверма в сырном лаваше с брынзой",
+      "ar": "شاورما عيش بالجبنة مع برينزا",
+      "en": "Shawarma in Cheese Lavash with Brynza"
+    },
+    "desc": {
+      "ru": "Аппетитная шаверма в золотистом сырном лаваше с солоноватой брынзой, свежими томатами, огурцами и сочным куриным мясом.",
+      "ar": "شاورما في خبز جبنة مع جبنة برينزا بيضاء وخضروات طازجة، طعم كريمي متوازن ومميز.",
+      "en": "Delicious roasted chicken shawarma wrapped in golden cheese lavash with creamy, lightly salted brynza cheese, crisp greens, and house white sauce."
+    },
+    "price": 445,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_20.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19925171/ddfe0ed5a8ad457095963f79e692bdd2/orig"
+  },
+  {
+    "id": 21,
+    "title": {
+      "ru": "Шаверма на тарелке с рубленой котлеткой из говядины",
+      "ar": "وجبة طبق شاورما مع كفتة بقري مشوية",
+      "en": "Beef Cutlet & Shawarma Platter"
+    },
+    "desc": {
+      "ru": "Сытное блюдо на тарелке: рубленая котлета из 100% натуральной говядины, хрустящий картофель фри, свежий салат и фирменный соус.",
+      "ar": "وجبة مشكلة فاخرة تجمع بين كفتة اللحم البقري المشوية وشاورما الدجاج مع بطاطس وسلطة وصوصات مشكلة.",
+      "en": "Hearty open platter with juicy grilled minced beef patty, tender chicken shawarma, crispy fries, fresh salad, warm pita, and garlic sauce."
+    },
+    "price": 770,
+    "volume": "500 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_21.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17726510/dfa0cd062dd645d3870c22da5a8587d6/orig"
+  },
+  {
+    "id": 22,
+    "title": {
+      "ru": "Шаверма по-деревенски",
+      "ar": "شاورما ريفية غنية بالخضار والبطاطس",
+      "en": "Rustic Style Village Shawarma"
+    },
+    "desc": {
+      "ru": "Деревенская сытная шаверма с жареным картофелем, сочным мясом, солеными огурчиками и чесночным соусом.",
+      "ar": "شاورما على الطريقة الريفية مع بطاطس مقلية داخل الساندوتش ومخللات وخضار بتتبيلة المطبخ التقليدي.",
+      "en": "Homestyle rustic chicken shawarma in toasted lavash with golden fried potatoes, pickled gherkins, fresh vegetables, and garlic toum."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_22.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/20179955/917dd9e53bb24e0498cc96d02132bfdb/orig"
+  },
+  {
+    "id": 23,
+    "title": {
+      "ru": "Шаверма по-мексикански в лаваше",
+      "ar": "شاورما مكسيكي متبلة وحارة",
+      "en": "Mexican Style Spicy Shawarma"
+    },
+    "desc": {
+      "ru": "Сочная шаверма «Мексика» с куриным мясом и хрустящими овощами. В ней есть пикантность благодаря перцу халапеньо и острому соусу шрирача. Лаваш хорошо пропитан чесночным соусом, а картофель добавляет сытности.",
+      "ar": "شاورما مكسيكي متبلة وحارة - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Fiery Mexican-style shawarma loaded with seasoned chicken, sliced jalapeños, crisp bell peppers, and spicy chili sauce."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_23.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19925171/d6008fce40f1421cb901ea8f701089da/orig"
+  },
+  {
+    "id": 24,
+    "title": {
+      "ru": "Шаверма по-питерски",
+      "ar": "شاورما بيترسبورغ الشهيرة",
+      "en": "Classic St. Petersburg Style Shawarma"
+    },
+    "desc": {
+      "ru": "Классическая петербургская шаверма: сочное куриное филе, свежие огурцы, спелые томаты и традиционный чесночный соус.",
+      "ar": "شاورما على طريقة سانت بطرسبرغ التقليدية مع صوص الثوم الأبيض المميز، خيار طازج، طماطم وبصل.",
+      "en": "Traditional St. Petersburg style shawarma with slow-roasted chicken, fresh cucumbers, ripe tomatoes, onions, and signature Petersburg white garlic sauce."
+    },
+    "price": 419,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_24.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18531941/3457d7c9dbe44b3188c59a9d560d2701/orig"
+  },
+  {
+    "id": 25,
+    "title": {
+      "ru": "Шаверма с грибным соусом в лаваше",
+      "ar": "شاورما صوص الفطر والمشروم",
+      "en": "Mushroom Cream Sauce Shawarma"
+    },
+    "desc": {
+      "ru": "Шаверма с нежным сливочно-грибным соусом, сочным халяльным мясом и хрустящими овощами в тонком лаваше.",
+      "ar": "شاورما صوص المشروم الكريمي الغني مع قطع الفطر الطازجة والدجاج المشوي في خبز صاج محمص.",
+      "en": "Succulent roasted chicken shawarma wrapped in toasted flatbread with rich creamy forest mushroom sauce, melted cheese, and crisp herbs."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_25.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18155812/cf3dc24df6ab4ccea0028ea9f6cf00b6/orig"
+  },
+  {
+    "id": 26,
+    "title": {
+      "ru": "Шаверма с рубленой котлеткой из говядины в лаваше",
+      "ar": "شاورما كفتة لحم بقري في خبز الصاج",
+      "en": "Minced Beef Patty Shawarma"
+    },
+    "desc": {
+      "ru": "Лаваш, свежие овощи, соусы — всё на своих местах. А в центре внимания — аппетитная рубленая котлетка из 100% говядины на гриле, которая превращает шаверму в полноценный сытный мясной шедевр!",
+      "ar": "شاورما محشوة بكفتة لحم بقري صافي مفرومة ومتبلة ومشوية على الجريل مع الخضروات والصوصات الشرقية.",
+      "en": "Grilled minced beef kebab patty wrapped in toasted lavash with fresh onions, herbs, and savory barbecue sauce."
+    },
+    "price": 569,
+    "volume": "350 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_26.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18772141/ad320439bc564af8a71015ef9b757f01/orig"
+  },
+  {
+    "id": 27,
+    "title": {
+      "ru": "Шаверма с сыром гауда",
+      "ar": "شاورما إكسترا جبن جودا هولندي",
+      "en": "Shawarma with Gouda Cheese"
+    },
+    "desc": {
+      "ru": "Горячая шаверма с ароматным тающим сыром гауда, сочным мясом и свежими хрустящими овощами.",
+      "ar": "شاورما مع شرائح جبنة جودا الفاخرة الذائبة وخضروات طازجة داخل خبز صاج مقرمش.",
+      "en": "Warm toasted chicken shawarma layered with rich melted Dutch Gouda cheese, crunchy vegetables, and signature garlic dressing."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_27.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19925171/86696eff93fb40ef80a96119816e8ad1/orig"
+  },
+  {
+    "id": 28,
+    "title": {
+      "ru": "Шаверма с сыром моцарелла",
+      "ar": "شاورما بجبنة الموزاريلا المطاطية",
+      "en": "Shawarma with Melted Mozzarella"
+    },
+    "desc": {
+      "ru": "Нежная шаверма с тянущейся моцареллой, сочным куриным филе и свежими томатами в лаваше.",
+      "ar": "شاورما مع جبنة موزاريلا غنية تذوب بالحرارة لتعطيك مطة شهية ونكهة لا تقاوم مع الدجاج المشوي.",
+      "en": "Tender chicken shawarma with stretchy melted mozzarella cheese, garden fresh tomatoes, cucumbers, and creamy garlic sauce in warm flatbread."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_28.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/20193126/1dc1d7bac7064eafaa5462885735e9b0/orig"
+  },
+  {
+    "id": 29,
+    "title": {
+      "ru": "Шаверма суперострая",
+      "ar": "شاورما سوبر حار لهيب التوابل",
+      "en": "Extra Hot & Spicy Shawarma"
+    },
+    "desc": {
+      "ru": "Для любителей острого: шаверма с перцем халапеньо, фирменным острым соусом, сочным мясом и свежими овощами.",
+      "ar": "شاورما حارة جداً لعشاق السبايسي الحقيقي، متبلة بصوص الشطة الحار وفلفل هالبينو حار يلهب الحواس.",
+      "en": "Fiery chicken shawarma loaded with spicy red adjika, jalapeno peppers, fresh herbs, crunchy vegetables, and hot chili garlic sauce."
+    },
+    "price": 430,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_29.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18014981/900eb8f795044b78acf1ef1a8228e90f/orig"
+  },
+  {
+    "id": 30,
+    "title": {
+      "ru": "Шаверма сырная с рубленой котлеткой из говядины",
+      "ar": "شاورما بالجبنة مع لحم بقري مفروم",
+      "en": "Cheesy Beef Shawarma"
+    },
+    "desc": {
+      "ru": "Сырная шаверма с сочной рубленой котлетой из 100% говядины, сыром и авторским восточным соусом.",
+      "ar": "شاورما بالجبنة مع لحم بقري مفروم - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Cheesy Beef Shawarma."
+    },
+    "price": 575,
+    "volume": "350 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_30.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18412808/3521a1ebd1894d1ead792e835872564d/orig"
+  },
+  {
+    "id": 31,
+    "title": {
+      "ru": "Шаверма-креветки в лаваше",
+      "ar": "شاورما جمبري بحري في خبز الصاج",
+      "en": "Shrimp Seafood Shawarma in Lavash"
+    },
+    "desc": {
+      "ru": "Хрустящие тигровые креветки во фритюре, свежая китайская капуста, спелые помидоры и ароматный тайский соус том ям в тонком поджаренном лаваше.",
+      "ar": "شاورما جمبري مقرمش بخلطة التمبورا مع صوص توم يام التايلاندي المبتكر وخس وطماطم طازجة.",
+      "en": "Crisp golden fried shrimps wrapped in toasted lavash with crisp Chinese cabbage, fresh tomatoes, and zesty Tom Yum sauce."
+    },
+    "price": 510,
+    "volume": "400 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_31.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/19925171/b4a3bca3c050488a9670ce3bc56cc2eb/orig"
+  },
+  {
+    "id": 32,
+    "title": {
+      "ru": "Шамс-кебаб арабский",
+      "ar": "كباب شمس العربي المشوي الأصيل",
+      "en": "Shams Arabic Grilled Kebab"
+    },
+    "desc": {
+      "ru": "Арабский кебаб — это искусство, доведённое до гастрономического совершенства! Пряный фарш из говядины на гриле, свежие овощи, сладкий лук, жареный картофель фри, чесночный соус и мягкий лаваш.",
+      "ar": "كباب شمس العربي من اللحم البقري المفروم والمشوي على الفحم، يقدم مع بطاطس مقلية، سلطة وصوصات.",
+      "en": "Authentic Arabic-style seasoned minced meat kebab, grilled to perfection and served with fresh herbs and flatbread."
+    },
+    "price": 675,
+    "volume": "500 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_32.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18014981/df1fda2485314ecbaeae491260b14b71/orig"
+  },
+  {
+    "id": 33,
+    "title": {
+      "ru": "Шамс-кебаб с рубленой котлеткой из говядины",
+      "ar": "كباب شمس كفتة لحم بقري متبلة",
+      "en": "Shams Beef Kebab"
+    },
+    "desc": {
+      "ru": "Фирменный восточный кебаб с рубленой говяжьей котлетой, традиционными специями и свежими овощами.",
+      "ar": "كباب شمس كفتة لحم بقري متبلة - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Shams Beef Kebab."
+    },
+    "price": 800,
+    "volume": "500 г",
+    "category": "shawarma",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_33.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18125102/1919f2dec340413d9a859e3c05b3931d/orig"
+  },
+  {
+    "id": 34,
+    "title": {
+      "ru": "Хот-дог «говяжья колбаска» в пите",
+      "ar": "هوت دوج سجق بقري في عيش البيتا",
+      "en": "Beef Sausage Hot Dog in Pita"
+    },
+    "desc": {
+      "ru": "«Хот‑дог в пите. Потому что иногда жизнь слишком сложная, а тебе просто нужна сосиска, которая не убегает из тарелки. Пита держит крепко — как лучший друг в трудную минуту». Фотография носит информационный характер.",
+      "ar": "هوت دوج سجق بقري في عيش البيتا - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Grilled beef sausage tucked into a soft pita pocket with mustard sauce and crunchy fried onions."
+    },
+    "price": 310,
+    "volume": "380 г",
+    "category": "hotdog",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_34.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17778899/7e230cee75344f19b7e662e924dc4e07/orig"
+  },
+  {
+    "id": 35,
+    "title": {
+      "ru": "Хот-дог «говяжья колбаска» на тарелке",
+      "ar": "وجبة هوت دوج سجق بقري على طبق",
+      "en": "Beef Sausage Hot Dog Platter"
+    },
+    "desc": {
+      "ru": "Две колбаски из говядины на гриле. Морковь по-корейски, витаминный салат из свежей капусты, свежие помидорки и огурчики. Картофель и хрустящая пита. Соус томатный, горчичный соус. Фотография носит информационный характер.",
+      "ar": "وجبة هوت دوج سجق بقري على طبق - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Two juicy grilled beef sausages served on a platter with crispy fries, Korean-style spiced carrots, and dipping sauce."
+    },
+    "price": 480,
+    "volume": "480 г",
+    "category": "hotdog",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_35.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17763632/9803b22f54984c30a3fc1da9f22226d7/orig"
+  },
+  {
+    "id": 36,
+    "title": {
+      "ru": "Хот-дог “говяжья колбаска’ в лаваше",
+      "ar": "هوت دوج سجق بقري في خبز الصاج",
+      "en": "Beef Sausage Hot Dog in Lavash"
+    },
+    "desc": {
+      "ru": "Колбаска из говядины на гриле, свежие огурчики, свежие помидорки. Соус горчичный, соус томатный. Всё аккуратно завернуто в хрустящий лавашик. Фотография носит информационный характер.",
+      "ar": "هوت دوج سجق بقري في خبز الصاج - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Grilled beef sausage rolled in thin lavash flatbread with fresh cucumbers, tomatoes, and tangy sauces."
+    },
+    "price": 340,
+    "volume": "400 г",
+    "category": "hotdog",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_36.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17768400/da102b3ca52146abb2e834b85be8a242/orig"
+  },
+  {
+    "id": 37,
+    "title": {
+      "ru": "Фалафель в лаваше",
+      "ar": "فلافل مصرية (طعمية) مقرمشة في الصاج",
+      "en": "Crispy Egyptian Falafel in Lavash"
+    },
+    "desc": {
+      "ru": "Это не просто еда, а экспресс‑тур на Ближний Восток: один укус — и ты уже слышишь шум восточного базара, чувствуешь ароматы специй и понимаешь, что жизнь удалась. Всё упаковано в уютный лаваш — чтобы путешествие было компактным и максимально вкусным»",
+      "ar": "فلافل مصرية (طعمية) مقرمشة في الصاج - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Authentic Egyptian falafel patties made from chickpeas and fresh herbs, wrapped in crisp lavash with tahini and pickles."
+    },
+    "price": 330,
+    "volume": "400 г",
+    "category": "falafel",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_37.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18644967/8b97295cd14d48f79cdc68bb7a4f99f9/orig"
+  },
+  {
+    "id": 38,
+    "title": {
+      "ru": "Фалафель в пите",
+      "ar": "فلافل طعمية مصرية أصيلة في عيش البيتا",
+      "en": "Authentic Egyptian Falafel in Pita"
+    },
+    "desc": {
+      "ru": "«Фалафель в пите — когда нут решил, что он настоящий супергерой: хрустящая пряная корочка, нежная середина и способность победить любой голод. Пита тут как верный напарник — надёжно держит начинку и свежие овощи».",
+      "ar": "فلافل مصرية أصيلة مقرمشة بالسمسم في خبز البيتا مع سلطة خضراء، طحينة ومخلل بلدي لذيذ.",
+      "en": "Traditional golden falafel served inside a warm pita pocket with sliced tomatoes, pickles, and rich nutty tahini sauce."
+    },
+    "price": 295,
+    "volume": "350 г",
+    "category": "falafel",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_38.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17689586/3589f540cf2e4cd08da35fb4e623fdab/orig"
+  },
+  {
+    "id": 39,
+    "title": {
+      "ru": "Фалафель на тарелке",
+      "ar": "وجبة طبق فلافل مشكل مع صوص الطحينة",
+      "en": "Falafel Platter Plate with Tahini"
+    },
+    "desc": {
+      "ru": "Фалафель на тарелке — фестиваль восточных вкусов: золотистые шарики фалафеля с пряным кумином и кориандром, свежий овощной салат, соленья, хрустящая пита и порция кунжутного соуса тахини.",
+      "ar": "وجبة فلافل على طبق مع أقراص الطعمية المقرمشة، سلطة خضراء، مخللات، صوص طحينة وخبز بيتا طازج.",
+      "en": "A full Mediterranean platter of crispy herb falafel, golden fries, mixed garden salad, and authentic Egyptian tahini dip."
+    },
+    "price": 469,
+    "volume": "500 г",
+    "category": "falafel",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_39.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/14921544/4e9f52e4bba422e8535da0628d9da843/orig"
+  },
+  {
+    "id": 40,
+    "title": {
+      "ru": "«БонАква» негазированная",
+      "ar": "مياه معدنية بون أكوا طبيعية",
+      "en": "BonAqua Pure Still Water"
+    },
+    "desc": {
+      "ru": "Чистая питьевая негазированная вода BonAqua, 0.5 л.",
+      "ar": "مياه معدنية بون أكوا طبيعية - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "BonAqua Pure Still Water."
+    },
+    "price": 45,
+    "volume": "500 мл",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_40.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16066946/785796d365a54708a4851c27dfeaa001/orig"
+  },
+  {
+    "id": 41,
+    "title": {
+      "ru": "Добрый Апельсин",
+      "ar": "عصير برتقال دوبري منعش 0.5ل",
+      "en": "Dobry Orange Juice Drink 0.5L"
+    },
+    "desc": {
+      "ru": "Освежающий газированный напиток с ярким вкусом сочного апельсина, 0.5 л.",
+      "ar": "عصير برتقال دوبري منعش 0.5ل - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Refreshing chilled Dobry Orange juice drink, perfectly sweet and citrusy in a convenient 0.5L bottle."
+    },
+    "price": 140,
+    "volume": "500 мл",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_41.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/13873613/a930297f5cd24310b382ae362b9aedaa/orig"
+  },
+  {
+    "id": 42,
+    "title": {
+      "ru": "Добрый Кола",
+      "ar": "دوبري كولا مثلجة 0.5ل",
+      "en": "Dobry Cola Chilled 0.5L"
+    },
+    "desc": {
+      "ru": "Классическая прохладительная газировка Добрый Кола, 0.5 л.",
+      "ar": "دوبري كولا مثلجة 0.5ل - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Dobry Cola Chilled 0.5L."
+    },
+    "price": 140,
+    "volume": "500 мл",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_42.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/13439948/5b82cf6a507b4233b4bc5f7820b3d0ae/orig"
+  },
+  {
+    "id": 43,
+    "title": {
+      "ru": "Добрый Лимон-лайм",
+      "ar": "دوبري ليمون ولايم منعش 0.3ل",
+      "en": "Dobry Lemon-Lime Soda 0.3L"
+    },
+    "desc": {
+      "ru": "Освежающий лимонад с ярким цитрусовым вкусом лимона и лайма, 0.3 л.",
+      "ar": "مشروب غازي منعش بنكهة الليمون واللايم 300 مل.",
+      "en": "Refreshing sparkling lemon-lime flavored carbonated soda 300 ml."
+    },
+    "price": 105,
+    "volume": "300 мл",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_43.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/2370127/d2ef5837ab2a425884fddb6a28024184/orig"
+  },
+  {
+    "id": 44,
+    "title": {
+      "ru": "Чай холодный",
+      "ar": "شاي مثلج مثلج فريش 0.5ل",
+      "en": "Chilled Iced Tea 0.5L"
+    },
+    "desc": {
+      "ru": "Освежающий холодный чай с приятным фруктовым вкусом, 0.5 л.",
+      "ar": "شاي مثلج مثلج فريش 0.5ل - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Chilled Iced Tea 0.5L."
+    },
+    "price": 170,
+    "volume": "500 мл",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_44.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17780910/0b20f9e5dfc44e05ae7545028c283d75/orig"
+  },
+  {
+    "id": 45,
+    "title": {
+      "ru": "Аджика",
+      "ar": "صوص شطة حار أحمر (أدجيكا)",
+      "en": "Spicy Red Adjika Dip"
+    },
+    "desc": {
+      "ru": "Острая пикантная аджика из красного перца, чеснока и восточных пряностей.",
+      "ar": "صوص شطة حار أحمر (أدجيكا) - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Spicy Red Adjika Dip."
+    },
+    "price": 55,
+    "volume": "50 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_45.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/14046028/7dcf4292c0f8415086f1aa75a58d80a8/orig"
+  },
+  {
+    "id": 46,
+    "title": {
+      "ru": "Барбекю",
+      "ar": "صوص باربيكيو مدخن",
+      "en": "Smoky BBQ Sauce"
+    },
+    "desc": {
+      "ru": "Густой ароматный соус барбекю с легким сладковато-дымным вкусом.",
+      "ar": "صوص باربيكيو مدخن - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Smoky BBQ Sauce."
+    },
+    "price": 60,
+    "volume": "50 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_46.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/15143849/96253555de4b22733935ff1ec1beb0a1/orig"
+  },
+  {
+    "id": 47,
+    "title": {
+      "ru": "Огурчики соленые",
+      "ar": "مخلل خيار كرانشي مقرمش",
+      "en": "Crunchy Pickled Gherkins"
+    },
+    "desc": {
+      "ru": "Хрустящие соленые огурчики, нарезанные кружочками — отличное дополнение к шаверме.",
+      "ar": "مخلل خيار كرانشي مقرمش - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Crunchy Pickled Gherkins."
+    },
+    "price": 60,
+    "volume": "40 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_47.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16066946/0948756333004b04886f1eaa92d2251c/orig"
+  },
+  {
+    "id": 48,
+    "title": {
+      "ru": "Сырный",
+      "ar": "صوص جبنة شيدر كريمي",
+      "en": "Creamy Cheddar Cheese Dip"
+    },
+    "desc": {
+      "ru": "Нежный сливочно-сырный соус к картофелю фри, наггетсам и шаверме.",
+      "ar": "صوص جبنة شيدر كريمي - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Creamy Cheddar Cheese Dip."
+    },
+    "price": 60,
+    "volume": "50 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_48.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/14921544/2e02466abd00463ebf93141c1e36e67e/orig"
+  },
+  {
+    "id": 49,
+    "title": {
+      "ru": "Халапеньо",
+      "ar": "فلفل هالبينو حار شرائح",
+      "en": "Spicy Sliced Jalapeños"
+    },
+    "desc": {
+      "ru": "Пикантные маринованные перчики халапеньо для любителей яркой остроты.",
+      "ar": "قطع فلفل هالبينو مخلل حار لنكهة سبايسي مميزة.",
+      "en": "Spicy sliced pickled jalapeño peppers for an extra spicy kick."
+    },
+    "price": 60,
+    "volume": "40 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_49.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16066946/3409d9a80fdb4df1aaedb0f2c5e3c7eb/orig"
+  },
+  {
+    "id": 50,
+    "title": {
+      "ru": "Чесночный",
+      "ar": "صوص تومية مصري أصيل",
+      "en": "Authentic Garlic Toum Sauce"
+    },
+    "desc": {
+      "ru": "Традиционный арабский чесночный соус тум на натуральной основе.",
+      "ar": "صوص تومية مصري أصيل - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Authentic Middle Eastern creamy garlic toum sauce, whipped fresh daily with fresh garlic, lemon juice, and pure vegetable oil."
+    },
+    "price": 60,
+    "volume": "50 г",
+    "category": "drinks_sauces",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_50.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/15135287/b3c902f2de764216a8c40611d3a304e2/orig"
+  },
+  {
+    "id": 51,
+    "title": {
+      "ru": "Двойной Шамс амон",
+      "ar": "برجر فرعوني دبل «شمس آمون» لحم فاخر",
+      "en": "Double Shams Amun Pharaoh Burger"
+    },
+    "desc": {
+      "ru": "Монументальная мощь двух сочных говяжьих котлет на гриле, расплавленный сыр, свежие овощи и фирменный соус в хрустящей булочке — воплощение невероятной сытости и богатырской силы.",
+      "ar": "برجر شمس آمون المزدوج بقطعتين لحم بقري مشوي 100% مع طبقات الجبن الذائب والخس والطماطم في خبز طري.",
+      "en": "Monstrous double beef burger featuring two juicy grilled patties, melted cheese, crisp greens, and signature Pharaoh sauce."
+    },
+    "price": 670,
+    "volume": "450 г",
+    "category": "burgers",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_51.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17689586/b79e4daf07b8414ba9a2c4e49cea8f1c/orig"
+  },
+  {
+    "id": 52,
+    "title": {
+      "ru": "Огненный Шамс Сехмет",
+      "ar": "برجر حار ناري «شمس سخمت» لمحبي السبايسي",
+      "en": "Fiery Shams Sekhmet Spicy Burger"
+    },
+    "desc": {
+      "ru": "Укроти гнев богини-львицы! Настоящий огненный бургер с острым соусом, перчиками халапеньо, сочной котлетой и свежими овощами — вызов для истинных ценителей жгучего вкуса.",
+      "ar": "برجر شمس سخمت الحار الناري مع صوص فلفل حار وهالبينو ولحم بقري مشوي ومخلل.",
+      "en": "Spicy hot burger dedicated to the lioness goddess Sekhmet, loaded with grilled beef, jalapeños, and fiery chili dressing."
+    },
+    "price": 569,
+    "volume": "380 г",
+    "category": "burgers",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_52.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18174674/a9bf2de2e6d546229fc12b1312e0633e/orig"
+  },
+  {
+    "id": 53,
+    "title": {
+      "ru": "Шамс Бургер",
+      "ar": "شمس برجر (حواوشي فاخر في عيش بيتا مقرمش)",
+      "en": "Shams Special Burger in Crispy Pita"
+    },
+    "desc": {
+      "ru": "Фирменный египетский бургер: хрустящая пита с сочной котлетой из отборной говядины, спелыми томатами, свежим салатом и ароматным домашним соусом.",
+      "ar": "برجر شمس الكلاسيكي بلحم بقري صافي على الجريل مع صوص البرجر الخاص وخضروات طازجة.",
+      "en": "Signature beef burger patty served Egyptian hawawshi style inside crispy toasted pita bread with savory spices."
+    },
+    "price": 569,
+    "volume": "380 г",
+    "category": "burgers",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_53.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16454428/82d36b10237f4200a7d2847ffeedd342/orig"
+  },
+  {
+    "id": 54,
+    "title": {
+      "ru": "Шамс нехебкау",
+      "ar": "برجر شمس بالجبنة الذائبة الغنية «نحيبكاو»",
+      "en": "Shams Nehebkau Melted Cheese Burger"
+    },
+    "desc": {
+      "ru": "Опутанный золотыми реками расплавленного сыра чеддер и моцарелла! Сочная котлета, хрустящие овощи и богатый обволакивающий сливочный вкус.",
+      "ar": "برجر شمس نحيبكاو الغارق في أنهار الجبن الشيدر والموزاريلا السايحة لعشاق الجبن الدسم.",
+      "en": "Juicy beef burger enveloped in a rich river of melted golden cheddar cheese and crispy toppings."
+    },
+    "price": 569,
+    "volume": "380 г",
+    "category": "burgers",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_54.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/14659792/31f23955d2cc45ed8874a791f67a030e/orig"
+  },
+  {
+    "id": 55,
+    "title": {
+      "ru": "Шамс ра бургер",
+      "ar": "شمس رع برجر الكلاسيكي الملكي",
+      "en": "Shams Ra Royal Classic Burger"
+    },
+    "desc": {
+      "ru": "Классика, освещенная солнечными лучами Востока: идеальный баланс поджаренной говяжьей котлеты, хрустящего салата, соленых огурчиков и нежного соуса.",
+      "ar": "برجر شمس رع الكلاسيكي المتوازن بين شريحة اللحم البقري الطرية والخضروات الطازجة والصوص المميز.",
+      "en": "Classic royal Egyptian beef burger with fresh salad, ripe tomatoes, pickles, and signature house burger sauce."
+    },
+    "price": 470,
+    "volume": "320 г",
+    "category": "burgers",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_55.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17689586/7a66dd04994e449cb87a856c56658e8c/orig"
+  },
+  {
+    "id": 56,
+    "title": {
+      "ru": "Box с наггетсами",
+      "ar": "وجبة بوكس ناجتس دجاج مقرمش مع بطاطس",
+      "en": "Crispy Chicken Nuggets Box with Fries"
+    },
+    "desc": {
+      "ru": "Хрустящие куриные наггетсы в золотистой панировке, порция горячего картофеля фри и фирменный томатный соус.",
+      "ar": "بوكس ناجتس دجاج مقرمش ذهبي مع بطاطس مقلية وصوص باربيكيو وكاتشب لذيذ.",
+      "en": "Crispy golden breaded chicken nuggets served with hot salted french fries."
+    },
+    "price": 275,
+    "volume": "250 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_56.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18412808/7a5a16a2cd8544deb4c88d05909ce5b9/orig"
+  },
+  {
+    "id": 57,
+    "title": {
+      "ru": "Гриб-Box",
+      "ar": "بوكس الفطر والمشروم اللذيذ مع البطاطس",
+      "en": "Mushroom Box with Cheese & Fries"
+    },
+    "desc": {
+      "ru": "Аппетитный бокс с золотистым картофелем фри, сочными грибами, сырным соусом и специями.",
+      "ar": "بوكس المشروم بالجبنة مع بطاطس مقلية وقطع دجاج وصوص الفطر الكريمي الساخن.",
+      "en": "Satisfying combo box with grilled chicken, sauteed mushrooms, melted cheese, golden french fries, and savory sauce."
+    },
+    "price": 470,
+    "volume": "400 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_57.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17726510/c04c27f35eea41bd818a5c0ea1081257/orig"
+  },
+  {
+    "id": 58,
+    "title": {
+      "ru": "Креветки",
+      "ar": "جمبري مقرمش ذهبي مقلي",
+      "en": "Golden Crispy Fried Shrimps"
+    },
+    "desc": {
+      "ru": "Это не просто креветки — это элитный отряд морских супергероев, которые прошли суровую школу фритюра. Каждая — в золотистой броне из идеальной корочки.фотография блюда носит информационный характер.",
+      "ar": "جمبري مقرمش ذهبي مقلي - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Deep-fried battered golden shrimps in a crunchy seasoned coating."
+    },
+    "price": 370,
+    "volume": "100 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_58.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16066946/f54ff47de38c4691a217cbfc84f55183/orig"
+  },
+  {
+    "id": 59,
+    "title": {
+      "ru": "Креветки-торпеда на тарелке",
+      "ar": "وجبة طبق جمبري توربيدو مقرمش ملكي",
+      "en": "Torpedo Crispy Shrimp Platter"
+    },
+    "desc": {
+      "ru": "Каждая креветка — как золотистая мини-ракета: вытянутая, в хрустящей панировке, с удобным хвостиком. Подается с порцией картофеля фри, свежим салатом и соусом.",
+      "ar": "وجبة جمبري توربيدو مقرمش ذهبي على طبق مع بطاطس مقلية، ليمون، صوص تارتار وسلطة طازجة.",
+      "en": "Platter of premium elongated crispy torpedo shrimps in golden batter with french fries and dipping sauce."
+    },
+    "price": 619,
+    "volume": "500 г",
+    "category": "boxes",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_59.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18753459/51acfbf01b864fd783fa7cd50969d51a/orig"
+  },
+  {
+    "id": 60,
+    "title": {
+      "ru": "Наггетсы",
+      "ar": "قطع ناجتس دجاج ذهبية مقرمشة",
+      "en": "Golden Chicken Nuggets"
+    },
+    "desc": {
+      "ru": "Хрустящие наггетсы из нежного куриного филе в золотистой панировке.",
+      "ar": "قطع ناجتس دجاج ذهبية مقرمشة - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Golden Chicken Nuggets."
+    },
+    "price": 169,
+    "volume": "100 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_60.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/18412808/5ab8f0c1e011483ca08338baf57b72f1/orig"
+  },
+  {
+    "id": 61,
+    "title": {
+      "ru": "Шамс Bох острый",
+      "ar": "شمس بوكس بطاطس ودجاج سبايسي مع موزاريلا",
+      "en": "Shams Spicy Loaded Box with Mozzarella"
+    },
+    "desc": {
+      "ru": "Горячий картофель фри, посыпанный молодой моцареллой и хрустящим жареным лучком, с мелкими кусочками куриного филе, поджаренным на гриле, и кусочками халапеньо, заправленный острым соусом. Фотография носит информационный характер.",
+      "ar": "شمس بوكس بطاطس ودجاج سبايسي مع موزاريلا - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Hot french fries topped with melted mozzarella cheese, grilled chicken chunks, jalapeños, crispy fried onions, and spicy sauce."
+    },
+    "price": 470,
+    "volume": "400 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_61.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17780111/00db4c25bd5748ebab876a2e9d90fdfd/orig"
+  },
+  {
+    "id": 62,
+    "title": {
+      "ru": "Шамс бокс ням-ням",
+      "ar": "شمس بوكس فراخ بطاطس فري وجبنة مطاطية",
+      "en": "Shams Loaded Yum-Yum Box"
+    },
+    "desc": {
+      "ru": "Сытный комбо-бокс: нежное куриное филе на гриле, хрустящая картошечка фри, тягучий сыр моцарелла, хрустящий жареный лук, горчичный соус и капелька сладкого томатного кетчупа.",
+      "ar": "شمس بوكس يام-يام المشكل: دجاج مشوي، بطاطس مقلية، جبن موزاريلا، بصل مقلي مقرمش وصوص ماسترد وكاتشب.",
+      "en": "Hearty box loaded with crispy french fries, tender chicken bites, stretchy melted mozzarella, fried onions, and sweet-tangy sauces."
+    },
+    "price": 470,
+    "volume": "400 г",
+    "category": "boxes",
+    "popular": true,
+    "photo": "real_photos/dishes/dish_62.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/16489290/54cbdbd4752943cd8dbe84e7a6dfb732/orig"
+  },
+  {
+    "id": 63,
+    "title": {
+      "ru": "Шамс бокс сырный",
+      "ar": "شمس بوكس إكسترا صوص جبن وبطاطس",
+      "en": "Shams Super Cheesy Loaded Box"
+    },
+    "desc": {
+      "ru": "Мечта сыромана: большая порция хрустящего золотистого картофеля фри под щедрым слоем горячего расплавленного сыра моцарелла и сырного соуса.",
+      "ar": "شمس بوكس الجبنة السايحة: بطاطس مقلية مقرمشة مغطاة بكمية وفيرة من الجبن الذائب وصوص الجبن.",
+      "en": "Crispy golden french fries smothered with an extra-rich velvety cheddar cheese sauce."
+    },
+    "price": 470,
+    "volume": "400 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_63.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17778899/0c2cf1db2ecb4d6397cb3c7c1146d457/orig"
+  },
+  {
+    "id": 64,
+    "title": {
+      "ru": "Шамс-бокс креветка",
+      "ar": "شمس بوكس جمبري بحري مع بطاطس مقلية",
+      "en": "Shams Shrimp Seafood Box"
+    },
+    "desc": {
+      "ru": "Сытный бокс с хрустящими королевскими креветками в панировке, картофелем фри и сырным соусом.",
+      "ar": "شمس بوكس جمبري بحري مع بطاطس مقلية - محضر طازج يومياً بتوابلنا الخاصة وأعلى جودة.",
+      "en": "Shams Shrimp Seafood Box."
+    },
+    "price": 470,
+    "volume": "320 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_64.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17793655/59feeb70e1834279ba707050a46458b1/orig"
+  },
+  {
+    "id": 65,
+    "title": {
+      "ru": "Шамс-бокс с рубленной котлеткой из говядины",
+      "ar": "شمس بوكس كفتة بقري مشوية مع بطاطس وصوص",
+      "en": "Shams Minced Beef Patty Box"
+    },
+    "desc": {
+      "ru": "Сытный бокс: горячий картофель фри, аппетитная рубленая котлета из говядины на гриле со специями и фирменный соус барбекю с дымком.",
+      "ar": "شمس بوكس كفتة بقري مشوية على الجريل مع بطاطس مقلية وصوص باربيكيو مدخن غني.",
+      "en": "Grilled minced beef patty served over hot french fries with smoky barbecue sauce."
+    },
+    "price": 520,
+    "volume": "450 г",
+    "category": "boxes",
+    "popular": false,
+    "photo": "real_photos/dishes/dish_65.jpg",
+    "cdnPhoto": "https://avatars.mds.yandex.net/get-eda/17689586/9a84d8cf1d0d4fbd98bfddbc98afcaee/orig"
+  }
+]

@@ -1,0 +1,1517 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover" />
+  
+  <title id="pageTitle">لوحة إدارة قائمة الطعام • شمس СПб</title>
+  <link rel="icon" type="image/jpeg" href="logo.jpg" />
+  <link rel="apple-touch-icon" href="logo.jpg" />
+  
+  <!-- PWA & Mobile Fullscreen Optimization -->
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+  <meta name="apple-mobile-web-app-title" content="Шамс Меню" />
+  <meta name="theme-color" content="#0c0a09" />
+  <meta name="mobile-web-app-capable" content="yes" />
+
+  <!-- Fonts & Icons -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            amber: {
+              400: '#fbbf24',
+              500: '#f59e0b',
+              600: '#d97706',
+            },
+            stone: {
+              950: '#0c0a09',
+              900: '#1c1917',
+              850: '#231f1c',
+              800: '#292524',
+            }
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'system-ui', 'sans-serif'],
+            arabic: ['"Cairo"', 'system-ui', 'sans-serif'],
+          },
+          screens: {
+            'xs': '380px',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', system-ui, sans-serif;
+      background-color: #0c0a09;
+      color: #fafaf9;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      min-height: 100vh;
+      min-height: 100dvh;
+    }
+    body[dir="rtl"] {
+      font-family: 'Cairo', system-ui, sans-serif;
+    }
+    .pb-safe {
+      padding-bottom: max(0.75rem, env(safe-area-inset-bottom, 16px));
+    }
+    .pt-safe {
+      padding-top: max(0.75rem, env(safe-area-inset-top, 16px));
+    }
+    .glass-panel {
+      background: rgba(28, 25, 23, 0.88);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(245, 158, 11, 0.15);
+    }
+    .glass-card {
+      background: rgba(28, 25, 23, 0.95);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: all 0.2s ease;
+    }
+    .glass-card:hover {
+      border-color: rgba(245, 158, 11, 0.35);
+      transform: translateY(-2px);
+    }
+    /* Prevent iOS auto-zoom on input focus while keeping sharp typography */
+    @media screen and (max-width: 768px) {
+      input[type="text"],
+      input[type="number"],
+      input[type="password"],
+      input[type="search"],
+      textarea,
+      select {
+        font-size: 16px !important;
+      }
+    }
+    /* Momentum touch scrolling */
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+    }
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #0c0a09;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #292524;
+      border-radius: 999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #f59e0b;
+    }
+    /* Modal Animation */
+    @keyframes modalFadeIn {
+      from { opacity: 0; transform: scale(0.96) translateY(8px); }
+      to { opacity: 1; transform: scale(1) translateY(0); }
+    }
+    .modal-animate {
+      animation: modalFadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col antialiased">
+
+  <!-- ==================== PASSWORD LOGIN SCREEN ==================== -->
+  <div id="pinLockScreen" class="fixed inset-0 z-50 bg-stone-950 flex flex-col items-center justify-center p-4">
+    <div class="w-full max-w-sm glass-panel p-6 sm:p-8 rounded-3xl border border-amber-500/20 shadow-2xl flex flex-col items-center text-center">
+      
+      <!-- Brand Logo -->
+      <div class="w-20 h-20 rounded-full overflow-hidden border-2 border-amber-500/40 p-0.5 bg-stone-900 shadow-lg shadow-amber-500/10 mb-4">
+        <img src="logo.jpg" alt="Шамс" class="w-full h-full object-contain rounded-full" />
+      </div>
+
+      <h1 class="text-xl font-black text-white mb-1" id="pinTitle">Панель управления «Шамс»</h1>
+      <p class="text-xs text-stone-400 mb-6" id="pinSubtitle">Введите пароль для входа в управление меню</p>
+
+      <!-- Password Login Form (Manual typing with mobile or keyboard) -->
+      <form id="loginForm" onsubmit="handleLoginSubmit(event)" class="w-full flex flex-col gap-3">
+        <!-- Input Group with Eye Toggle -->
+        <div class="relative w-full">
+          <input 
+            type="password" 
+            id="passwordInput" 
+            autocomplete="current-password"
+            placeholder="Введите пароль..." 
+            class="w-full h-12 px-4 pe-11 rounded-2xl bg-stone-900/90 border border-stone-800 focus:border-amber-500/60 focus:ring-2 focus:ring-amber-500/20 text-white placeholder-stone-500 text-sm font-medium outline-none transition"
+            required
+          />
+          <button 
+            type="button" 
+            onclick="togglePasswordVisibility()" 
+            class="absolute inset-y-0 end-0 pe-3.5 flex items-center text-stone-400 hover:text-amber-400 transition cursor-pointer"
+            tabindex="-1"
+            title="Показать/скрыть пароль"
+          >
+            <i id="eyeIcon" class="fa-solid fa-eye text-sm"></i>
+          </button>
+        </div>
+
+        <!-- Error / Status Message Box -->
+        <div id="pinError" class="text-xs font-semibold min-h-[20px] px-3 py-2 rounded-2xl text-center hidden transition-all duration-300">
+          Неверный пароль!
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          id="btnLoginSubmit" 
+          class="w-full h-12 rounded-2xl bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-black text-sm flex items-center justify-center gap-2 shadow-lg shadow-amber-500/20 active:scale-[0.98] transition cursor-pointer"
+        >
+          <span id="btnLoginText">Войти в панель</span>
+          <i class="fa-solid fa-arrow-right-to-bracket text-xs" id="loginBtnIcon"></i>
+        </button>
+      </form>
+
+      <!-- Lang toggle on lock screen -->
+      <div class="mt-6 flex items-center gap-2 text-xs">
+        <button type="button" onclick="switchLang('ru')" class="px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-amber-400 font-bold hover:border-amber-500/40 transition">Русский</button>
+        <button type="button" onclick="switchLang('ar')" class="px-3.5 py-1.5 rounded-full bg-stone-900 border border-stone-800 text-stone-400 font-bold hover:text-white hover:border-amber-500/40 transition">العربية</button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== MAIN ADMIN APPLICATION ==================== -->
+  <div id="adminApp" class="flex-1 flex flex-col pb-28">
+
+    <!-- Top Sticky Header -->
+    <header class="sticky top-0 z-30 glass-panel border-b border-white/10 px-3 sm:px-4 py-2 sm:py-3 pt-safe">
+      <div class="container mx-auto max-w-6xl flex items-center justify-between gap-2 sm:gap-3">
+        
+        <!-- Brand & Title -->
+        <div class="flex items-center gap-2 sm:gap-3 min-w-0">
+          <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-full overflow-hidden border border-amber-500/30 p-0.5 bg-stone-900 shrink-0">
+            <img src="logo.jpg" alt="Логотип" class="w-full h-full object-contain rounded-full" />
+          </div>
+          <div class="min-w-0">
+            <div class="flex items-center gap-1.5">
+              <span class="font-black text-white text-xs sm:text-base tracking-tight truncate" id="headerTitle">ШАМС • Управление</span>
+              <span class="hidden md:inline-block px-1.5 py-0.5 rounded-md bg-amber-500/10 text-amber-400 text-[9px] font-black border border-amber-500/20">ADMIN</span>
+            </div>
+            <span class="text-[10px] text-stone-400 hidden xs:block -mt-0.5 truncate" id="headerSub">Онлайн-меню и цены</span>
+          </div>
+        </div>
+
+        <!-- Actions: Live Store, Language, Logout -->
+        <div class="flex items-center gap-1.5 sm:gap-2 shrink-0">
+          <!-- View Live Store -->
+          <a href="index.html" target="_blank" class="h-8 sm:h-9 px-2 sm:px-3 rounded-xl bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 text-xs font-bold transition flex items-center justify-center gap-1.5 active:scale-95 whitespace-nowrap" title="المتجر">
+            <i class="fa-solid fa-arrow-up-right-from-square text-xs"></i>
+            <span class="hidden sm:inline" id="btnLiveStore">Сайт</span>
+          </a>
+
+          <!-- Language Toggle (Never wraps, sleek pill) -->
+          <button onclick="toggleLang()" class="h-8 sm:h-9 px-2.5 sm:px-3 rounded-xl bg-stone-900 border border-stone-800 hover:border-amber-500/40 text-[11px] sm:text-xs font-bold text-stone-300 hover:text-white transition whitespace-nowrap active:scale-95 flex items-center gap-1.5" id="langSwitchBtn">
+            <i class="fa-solid fa-globe text-amber-400 text-[11px]"></i>
+            <span id="langSwitchText">RU</span>
+          </button>
+
+          <!-- Logout -->
+          <button onclick="adminLogout()" class="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-stone-900 border border-stone-800 hover:bg-red-500/20 hover:text-red-400 text-stone-400 flex items-center justify-center transition active:scale-95 shrink-0" title="Выйти">
+            <i class="fa-solid fa-right-from-bracket text-xs"></i>
+          </button>
+        </div>
+
+      </div>
+    </header>
+
+    <!-- Content Container -->
+    <main class="container mx-auto max-w-6xl px-4 pt-4 flex-1">
+
+      <!-- ==================== STATS ROW ==================== -->
+      <div class="grid grid-cols-3 gap-2 sm:gap-4 mb-3 sm:mb-4">
+        <!-- Total Dishes -->
+        <div class="glass-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 flex flex-col justify-between">
+          <span class="text-[10px] sm:text-xs text-stone-400 font-bold truncate" id="statDishesLabel">Всего блюд</span>
+          <div class="flex items-baseline gap-1.5 mt-0.5 sm:mt-1">
+            <span id="statDishesCount" class="text-lg sm:text-2xl font-black text-amber-400">65</span>
+            <span id="statDishesUnit" class="text-[9px] sm:text-[10px] text-stone-500 font-bold">поز.</span>
+          </div>
+        </div>
+
+        <!-- Categories -->
+        <div class="glass-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 flex flex-col justify-between">
+          <span class="text-[10px] sm:text-xs text-stone-400 font-bold truncate" id="statCatsLabel">Категории</span>
+          <div class="flex items-baseline gap-1.5 mt-0.5 sm:mt-1">
+            <span class="text-lg sm:text-2xl font-black text-white">6</span>
+            <span class="text-[9px] sm:text-[10px] text-stone-500 font-bold truncate" id="statCatsSub">разделов</span>
+          </div>
+        </div>
+
+        <!-- Out of Stock -->
+        <div class="glass-card p-2.5 sm:p-4 rounded-xl sm:rounded-2xl border border-white/5 flex flex-col justify-between">
+          <span class="text-[10px] sm:text-xs text-stone-400 font-bold truncate" id="statOosLabel">Закончилось</span>
+          <div class="flex items-baseline gap-1.5 mt-0.5 sm:mt-1">
+            <span id="statOosCount" class="text-lg sm:text-2xl font-black text-red-400">0</span>
+            <span class="text-[9px] sm:text-[10px] text-stone-500 font-bold truncate" id="statOosSub">нет в наличии</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SEARCH & ACTION BAR ==================== -->
+      <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-2.5 sm:gap-3 mb-3 sm:mb-4">
+        <!-- Search Input with RTL/LTR logical placement -->
+        <div class="relative flex-1">
+          <i class="fa-solid fa-magnifying-glass absolute start-3.5 top-1/2 -translate-y-1/2 text-stone-500 text-xs pointer-events-none"></i>
+          <input 
+            type="text" 
+            id="searchInput" 
+            placeholder="Поиск по названию блюда или номеру..." 
+            oninput="handleSearch(this.value)"
+            class="w-full bg-stone-900/90 border border-stone-800 rounded-xl ps-9 pe-9 py-2.5 text-xs sm:text-sm text-white placeholder-stone-500 focus:outline-none focus:border-amber-500 transition" 
+          />
+          <button id="clearSearchBtn" onclick="clearSearch()" class="absolute end-3 top-1/2 -translate-y-1/2 text-stone-500 hover:text-white text-xs hidden p-1">
+            <i class="fa-solid fa-xmark"></i>
+          </button>
+        </div>
+
+        <!-- Add Dish Button (Prominent Gold) -->
+        <button onclick="openAddModal()" class="flex items-center justify-center gap-2 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-stone-950 font-black px-4 py-2.5 rounded-xl shadow-lg shadow-amber-500/20 active:scale-95 transition text-xs sm:text-sm shrink-0 min-h-[42px]">
+          <i class="fa-solid fa-plus text-sm"></i>
+          <span id="btnAddDish">Добавить блюдо</span>
+        </button>
+      </div>
+
+      <!-- ==================== CATEGORY FILTER PILLS ==================== -->
+      <div class="flex items-center gap-1.5 sm:gap-2 overflow-x-auto pb-2 mb-3 sm:mb-4 no-scrollbar">
+        <button onclick="setCategoryFilter('all')" id="cat-btn-all" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-500 text-stone-950 shadow-md shrink-0 transition">
+          <span id="cat-btn-all-label">Все</span> (<span id="count-all">65</span>)
+        </button>
+        <button onclick="setCategoryFilter('shawarma')" id="cat-btn-shawarma" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-shawarma-label">Шаверма</span> (<span id="count-shawarma">31</span>)
+        </button>
+        <button onclick="setCategoryFilter('boxes')" id="cat-btn-boxes" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-boxes-label">Боксы</span> (<span id="count-boxes">11</span>)
+        </button>
+        <button onclick="setCategoryFilter('falafel')" id="cat-btn-falafel" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-falafel-label">Фалафель</span> (<span id="count-falafel">3</span>)
+        </button>
+        <button onclick="setCategoryFilter('burgers')" id="cat-btn-burgers" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-burgers-label">Бургеры</span> (<span id="count-burgers">5</span>)
+        </button>
+        <button onclick="setCategoryFilter('hotdog')" id="cat-btn-hotdog" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-hotdog-label">Хот-доги</span> (<span id="count-hotdog">4</span>)
+        </button>
+        <button onclick="setCategoryFilter('drinks_sauces')" id="cat-btn-drinks_sauces" class="cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition">
+          <span id="cat-btn-drinks_sauces-label">Напитки и соусы</span> (<span id="count-drinks_sauces">11</span>)
+        </button>
+      </div>
+
+      <!-- ==================== DISHES GRID ==================== -->
+      <div id="dishesGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-3 sm:gap-4">
+        <!-- Rendered dynamically by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="emptyState" class="hidden py-16 text-center text-stone-500">
+        <i class="fa-solid fa-burger text-4xl mb-3 opacity-40"></i>
+        <p class="text-sm font-bold" id="emptyStateText">Блюда не найдены</p>
+      </div>
+
+    </main>
+
+    <!-- Bottom Sticky Status / Save Bar -->
+    <div id="unsavedBar" class="fixed bottom-[max(0.75rem,env(safe-area-inset-bottom,12px))] left-3 right-3 z-40 max-w-xl mx-auto glass-panel border border-amber-500/40 p-3 rounded-2xl shadow-2xl flex items-center justify-between gap-3 hidden animate-bounce-short">
+      <div class="flex items-center gap-2">
+        <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
+        <span class="text-xs font-black text-amber-300" id="unsavedText">Есть несохраненные изменения!</span>
+      </div>
+      <div class="flex items-center gap-2">
+        <button onclick="discardChanges()" class="px-3 py-1.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-xs font-bold text-stone-300 transition" id="btnDiscard">
+          Отмена
+        </button>
+        <button onclick="saveAllToServer()" class="px-4 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-black text-xs transition shadow-md shadow-amber-500/20" id="btnSaveAll">
+          <i class="fa-solid fa-floppy-disk mr-1"></i> Сохранить
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ==================== EDIT / ADD DISH MODAL ==================== -->
+  <div id="dishModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden flex items-center justify-center p-2.5 sm:p-4">
+    <div class="glass-panel w-full max-w-lg rounded-2xl sm:rounded-3xl border border-white/10 shadow-2xl flex flex-col max-h-[92dvh] sm:max-h-[88vh] overflow-hidden modal-animate">
+      
+      <!-- Modal Header -->
+      <div class="px-4 sm:px-5 py-3.5 sm:py-4 border-b border-white/10 flex items-center justify-between">
+        <h2 class="text-sm sm:text-base font-black text-white" id="modalTitle">➕ إضافة طبق جديد</h2>
+        <button onclick="closeDishModal()" class="w-8 h-8 rounded-full bg-stone-800 text-stone-400 hover:text-white flex items-center justify-center transition active:scale-95">
+          <i class="fa-solid fa-xmark text-sm"></i>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-3 sm:space-y-4 text-xs">
+
+        <!-- Photo Upload (Gallery & Camera) -->
+        <div class="flex items-center gap-3">
+          <div class="w-14 h-14 sm:w-16 sm:h-16 rounded-xl sm:rounded-2xl overflow-hidden bg-stone-900 border border-stone-700 shrink-0 relative group cursor-pointer shadow-md" onclick="document.getElementById('modalPhotoGallery').click()" title="تغيير الصورة">
+            <img id="modalPhotoPreview" src="hero_dish.jpg" alt="معاينة الصورة" class="w-full h-full object-cover" />
+            <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+              <i class="fa-solid fa-images text-white text-sm"></i>
+            </div>
+          </div>
+          <div class="flex-1 space-y-1.5">
+            <!-- Hidden File Inputs -->
+            <input type="file" id="modalPhotoGallery" accept="image/*" onchange="handleImagePick(this)" class="hidden" />
+            <input type="file" id="modalPhotoCamera" accept="image/*" capture="environment" onchange="handleImagePick(this)" class="hidden" />
+            <input type="hidden" id="modalPhotoUrl" value="hero_dish.jpg" />
+
+            <!-- Gallery & Camera Action Buttons -->
+            <div class="grid grid-cols-2 gap-2">
+              <button type="button" onclick="document.getElementById('modalPhotoGallery').click()" class="py-2 sm:py-2.5 px-2.5 sm:px-3 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/30 text-amber-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95 shadow-sm min-h-[40px]">
+                <i class="fa-solid fa-images text-amber-400"></i>
+                <span id="btnPickGallery">معرض الصور</span>
+              </button>
+              <button type="button" onclick="document.getElementById('modalPhotoCamera').click()" class="py-2 sm:py-2.5 px-2.5 sm:px-3 rounded-xl bg-stone-800 hover:bg-stone-700 border border-stone-700 text-stone-300 font-bold text-xs flex items-center justify-center gap-1.5 transition active:scale-95 min-h-[40px]">
+                <i class="fa-solid fa-camera text-stone-400"></i>
+                <span id="btnPickCamera">الكاميرا</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Russian Title -->
+        <div>
+          <label class="block font-bold text-stone-300 mb-1 flex items-center justify-between" id="lblTitleRu">
+            <span class="lbl-text">اسم الطبق بالروسية *</span>
+            <span class="text-[10px] text-amber-400 font-normal lbl-badge">✨ يترجم تلقائياً للعربية والإنجليزية</span>
+          </label>
+          <input type="text" id="modalTitleRu" required placeholder="Например: Шаверма Классик" dir="ltr" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-3 py-2.5 text-white font-bold focus:outline-none focus:border-amber-500 text-sm text-left" />
+        </div>
+
+        <!-- Hidden Title translations (auto-filled on save) -->
+        <input type="hidden" id="modalTitleAr" />
+        <input type="hidden" id="modalTitleEn" />
+
+        <!-- Category + Price + Volume (compact row) -->
+        <div class="grid grid-cols-3 gap-1.5 sm:gap-2">
+          <div>
+            <label class="block font-bold text-stone-400 mb-1 text-[11px]" id="lblCategory">القسم</label>
+            <select id="modalCategory" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-2 py-2.5 text-white focus:outline-none focus:border-amber-500 font-bold cursor-pointer text-[11px] sm:text-xs">
+              <option value="shawarma">🌯 شاورما</option>
+              <option value="boxes">📦 بوكسات</option>
+              <option value="falafel">🧆 فلافل</option>
+              <option value="burgers">🍔 برجر</option>
+              <option value="hotdog">🌭 هوت دوج</option>
+              <option value="drinks_sauces">🥤 مشروبات</option>
+            </select>
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1 text-[11px]" id="lblPrice">السعر ₽ *</label>
+            <input type="number" id="modalPrice" required min="1" step="1" placeholder="380" dir="ltr" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-2.5 sm:px-3 py-2.5 text-amber-400 font-black focus:outline-none focus:border-amber-500 text-sm text-left" />
+          </div>
+          <div>
+            <label class="block font-bold text-stone-400 mb-1 text-[11px]" id="lblVolume">الوزن</label>
+            <input type="text" id="modalVolume" dir="ltr" placeholder="350 г" class="w-full bg-stone-900 border border-stone-800 rounded-xl px-2.5 sm:px-3 py-2.5 text-white focus:outline-none focus:border-amber-500 text-left font-bold text-sm" />
+          </div>
+        </div>
+
+        <!-- Russian Description -->
+        <div>
+          <label class="block font-bold text-stone-300 mb-1 flex items-center justify-between" id="lblDescRu">
+            <span class="lbl-text">وصف ومكونات الطبق (بالروسية)</span>
+            <span class="text-[10px] text-amber-400 font-normal lbl-badge">✨ يترجم تلقائياً</span>
+          </label>
+          <textarea id="modalDescRu" rows="3" dir="ltr" placeholder="Состав, соус, свежие овощи, особенности..." class="w-full min-h-[90px] sm:min-h-[95px] bg-stone-900 border border-stone-800 rounded-xl px-3 sm:px-3.5 py-2.5 text-white placeholder-stone-600 focus:outline-none focus:border-amber-500 leading-relaxed text-left text-xs sm:text-sm resize-y"></textarea>
+        </div>
+
+        <!-- Hidden Description translations (auto-filled on save) -->
+        <input type="hidden" id="modalDescAr" />
+        <input type="hidden" id="modalDescEn" />
+        <span id="lblPriceUnit" class="hidden">روبل</span>
+
+        <!-- Toggles -->
+        <div class="flex items-center justify-between pt-1">
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="modalPopular" class="w-4 h-4 rounded text-amber-500 bg-stone-900 border-stone-700 cursor-pointer" />
+            <span class="font-bold text-stone-400 text-xs" id="lblPopular">⭐ مميز</span>
+          </label>
+          <label class="flex items-center gap-2 cursor-pointer select-none">
+            <input type="checkbox" id="modalInStock" checked class="w-4 h-4 rounded text-emerald-500 bg-stone-900 border-stone-700 cursor-pointer" />
+            <span class="font-bold text-emerald-400 text-xs" id="lblInStock">✅ متوفر</span>
+          </label>
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="px-4 sm:px-5 py-3 border-t border-white/10 flex items-center justify-between bg-stone-900/50">
+        <button type="button" onclick="closeDishModal()" class="px-4 py-2.5 rounded-xl bg-stone-800 hover:bg-stone-700 text-stone-400 font-bold transition text-xs min-h-[42px]" id="btnModalCancel">إلغاء</button>
+        <button type="button" onclick="submitDishModal()" class="px-6 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-stone-950 font-black transition flex items-center gap-2 shadow-lg shadow-amber-500/25 text-sm active:scale-95 min-h-[42px]" id="btnModalSave">
+          <i class="fa-solid fa-check"></i>
+          <span id="btnModalSaveText">حفظ</span>
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast" class="fixed top-4 right-4 left-4 sm:left-auto sm:w-80 z-50 glass-panel border border-emerald-500/40 p-3.5 rounded-2xl shadow-2xl flex items-center gap-3 hidden transition-all duration-300">
+    <div class="w-7 h-7 rounded-xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+      <i class="fa-solid fa-check"></i>
+    </div>
+    <span id="toastMsg" class="text-xs font-bold text-white flex-1">Сохранено успешно!</span>
+  </div>
+
+  <!-- Load Master Dishes Database -->
+  <script src="dishes.js"></script>
+
+  <!-- ==================== JAVASCRIPT LOGIC ==================== -->
+  <script>
+    // --- State Management ---
+    let currentLang = 'ar'; // 'ar' or 'ru'
+    let dishesList = [];
+    let activeCategory = 'all';
+    let searchQuery = '';
+    let hasUnsavedChanges = false;
+    let currentEditingId = null;
+
+    // --- Translations Dictionary ---
+    const i18n = {
+      ru: {
+        pinTitle: 'Панель управления «Шамс»',
+        pinSubtitle: 'Введите пароль для входа в управление меню',
+        passPlaceholder: 'Введите пароль...',
+        btnLoginText: 'Войти в панель',
+        headerTitle: 'ШАМС • Управление',
+        headerSub: 'Онлайн-меню и цены',
+        btnLiveStore: 'Сайт',
+        statDishesLabel: 'Всего блюд',
+        statCatsLabel: 'Категории',
+        statCatsSub: 'разделов',
+        statOosLabel: 'Закончилось',
+        statOosSub: 'нет в наличии',
+        searchInput: 'Поиск по названию блюда или номеру...',
+        btnAddDish: 'Добавить блюдо',
+        emptyStateText: 'Блюда не найдены',
+        unsavedText: 'Есть несохраненные изменения!',
+        btnDiscard: 'Отмена',
+        btnSaveAll: 'Сохранить всё',
+        lblPhoto: 'Фотография блюда',
+        btnPickPhoto: 'Загрузить фото',
+        lblTitleRu: 'Название (по-русски) *',
+        lblTitleAr: 'Название на арабском (الاسم بالعربي)',
+        lblCategory: 'Категория',
+        lblVolume: 'Вес / Объем',
+        lblPrice: 'Цена (в рублях ₽) *',
+        lblDescRu: 'Описание блюда',
+        lblPopular: '⭐ Хит / Популярное',
+        lblInStock: 'В наличии',
+        btnModalCancel: 'Отмена',
+        btnModalSaveText: 'Сохранить',
+        inStockBadge: 'В наличии',
+        outStockBadge: 'Закончилось',
+        deleteConfirm: 'Вы уверены, что хотите удалить это блюдо?',
+        savedSuccess: 'Меню успешно сохранено на сервере!',
+        changesDiscarded: 'Изменения отменены',
+        statUnit: 'поз.',
+        cats: {
+          all: 'Все',
+          shawarma: 'Шаверма',
+          boxes: 'Боксы',
+          falafel: 'Фалафель',
+          burgers: 'Бургеры',
+          hotdog: 'Хот-доги',
+          drinks_sauces: 'Напитки и соусы'
+        }
+      },
+      ar: {
+        pinTitle: 'لوحة إدارة «شمس»',
+        pinSubtitle: 'أدخل كلمة المرور للتحكم في قائمة الطعام',
+        passPlaceholder: 'أدخل كلمة المرور...',
+        btnLoginText: 'دخول إلى لوحة التحكم',
+        headerTitle: 'شمس • لوحة التحكم',
+        headerSub: 'إدارة الأسعار والوجبات',
+        btnLiveStore: 'المتجر',
+        statDishesLabel: 'إجمالي الأصناف',
+        statCatsLabel: 'الأقسام',
+        statCatsSub: 'أقسام رئيسية',
+        statOosLabel: 'غير متوفر',
+        statOosSub: 'نفدت الكمية',
+        searchInput: 'ابحث عن أي طبق أو رقم...',
+        btnAddDish: 'إضافة طبق جديد',
+        emptyStateText: 'لم يتم العثور على أطباق',
+        unsavedText: 'هناك تعديلات لم يتم حفظها بعد!',
+        btnDiscard: 'تراجع',
+        btnSaveAll: 'حفظ الكل',
+        lblPhoto: 'صورة الطبق',
+        btnPickPhoto: 'رفع صورة جديدة',
+        lblTitleRu: 'اسم الطبق بالروسية *',
+        lblTitleAr: 'اسم الطبق بالعربية',
+        lblCategory: 'القسم',
+        lblVolume: 'الوزن / الحجم',
+        lblPrice: 'السعر بالروبل (₽) *',
+        lblDescRu: 'وصف الطبق (روسي)',
+        lblPopular: '⭐ طبق مميز / الأكثر طلباً',
+        lblInStock: 'متوفر للطلب',
+        btnModalCancel: 'إلغاء',
+        btnModalSaveText: 'حفظ',
+        inStockBadge: 'متوفر',
+        outStockBadge: 'غير متوفر',
+        deleteConfirm: 'هل أنت متأكد من حذف هذا الطبق نهائياً؟',
+        savedSuccess: 'تم حفظ التعديلات في السيرفر بنجاح!',
+        changesDiscarded: 'تم التراجع عن التعديلات',
+        statUnit: 'صنف',
+        cats: {
+          all: 'الكل',
+          shawarma: 'شاورما',
+          boxes: 'بوكسات',
+          falafel: 'فلافل',
+          burgers: 'برجر',
+          hotdog: 'هوت دوج',
+          drinks_sauces: 'مشروبات وصوصات'
+        }
+      }
+    };
+
+    // --- Authentication & Session Management ---
+    function getAuthToken() {
+      return sessionStorage.getItem('shams_admin_token') || '';
+    }
+
+    async function authFetch(url, options = {}) {
+      const token = getAuthToken();
+      options.headers = options.headers || {};
+      if (token) {
+        options.headers['Authorization'] = 'Bearer ' + token;
+      }
+      const res = await fetch(url, options);
+      if (res.status === 401) {
+        sessionStorage.removeItem('shams_admin_token');
+        showLoginScreen();
+        showToast(currentLang === 'ru' ? 'Сессия истекла. Войдите снова.' : 'انتهت الجلسة. يرجى تسجيل الدخول مجدداً.');
+      }
+      return res;
+    }
+
+    async function checkAuth() {
+      const token = getAuthToken();
+      if (!token) {
+        showLoginScreen();
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/auth/verify', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (data.success && data.authenticated) {
+          hideLoginScreen();
+          loadDishes();
+        } else {
+          sessionStorage.removeItem('shams_admin_token');
+          showLoginScreen();
+        }
+      } catch (err) {
+        // Offline or network error fallback
+        hideLoginScreen();
+        loadDishes();
+      }
+    }
+
+    let lockoutTimer = null;
+    let lockoutRemainingSeconds = 0;
+
+    function formatTime(totalSeconds) {
+      const m = Math.floor(totalSeconds / 60);
+      const s = totalSeconds % 60;
+      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    }
+
+    function renderLockoutUI() {
+      const errEl = document.getElementById('pinError');
+      if (!errEl) return;
+      const isAr = currentLang === 'ar';
+      const timeStr = formatTime(lockoutRemainingSeconds);
+
+      errEl.className = 'w-full text-xs font-semibold px-3 py-2.5 rounded-2xl bg-amber-500/15 border border-amber-500/30 text-amber-300 flex flex-col items-center gap-1.5 shadow-lg shadow-amber-500/5 transition-all duration-300';
+      errEl.classList.remove('hidden');
+
+      errEl.innerHTML = `
+        <div class="flex items-center gap-1.5 font-bold text-amber-400">
+          <i class="fa-solid fa-hourglass-half text-xs animate-pulse"></i>
+          <span>${isAr ? 'تم حظر المحاولات مؤقتاً' : 'Временная блокировка'}</span>
+        </div>
+        <div class="text-[11px] text-stone-300 text-center">
+          ${isAr ? 'استنفدت 5 محاولات خاطئة. المحاولة متاحة بعد:' : 'Превышен лимит 5 попыток. Повторите через:'}
+        </div>
+        <div class="font-mono text-base font-black text-amber-400 bg-stone-900/90 px-3 py-0.5 rounded-xl border border-amber-500/40 shadow-inner tracking-wider">
+          ${timeStr}
+        </div>
+      `;
+    }
+
+    function startLockoutCountdown(seconds) {
+      if (lockoutTimer) clearInterval(lockoutTimer);
+      lockoutRemainingSeconds = Math.max(1, Math.round(seconds));
+
+      const input = document.getElementById('passwordInput');
+      const btn = document.getElementById('btnLoginSubmit');
+      if (input) {
+        input.disabled = true;
+        input.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+      if (btn) {
+        btn.disabled = true;
+        btn.classList.add('opacity-50', 'cursor-not-allowed');
+      }
+
+      renderLockoutUI();
+
+      lockoutTimer = setInterval(() => {
+        lockoutRemainingSeconds--;
+        if (lockoutRemainingSeconds <= 0) {
+          clearInterval(lockoutTimer);
+          lockoutTimer = null;
+          lockoutRemainingSeconds = 0;
+
+          if (input) {
+            input.disabled = false;
+            input.classList.remove('opacity-50', 'cursor-not-allowed');
+            input.value = '';
+            input.focus();
+          }
+          if (btn) {
+            btn.disabled = false;
+            btn.classList.remove('opacity-50', 'cursor-not-allowed');
+          }
+
+          const errEl = document.getElementById('pinError');
+          if (errEl) {
+            errEl.className = 'w-full text-xs font-bold text-emerald-400 bg-emerald-500/15 border border-emerald-500/30 px-3 py-2 rounded-2xl text-center transition-all duration-300';
+            errEl.innerHTML = `
+              <div class="flex items-center justify-center gap-1.5">
+                <i class="fa-solid fa-circle-check"></i>
+                <span>${currentLang === 'ar' ? 'انتهت مدة الحظر المؤقت! يمكنك المحاولة الآن.' : 'Блокировка снята! Вы можете попробовать снова.'}</span>
+              </div>
+            `;
+            setTimeout(() => {
+              if (!lockoutTimer) {
+                errEl.classList.add('hidden');
+                errEl.innerHTML = '';
+              }
+            }, 6000);
+          }
+        } else {
+          renderLockoutUI();
+        }
+      }, 1000);
+    }
+
+    async function showLoginScreen() {
+      const screen = document.getElementById('pinLockScreen');
+      if (screen) screen.classList.remove('hidden');
+      const input = document.getElementById('passwordInput');
+      if (input && !lockoutTimer) {
+        input.value = '';
+        setTimeout(() => input.focus(), 150);
+      }
+
+      // Proactively check lockout status from server
+      try {
+        const res = await fetch('/api/auth/lockout');
+        if (res.ok) {
+          const data = await res.json();
+          if (data.locked && data.remainingSeconds > 0) {
+            startLockoutCountdown(data.remainingSeconds);
+          }
+        }
+      } catch (e) {
+        // silent
+      }
+    }
+
+    function hideLoginScreen() {
+      const screen = document.getElementById('pinLockScreen');
+      if (screen) screen.classList.add('hidden');
+    }
+
+    function togglePasswordVisibility() {
+      const input = document.getElementById('passwordInput');
+      const icon = document.getElementById('eyeIcon');
+      if (!input || !icon) return;
+      if (input.type === 'password') {
+        input.type = 'text';
+        icon.className = 'fa-solid fa-eye-slash text-sm text-amber-400';
+      } else {
+        input.type = 'password';
+        icon.className = 'fa-solid fa-eye text-sm text-stone-400';
+      }
+    }
+
+    async function handleLoginSubmit(e) {
+      if (e) e.preventDefault();
+      if (lockoutTimer) return;
+
+      const input = document.getElementById('passwordInput');
+      const password = (input ? input.value : '').trim();
+      const errEl = document.getElementById('pinError');
+      const btn = document.getElementById('btnLoginSubmit');
+      const btnText = document.getElementById('btnLoginText');
+      const btnIcon = document.getElementById('loginBtnIcon');
+      const originalText = btnText ? btnText.textContent : '';
+
+      if (!password) {
+        errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
+        errEl.classList.remove('hidden');
+        errEl.innerHTML = `
+          <div class="flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-triangle-exclamation"></i>
+            <span>${currentLang === 'ru' ? 'Введите пароль!' : 'يرجى إدخال كلمة المرور!'}</span>
+          </div>
+        `;
+        if (input) input.focus();
+        return;
+      }
+
+      errEl.classList.add('hidden');
+      if (btn) btn.disabled = true;
+      if (btnText) btnText.textContent = currentLang === 'ru' ? 'Проверка...' : 'جاري التحقق...';
+      if (btnIcon) btnIcon.className = 'fa-solid fa-spinner fa-spin text-xs';
+
+      try {
+        const res = await fetch('/api/auth', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ password })
+        });
+        const data = await res.json();
+
+        if (res.ok && data.success && data.token) {
+          if (lockoutTimer) {
+            clearInterval(lockoutTimer);
+            lockoutTimer = null;
+          }
+          sessionStorage.setItem('shams_admin_token', data.token);
+          hideLoginScreen();
+          loadDishes();
+          showToast(currentLang === 'ru' ? 'Добро пожаловать в панель «Шамс»!' : 'أهلاً بك في لوحة تحكم «شمس»! ✨');
+        } else if (res.status === 429 || data.code === 'LOCKED') {
+          // Locked out - Start live countdown timer!
+          const secs = data.remainingSeconds || (15 * 60);
+          startLockoutCountdown(secs);
+        } else if (res.status === 401 || data.code === 'INVALID_PASSWORD') {
+          // Wrong password - show attempts decrement counter
+          const remaining = data.remaining !== undefined ? data.remaining : 4;
+          const total = data.maxAttempts || 5;
+          const isAr = currentLang === 'ar';
+
+          errEl.className = 'w-full text-xs font-semibold text-red-300 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
+          errEl.classList.remove('hidden');
+
+          errEl.innerHTML = `
+            <div class="flex items-center justify-center gap-1.5 font-bold text-red-400">
+              <i class="fa-solid fa-circle-xmark"></i>
+              <span>${isAr ? 'كلمة المرور غير صحيحة!' : 'Неверный пароль!'}</span>
+            </div>
+            <div class="text-[11px] text-stone-300 mt-1">
+              ${isAr 
+                ? `متبقي <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> من أصل ${total} محاولات`
+                : `Осталось попыток: <strong class="text-amber-400 font-bold text-xs">${remaining}</strong> из ${total}`}
+            </div>
+          `;
+
+          if (input) {
+            input.classList.add('border-red-500', 'ring-2', 'ring-red-500/30');
+            setTimeout(() => input.classList.remove('border-red-500', 'ring-2', 'ring-red-500/30'), 1500);
+            input.focus();
+            input.select();
+          }
+        } else {
+          errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
+          errEl.classList.remove('hidden');
+          errEl.textContent = data.message || (currentLang === 'ru' ? 'Ошибка входа!' : 'حدث خطأ في تسجيل الدخول!');
+        }
+      } catch (err) {
+        errEl.className = 'w-full text-xs font-bold text-red-400 bg-red-500/15 border border-red-500/30 px-3 py-2 rounded-2xl text-center';
+        errEl.classList.remove('hidden');
+        errEl.textContent = currentLang === 'ru' ? 'Ошибка связи с сервером' : 'تعذر الاتصال بالسيرفر، يرجى المحاولة ثانية';
+      } finally {
+        if (!lockoutTimer) {
+          if (btn) btn.disabled = false;
+          if (btnText) btnText.textContent = originalText;
+          if (btnIcon) btnIcon.className = 'fa-solid fa-arrow-right-to-bracket text-xs';
+        }
+      }
+    }
+
+    function adminLogout() {
+      sessionStorage.removeItem('shams_admin_token');
+      showLoginScreen();
+    }
+
+    // --- Load Dishes ---
+    async function loadDishes() {
+      try {
+        const res = await fetch('/api/dishes');
+        if (res.ok) {
+          const data = await res.json();
+          dishesList = data.dishes;
+        } else {
+          throw new Error('Fallback to local');
+        }
+      } catch (err) {
+        if (window.SHAMS_MENU && Array.isArray(window.SHAMS_MENU)) {
+          dishesList = JSON.parse(JSON.stringify(window.SHAMS_MENU));
+        }
+      }
+      renderAll();
+    }
+
+    // --- Rendering ---
+    function renderAll() {
+      updateStats();
+      renderDishes();
+    }
+
+    function updateStats() {
+      document.getElementById('statDishesCount').textContent = dishesList.length;
+      const unitEl = document.getElementById('statDishesUnit');
+      if (unitEl) unitEl.textContent = i18n[currentLang].statUnit;
+
+      const tCats = i18n[currentLang].cats;
+      const allLbl = document.getElementById('cat-btn-all-label');
+      if (allLbl) allLbl.textContent = tCats.all;
+      document.getElementById('count-all').textContent = dishesList.length;
+
+      const cats = ['shawarma', 'boxes', 'falafel', 'burgers', 'hotdog', 'drinks_sauces'];
+      cats.forEach(c => {
+        const lbl = document.getElementById(`cat-btn-${c}-label`);
+        if (lbl) lbl.textContent = tCats[c];
+        const el = document.getElementById(`count-${c}`);
+        if (el) {
+          el.textContent = dishesList.filter(d => d.category === c).length;
+        }
+      });
+
+      const oosCount = dishesList.filter(d => d.outOfStock === true).length;
+      document.getElementById('statOosCount').textContent = oosCount;
+    }
+
+    function escapeHtml(str) {
+      if (!str) return '';
+      return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+    }
+
+    function renderDishes() {
+      const grid = document.getElementById('dishesGrid');
+      const empty = document.getElementById('emptyState');
+
+      const filtered = dishesList.filter(dish => {
+        // Category match
+        if (activeCategory !== 'all' && dish.category !== activeCategory) {
+          return false;
+        }
+        // Search match
+        if (searchQuery.trim()) {
+          const q = searchQuery.toLowerCase().trim();
+          const titleRu = (dish.title?.ru || '').toLowerCase();
+          const titleAr = (dish.title?.ar || '').toLowerCase();
+          const titleEn = (dish.title?.en || '').toLowerCase();
+          const idStr = String(dish.id);
+          return titleRu.includes(q) || titleAr.includes(q) || titleEn.includes(q) || idStr === q;
+        }
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        grid.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+
+      grid.innerHTML = filtered.map(dish => {
+        const isOos = dish.outOfStock === true;
+        const isAr = currentLang === 'ar';
+        const title = isAr ? (dish.title?.ar || dish.title?.ru) : (dish.title?.ru || dish.title?.ar);
+        
+        // Localized category badge & subtitle
+        const catName = (i18n[currentLang].cats && i18n[currentLang].cats[dish.category]) || dish.category;
+        const subTitle = isAr ? `قسم ${catName}` : (dish.title?.ar || '');
+
+        // Volume localization: 380 г -> 380 جم
+        let formattedVolume = dish.volume || '';
+        if (isAr && formattedVolume) {
+          formattedVolume = formattedVolume.replace(/г/g, 'جم').replace(/мл/g, 'مل').replace(/л/g, 'لتر');
+        }
+
+        const safeTitle = escapeHtml(title);
+        const safeSubTitle = escapeHtml(subTitle);
+        const safePhoto = escapeHtml(dish.photo || 'hero_dish.jpg');
+        const safeVolume = escapeHtml(formattedVolume);
+
+        const statusClass = isOos 
+          ? 'bg-red-500/15 text-red-400 border-red-500/30' 
+          : 'bg-emerald-500/15 text-emerald-400 border-emerald-500/30';
+        const statusText = isOos 
+          ? (i18n[currentLang].outStockBadge) 
+          : (i18n[currentLang].inStockBadge);
+
+        return `
+          <div class="glass-card rounded-2xl p-3.5 flex flex-col justify-between relative group ${isOos ? 'opacity-70 border-red-500/20' : ''}">
+            
+            <!-- Card Top: Image + Info -->
+            <div class="flex items-start gap-3">
+              <!-- Dish Thumbnail -->
+              <div class="w-16 h-16 sm:w-20 sm:h-20 rounded-xl overflow-hidden bg-stone-900 border border-stone-800 shrink-0 relative">
+                <img src="${safePhoto}" alt="${safeTitle}" class="w-full h-full object-cover" onerror="this.src='hero_dish.jpg'" />
+                ${dish.popular ? '<span class="absolute top-1 left-1 bg-amber-500 text-stone-950 text-[9px] font-black px-1.5 py-0.5 rounded-md shadow">★</span>' : ''}
+              </div>
+
+              <!-- Main Info -->
+              <div class="flex-1 min-w-0">
+                <div class="flex items-center justify-between gap-1 mb-1">
+                  <span class="text-[10px] text-stone-400 font-bold bg-stone-900 px-2 py-0.5 rounded-full border border-stone-800">#${dish.id} • ${safeVolume}</span>
+                  
+                  <!-- Out of Stock Toggle Button -->
+                  <button onclick="toggleStock(${dish.id})" class="px-2 py-0.5 rounded-full text-[10px] font-black border transition active:scale-95 ${statusClass}">
+                    ${statusText}
+                  </button>
+                </div>
+
+                <h3 class="font-black text-white text-xs sm:text-sm leading-snug truncate" title="${safeTitle}">${safeTitle}</h3>
+                ${safeSubTitle ? `<p class="text-[11px] text-amber-500/80 truncate font-bold font-sans">${safeSubTitle}</p>` : ''}
+              </div>
+            </div>
+
+            <!-- Card Bottom: Price Editor + Actions -->
+            <div class="mt-3 pt-3 border-t border-white/5 flex items-center justify-between gap-2">
+              
+              <!-- Quick Price Stepper -->
+              <div class="flex items-center gap-1.5 bg-stone-900/90 border border-stone-800 rounded-xl px-2 py-1">
+                <button onclick="stepPrice(${dish.id}, -10)" class="w-6 h-6 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 font-black text-xs flex items-center justify-center active:scale-95 transition">-</button>
+                <div class="flex items-baseline gap-0.5 px-1 font-black text-amber-400 text-xs sm:text-sm">
+                  <span>${dish.price}</span>
+                  <span class="text-[10px]">₽</span>
+                </div>
+                <button onclick="stepPrice(${dish.id}, 10)" class="w-6 h-6 rounded-lg bg-stone-800 hover:bg-stone-700 text-stone-300 font-black text-xs flex items-center justify-center active:scale-95 transition">+</button>
+              </div>
+
+              <!-- Edit & Delete Buttons -->
+              <div class="flex items-center gap-1">
+                <button onclick="openEditModal(${dish.id})" class="p-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-stone-300 hover:text-amber-400 border border-stone-800 transition active:scale-95" title="Редактировать">
+                  <i class="fa-solid fa-pen text-xs"></i>
+                </button>
+                <button onclick="deleteDish(${dish.id})" class="p-2 rounded-xl bg-stone-900 hover:bg-red-500/20 text-stone-400 hover:text-red-400 border border-stone-800 transition active:scale-95" title="Удалить">
+                  <i class="fa-solid fa-trash text-xs"></i>
+                </button>
+              </div>
+
+            </div>
+
+          </div>
+        `;
+      }).join('');
+    }
+
+    // --- Interactive Operations ---
+    function stepPrice(id, delta) {
+      const dish = dishesList.find(d => d.id === id);
+      if (dish) {
+        const newPrice = Math.max(10, dish.price + delta);
+        if (newPrice !== dish.price) {
+          dish.price = newPrice;
+          markUnsaved();
+          renderDishes();
+        }
+      }
+    }
+
+    function toggleStock(id) {
+      const dish = dishesList.find(d => d.id === id);
+      if (dish) {
+        dish.outOfStock = !dish.outOfStock;
+        markUnsaved();
+        renderAll();
+      }
+    }
+
+    function deleteDish(id) {
+      const msg = i18n[currentLang].deleteConfirm;
+      if (confirm(msg)) {
+        dishesList = dishesList.filter(d => d.id !== id);
+        markUnsaved();
+        renderAll();
+        showToast(currentLang === 'ru' ? 'Блюдо удалено' : 'تم حذف الطبق');
+      }
+    }
+
+    // --- Search & Filter ---
+    function handleSearch(val) {
+      searchQuery = val;
+      const clearBtn = document.getElementById('clearSearchBtn');
+      if (val) {
+        clearBtn.classList.remove('hidden');
+      } else {
+        clearBtn.classList.add('hidden');
+      }
+      renderDishes();
+    }
+
+    function clearSearch() {
+      const input = document.getElementById('searchInput');
+      input.value = '';
+      searchQuery = '';
+      document.getElementById('clearSearchBtn').classList.add('hidden');
+      renderDishes();
+    }
+
+    function setCategoryFilter(cat) {
+      activeCategory = cat;
+      document.querySelectorAll('.cat-pill').forEach(btn => {
+        btn.className = 'cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-stone-900 border border-stone-800 text-stone-400 hover:text-white shrink-0 transition';
+      });
+      const activeBtn = document.getElementById(`cat-btn-${cat}`);
+      if (activeBtn) {
+        activeBtn.className = 'cat-pill px-3.5 py-1.5 rounded-full text-xs font-bold bg-amber-500 text-stone-950 shadow-md shrink-0 transition';
+      }
+      renderDishes();
+    }
+
+    // --- Unsaved Changes Banner ---
+    function markUnsaved() {
+      hasUnsavedChanges = true;
+      document.getElementById('unsavedBar').classList.remove('hidden');
+    }
+
+    function discardChanges() {
+      if (confirm(currentLang === 'ru' ? 'Отменить все несохраненные изменения?' : 'هل تريد التراجع عن التعديلات غير المحفوظة؟')) {
+        hasUnsavedChanges = false;
+        document.getElementById('unsavedBar').classList.add('hidden');
+        loadDishes();
+        showToast(i18n[currentLang].changesDiscarded);
+      }
+    }
+
+    async function saveAllToServer() {
+      const btn = document.getElementById('btnSaveAll');
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ...';
+
+      try {
+        const res = await authFetch('/api/dishes', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ dishes: dishesList })
+        });
+        const data = await res.json();
+        if (data.success) {
+          hasUnsavedChanges = false;
+          document.getElementById('unsavedBar').classList.add('hidden');
+          showToast(i18n[currentLang].savedSuccess);
+        } else {
+          alert(data.message || 'Ошибка сохранения');
+        }
+      } catch (err) {
+        console.error(err);
+        alert('Ошибка связи с сервером. Попробуйте еще раз.');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = `<i class="fa-solid fa-floppy-disk mr-1"></i> ${i18n[currentLang].btnSaveAll}`;
+      }
+    }
+
+    // --- Edit / Add Modal Logic ---
+    function openAddModal() {
+      currentEditingId = null;
+      const t = i18n[currentLang];
+      document.getElementById('modalTitle').textContent = currentLang === 'ru' ? '➕ Добавить блюдо' : '➕ إضافة طبق جديد';
+      
+      document.getElementById('modalPhotoPreview').src = 'hero_dish.jpg';
+      document.getElementById('modalPhotoUrl').value = 'real_photos/dishes/dish_1.jpg';
+      document.getElementById('modalTitleRu').value = '';
+      document.getElementById('modalTitleAr').value = '';
+      document.getElementById('modalCategory').value = activeCategory === 'all' ? 'shawarma' : activeCategory;
+      document.getElementById('modalVolume').value = '';
+      document.getElementById('modalPrice').value = '';
+      document.getElementById('modalDescRu').value = '';
+      document.getElementById('modalDescAr').value = '';
+      document.getElementById('modalTitleEn').value = '';
+      document.getElementById('modalDescEn').value = '';
+      document.getElementById('modalPopular').checked = false;
+      document.getElementById('modalInStock').checked = true;
+
+      document.getElementById('lblPopular').textContent = t.lblPopular;
+      document.getElementById('lblInStock').textContent = t.lblInStock;
+      document.getElementById('btnModalCancel').textContent = t.btnModalCancel;
+      document.getElementById('btnModalSaveText').textContent = t.btnModalSaveText;
+
+      document.getElementById('dishModal').classList.remove('hidden');
+    }
+
+    function openEditModal(id) {
+      currentEditingId = id;
+      const dish = dishesList.find(d => d.id === id);
+      if (!dish) return;
+
+      const t = i18n[currentLang];
+      document.getElementById('modalTitle').textContent = currentLang === 'ru' ? '✏️ Редактировать' : '✏️ تعديل الطبق';
+
+      document.getElementById('modalPhotoPreview').src = dish.photo || 'hero_dish.jpg';
+      document.getElementById('modalPhotoUrl').value = dish.photo || '';
+      document.getElementById('modalTitleRu').value = dish.title?.ru || '';
+      document.getElementById('modalTitleAr').value = dish.title?.ar || '';
+      document.getElementById('modalCategory').value = dish.category || 'shawarma';
+      document.getElementById('modalVolume').value = dish.volume || '';
+      document.getElementById('modalPrice').value = dish.price || '';
+      document.getElementById('modalDescRu').value = dish.desc?.ru || '';
+      document.getElementById('modalDescAr').value = dish.desc?.ar || '';
+      document.getElementById('modalTitleEn').value = dish.title?.en || '';
+      document.getElementById('modalDescEn').value = dish.desc?.en || '';
+      document.getElementById('modalPopular').checked = !!dish.popular;
+      document.getElementById('modalInStock').checked = dish.outOfStock !== true;
+
+      document.getElementById('lblPopular').textContent = t.lblPopular;
+      document.getElementById('lblInStock').textContent = t.lblInStock;
+      document.getElementById('btnModalCancel').textContent = t.btnModalCancel;
+      document.getElementById('btnModalSaveText').textContent = t.btnModalSaveText;
+
+      document.getElementById('dishModal').classList.remove('hidden');
+    }
+
+    function closeDishModal() {
+      document.getElementById('dishModal').classList.add('hidden');
+      currentEditingId = null;
+    }
+
+    async function triggerAutoTranslateIfEmpty() {
+      let titleRu = document.getElementById('modalTitleRu').value.trim();
+      let descRu = document.getElementById('modalDescRu').value.trim();
+      let titleAr = document.getElementById('modalTitleAr').value.trim();
+      let descAr = document.getElementById('modalDescAr').value.trim();
+
+      // If one language is filled and the other is empty, auto-translate
+      const needsTranslation = (titleRu && !titleAr) || (titleAr && !titleRu) || (descRu && !descAr) || (descAr && !descRu);
+      if (needsTranslation) {
+        try {
+          const res = await authFetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titleRu, descRu, titleAr, descAr })
+          });
+          const data = await res.json();
+          if (data.success) {
+            if (!titleAr && data.titleAr) {
+              document.getElementById('modalTitleAr').value = data.titleAr;
+              document.getElementById('modalTitleAr').classList.add('ring-1', 'ring-amber-500');
+              setTimeout(() => document.getElementById('modalTitleAr').classList.remove('ring-1', 'ring-amber-500'), 1500);
+            }
+            if (!titleRu && data.titleRu) {
+              document.getElementById('modalTitleRu').value = data.titleRu;
+              document.getElementById('modalTitleRu').classList.add('ring-1', 'ring-amber-500');
+              setTimeout(() => document.getElementById('modalTitleRu').classList.remove('ring-1', 'ring-amber-500'), 1500);
+            }
+            if (!descAr && data.descAr) {
+              document.getElementById('modalDescAr').value = data.descAr;
+            }
+            if (!descRu && data.descRu) {
+              document.getElementById('modalDescRu').value = data.descRu;
+            }
+            if (data.titleEn) document.getElementById('modalTitleEn').value = data.titleEn;
+            if (data.descEn) document.getElementById('modalDescEn').value = data.descEn;
+          }
+        } catch (e) {
+          console.warn('Auto-translate on blur failed:', e);
+        }
+      }
+    }
+
+    async function autoTranslateModal() {
+      let titleRu = document.getElementById('modalTitleRu').value.trim();
+      let descRu = document.getElementById('modalDescRu').value.trim();
+      let titleAr = document.getElementById('modalTitleAr').value.trim();
+      let descAr = document.getElementById('modalDescAr').value.trim();
+
+      if (!titleRu && !descRu && !titleAr && !descAr) {
+        alert(currentLang === 'ru' ? 'Сначала напишите название или описание!' : 'يرجى كتابة اسم الطبق أو الوصف أولاً للترجمة!');
+        return;
+      }
+
+      const btn = document.getElementById('btnAutoTranslate');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin text-amber-400"></i> <span>' + (currentLang === 'ru' ? 'Переводим...' : 'جاري الترجمة الذكية...') + '</span>';
+
+      try {
+        const res = await authFetch('/api/translate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ titleRu, descRu, titleAr, descAr })
+        });
+        const data = await res.json();
+        if (data.success) {
+          if (data.titleAr && !titleAr) document.getElementById('modalTitleAr').value = data.titleAr;
+          if (data.titleRu && !titleRu) document.getElementById('modalTitleRu').value = data.titleRu;
+          if (data.descAr && !descAr) document.getElementById('modalDescAr').value = data.descAr;
+          if (data.descRu && !descRu) document.getElementById('modalDescRu').value = data.descRu;
+          if (data.titleEn) document.getElementById('modalTitleEn').value = data.titleEn;
+          if (data.descEn) document.getElementById('modalDescEn').value = data.descEn;
+          showToast(currentLang === 'ru' ? 'Успешно переведено!' : 'تمت الترجمة تلقائياً بنجاح! ✨');
+        }
+      } catch (err) {
+        console.error(err);
+        alert(currentLang === 'ru' ? 'Ошибка связи с сервисом перевода' : 'تعذر الاتصال بخدمة الترجمة');
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+      }
+    }
+
+    function handleImagePick(input) {
+      const file = input.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+          const base64 = e.target.result;
+          document.getElementById('modalPhotoPreview').src = base64;
+
+          // Try direct upload to server API
+          try {
+            const res = await authFetch('/api/upload', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({ imageBase64: base64 })
+            });
+            const data = await res.json();
+            if (data.success && data.photoPath) {
+              document.getElementById('modalPhotoUrl').value = data.photoPath;
+              showToast(currentLang === 'ru' ? 'Фото успешно загружено!' : 'تم رفع الصورة بنجاح!');
+            }
+          } catch (err) {
+            console.log('Upload fallback to inline preview');
+          }
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    async function submitDishModal() {
+      let titleRu = document.getElementById('modalTitleRu').value.trim();
+      let titleAr = document.getElementById('modalTitleAr').value.trim();
+      const price = parseInt(document.getElementById('modalPrice').value, 10);
+
+      if ((!titleRu && !titleAr) || isNaN(price) || price <= 0) {
+        alert(currentLang === 'ru' ? 'Пожалуйста, укажите название и цену!' : 'يرجى إدخال اسم الطبق والسعر بشكل صحيح!');
+        return;
+      }
+
+      const photoUrl = document.getElementById('modalPhotoUrl').value.trim() || 'hero_dish.jpg';
+      let titleEn = document.getElementById('modalTitleEn').value.trim();
+      const category = document.getElementById('modalCategory').value;
+      const volume = document.getElementById('modalVolume').value.trim() || '350 г';
+      let descRu = document.getElementById('modalDescRu').value.trim();
+      let descAr = document.getElementById('modalDescAr').value.trim();
+      let descEn = document.getElementById('modalDescEn').value.trim();
+      const popular = document.getElementById('modalPopular').checked;
+      const outOfStock = !document.getElementById('modalInStock').checked;
+
+      // Automatically translate Russian title and description to Arabic and English on save
+      if (titleRu) {
+        const saveBtn = document.getElementById('btnModalSave');
+        const saveBtnText = document.getElementById('btnModalSaveText');
+        const originalText = saveBtnText ? saveBtnText.textContent : '';
+        if (saveBtn) saveBtn.disabled = true;
+        if (saveBtnText) saveBtnText.textContent = currentLang === 'ru' ? 'Переводим и сохраняем...' : 'جاري الترجمة والحفظ... ✨';
+        
+        try {
+          const res = await authFetch('/api/translate', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ titleRu, descRu })
+          });
+          const data = await res.json();
+          if (data.success) {
+            if (data.titleAr) titleAr = data.titleAr;
+            if (data.titleEn) titleEn = data.titleEn;
+            if (data.descAr) descAr = data.descAr;
+            if (data.descEn) descEn = data.descEn;
+          }
+        } catch (e) {
+          console.warn('Auto translation fallback during save', e);
+        } finally {
+          if (saveBtn) saveBtn.disabled = false;
+          if (saveBtnText) saveBtnText.textContent = originalText;
+        }
+      }
+
+      if (!titleAr) titleAr = titleRu;
+      if (!titleEn) titleEn = titleRu;
+      if (!descAr) descAr = descRu;
+      if (!descEn) descEn = descRu;
+
+      if (currentEditingId !== null) {
+        // Edit existing
+        const dish = dishesList.find(d => d.id === currentEditingId);
+        if (dish) {
+          dish.title.ru = titleRu;
+          dish.title.ar = titleAr;
+          dish.title.en = titleEn;
+          dish.price = price;
+          dish.volume = volume;
+          dish.category = category;
+          dish.photo = photoUrl;
+          dish.desc = dish.desc || {};
+          dish.desc.ru = descRu;
+          dish.desc.ar = descAr;
+          dish.desc.en = descEn;
+          dish.popular = popular;
+          dish.outOfStock = outOfStock;
+        }
+      } else {
+        // Add new
+        const maxId = dishesList.reduce((max, d) => Math.max(max, d.id || 0), 0);
+        const newDish = {
+          id: maxId + 1,
+          title: { ru: titleRu, ar: titleAr, en: titleEn },
+          desc: { ru: descRu, ar: descAr, en: descEn },
+          price: price,
+          volume: volume,
+          category: category,
+          popular: popular,
+          outOfStock: outOfStock,
+          photo: photoUrl
+        };
+        dishesList.unshift(newDish); // Add at top
+      }
+
+      markUnsaved();
+      renderAll();
+      closeDishModal();
+      showToast(currentLang === 'ru' ? 'Блюдо обновлено!' : 'تم تحديث الطبق وترجمته بنجاح!');
+    }
+
+    // --- Toast Function ---
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.classList.remove('hidden');
+      setTimeout(() => {
+        toast.classList.add('hidden');
+      }, 3000);
+    }
+
+    // --- Language Switching ---
+    function toggleLang() {
+      switchLang(currentLang === 'ru' ? 'ar' : 'ru');
+    }
+
+    function switchLang(lang) {
+      currentLang = lang;
+      const isAr = lang === 'ar';
+      document.documentElement.lang = lang;
+      document.documentElement.dir = isAr ? 'rtl' : 'ltr';
+      document.body.dir = isAr ? 'rtl' : 'ltr';
+
+      const t = i18n[lang];
+
+      // Helpers
+      const setEl = (id, txt) => { const el = document.getElementById(id); if (el) el.textContent = txt; };
+      const setLblText = (id, txt) => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const textSpan = el.querySelector('.lbl-text');
+        if (textSpan) { textSpan.textContent = txt; }
+        else { el.textContent = txt; }
+      };
+
+      // --- Dashboard elements ---
+      document.getElementById('pinTitle').textContent = t.pinTitle;
+      document.getElementById('pinSubtitle').textContent = t.pinSubtitle;
+      const passInput = document.getElementById('passwordInput');
+      if (passInput) passInput.placeholder = t.passPlaceholder;
+      setEl('btnLoginText', t.btnLoginText);
+      document.getElementById('headerTitle').textContent = t.headerTitle;
+      document.getElementById('headerSub').textContent = t.headerSub;
+      document.getElementById('btnLiveStore').textContent = t.btnLiveStore;
+      document.getElementById('statDishesLabel').textContent = t.statDishesLabel;
+      document.getElementById('statCatsLabel').textContent = t.statCatsLabel;
+      document.getElementById('statCatsSub').textContent = t.statCatsSub;
+      document.getElementById('statOosLabel').textContent = t.statOosLabel;
+      document.getElementById('statOosSub').textContent = t.statOosSub;
+      document.getElementById('searchInput').placeholder = t.searchInput;
+      document.getElementById('btnAddDish').textContent = t.btnAddDish;
+      document.getElementById('emptyStateText').textContent = t.emptyStateText;
+      document.getElementById('unsavedText').textContent = t.unsavedText;
+      document.getElementById('btnDiscard').textContent = t.btnDiscard;
+      document.getElementById('btnSaveAll').textContent = t.btnSaveAll;
+      setEl('langSwitchText', isAr ? 'RU' : 'AR');
+
+      setLblText('lblTitleRu', isAr ? 'اسم الطبق بالروسية *' : 'Название блюда (рус) *');
+      setEl('lblCategory', isAr ? 'القسم' : 'Категория');
+      setEl('lblPrice', isAr ? 'السعر ₽ *' : 'Цена ₽ *');
+      setEl('lblVolume', isAr ? 'الوزن' : 'Вес');
+      setLblText('lblDescRu', isAr ? 'وصف ومكونات الطبق (بالروسية)' : 'Описание и состав (рус)');
+
+      const badges = document.querySelectorAll('.lbl-badge');
+      badges.forEach(b => { b.textContent = isAr ? '✨ يترجم تلقائياً للعربية والإنجليزية' : '✨ Автоперевод на арабский и английский'; });
+
+      setEl('btnPickGallery', isAr ? 'معرض الصور' : 'Галерея');
+      setEl('btnPickCamera', isAr ? 'الكاميرا' : 'Камера');
+      setEl('btnAutoTranslateText', isAr ? 'ترجمة تلقائية ✨' : 'Автоперевод ✨');
+      setEl('lblPopular', isAr ? '⭐ مميز' : '⭐ Популярное');
+      setEl('lblInStock', isAr ? '✅ متوفر' : '✅ В наличии');
+      setEl('btnModalCancel', t.btnModalCancel);
+      setEl('btnModalSaveText', isAr ? 'حفظ' : 'Сохранить');
+
+      const pageTitle = document.getElementById('pageTitle');
+      if (pageTitle) pageTitle.textContent = isAr ? 'لوحة إدارة قائمة الطعام • شمس СПб' : 'Панель управления меню • Шамс СПб';
+
+      const catSelect = document.getElementById('modalCategory');
+      if (catSelect && catSelect.options.length >= 6) {
+        catSelect.options[0].text = isAr ? '🌯 شاورما' : '🌯 Шаверма';
+        catSelect.options[1].text = isAr ? '📦 بوكسات' : '📦 Боксы';
+        catSelect.options[2].text = isAr ? '🧆 فلافل' : '🧆 Фалафель';
+        catSelect.options[3].text = isAr ? '🍔 برجر' : '🍔 Бургеры';
+        catSelect.options[4].text = isAr ? '🌭 هوت دوج' : '🌭 Хот-доги';
+        catSelect.options[5].text = isAr ? '🥤 مشروبات' : '🥤 Напитки';
+      }
+      localStorage.setItem('shams_admin_lang', lang);
+
+      if (lockoutTimer && typeof renderLockoutUI === 'function') {
+        renderLockoutUI();
+      }
+
+      renderAll();
+    }
+
+    // Initialize
+    window.addEventListener('DOMContentLoaded', () => {
+      const savedLang = localStorage.getItem('shams_admin_lang') || 'ar';
+      switchLang(savedLang);
+      checkAuth();
+    });
+  </script>
+</body>
+</html>

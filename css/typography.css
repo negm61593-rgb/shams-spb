@@ -1,0 +1,485 @@
+/**
+ * Professional Typography System for Shams Restaurant Website
+ * 
+ * Implements a clear typographic hierarchy with responsive sizing,
+ * proper font-weight hierarchy, and special adjustments for Arabic text.
+ * 
+ * Requirements: 18.2, 8.2, 8.3
+ */
+
+/* ===================================
+   Font Face Declarations
+   =================================== */
+
+/* Primary font: Montserrat for Latin text */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&display=swap');
+
+/* Arabic font: Cairo for Arabic text */
+@import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap');
+
+/* ===================================
+   Typography Base Styles
+   =================================== */
+
+body {
+  font-family: var(--font-primary, 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif);
+  font-size: var(--font-size-base, 16px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-relaxed, 1.625);
+  color: var(--color-text-secondary, #E5E7EB);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Arabic language support */
+body[dir="rtl"],
+.lang-ar {
+  font-family: var(--font-arabic, 'Cairo', 'Montserrat', sans-serif);
+}
+
+/* ===================================
+   Heading Styles (H1-H3)
+   =================================== */
+
+/* H1 - Hero Headings */
+h1,
+.heading-1 {
+  font-size: var(--font-size-4xl, 36px);
+  font-weight: var(--font-weight-black, 900);
+  line-height: var(--line-height-tight, 1.2);
+  letter-spacing: var(--letter-spacing-tighter, -0.02em);
+  color: var(--color-text-primary, #F9FAFB);
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+/* H1 Responsive Sizing - Tablet */
+@media (min-width: 768px) {
+  h1,
+  .heading-1 {
+    font-size: var(--font-size-5xl, 48px);
+  }
+}
+
+/* H1 Responsive Sizing - Desktop */
+@media (min-width: 1024px) {
+  h1,
+  .heading-1 {
+    font-size: var(--font-size-6xl, 60px);
+  }
+}
+
+/* H1 Arabic Adjustments */
+[dir="rtl"] h1,
+.lang-ar h1,
+[dir="rtl"] .heading-1,
+.lang-ar .heading-1 {
+  line-height: 1.28;
+  letter-spacing: -0.01em;
+}
+
+/* H2 - Section Headings */
+h2,
+.heading-2 {
+  font-size: var(--font-size-2xl, 24px);
+  font-weight: var(--font-weight-extrabold, 800);
+  line-height: var(--line-height-snug, 1.35);
+  letter-spacing: var(--letter-spacing-tight, -0.01em);
+  color: var(--color-text-primary, #F9FAFB);
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+/* H2 Responsive Sizing - Desktop */
+@media (min-width: 1024px) {
+  h2,
+  .heading-2 {
+    font-size: var(--font-size-3xl, 30px);
+  }
+}
+
+/* H2 Arabic Adjustments */
+[dir="rtl"] h2,
+.lang-ar h2,
+[dir="rtl"] .heading-2,
+.lang-ar .heading-2 {
+  line-height: 1.38;
+}
+
+/* H3 - Subsection Headings */
+h3,
+.heading-3 {
+  font-size: var(--font-size-xl, 20px);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-snug, 1.35);
+  letter-spacing: normal;
+  color: var(--color-text-primary, #F9FAFB);
+  margin-bottom: 8px;
+  margin-top: 0;
+}
+
+/* H3 Responsive Sizing - Desktop */
+@media (min-width: 1024px) {
+  h3,
+  .heading-3 {
+    font-size: var(--font-size-2xl, 24px);
+  }
+}
+
+/* H3 Arabic Adjustments */
+[dir="rtl"] h3,
+.lang-ar h3,
+[dir="rtl"] .heading-3,
+.lang-ar .heading-3 {
+  line-height: 1.38;
+}
+
+/* ===================================
+   Body Text Styles
+   =================================== */
+
+/* Standard Body Text */
+p,
+.body-text {
+  font-size: var(--font-size-base, 16px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-relaxed, 1.625);
+  color: var(--color-text-secondary, #E5E7EB);
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+/* Body Text Arabic Adjustments */
+[dir="rtl"] p,
+.lang-ar p,
+[dir="rtl"] .body-text,
+.lang-ar .body-text {
+  line-height: 1.7;
+}
+
+/* Lead Paragraph (Emphasized body text) */
+.lead-text {
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-relaxed, 1.625);
+  color: var(--color-text-secondary, #E5E7EB);
+}
+
+[dir="rtl"] .lead-text,
+.lang-ar .lead-text {
+  line-height: 1.7;
+}
+
+/* Small Text */
+small,
+.small-text {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+/* Extra Small Text */
+.xs-text {
+  font-size: var(--font-size-xs, 12px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-normal, 1.5);
+  color: var(--color-text-muted, #6B7280);
+}
+
+/* ===================================
+   Metadata and Label Styles
+   =================================== */
+
+/* Metadata (Tags, Labels, Captions) */
+.metadata,
+.label,
+.caption {
+  font-size: var(--font-size-xs, 12px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: var(--line-height-normal, 1.5);
+  letter-spacing: var(--letter-spacing-wide, 0.025em);
+  text-transform: uppercase;
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+/* ===================================
+   Font Weight Hierarchy
+   =================================== */
+
+.font-normal {
+  font-weight: var(--font-weight-normal, 400);
+}
+
+.font-medium {
+  font-weight: var(--font-weight-medium, 500);
+}
+
+.font-semibold {
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+.font-bold {
+  font-weight: var(--font-weight-bold, 700);
+}
+
+.font-extrabold {
+  font-weight: var(--font-weight-extrabold, 800);
+}
+
+.font-black {
+  font-weight: var(--font-weight-black, 900);
+}
+
+/* ===================================
+   Specialized Text Styles
+   =================================== */
+
+/* Brand Text (Gold Accent) */
+.brand-text {
+  color: var(--color-text-brand, #FBBF24);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* Emphasized Text */
+em,
+.emphasized {
+  font-style: italic;
+  font-weight: var(--font-weight-medium, 500);
+}
+
+/* Strong Text */
+strong,
+.strong {
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-primary, #F9FAFB);
+}
+
+/* Muted Text */
+.muted-text {
+  color: var(--color-text-muted, #6B7280);
+}
+
+/* Secondary Text */
+.secondary-text {
+  color: var(--color-text-secondary, #E5E7EB);
+}
+
+/* Tertiary Text */
+.tertiary-text {
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+/* ===================================
+   Text Utilities
+   =================================== */
+
+/* Text Alignment */
+.text-left {
+  text-align: left;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-right {
+  text-align: right;
+}
+
+/* Text Transform */
+.text-uppercase {
+  text-transform: uppercase;
+}
+
+.text-lowercase {
+  text-transform: lowercase;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+/* Text Truncation */
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Multi-line Text Truncation */
+.text-truncate-2 {
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.text-truncate-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+/* ===================================
+   Dish Card Typography
+   =================================== */
+
+/* Dish Card Title */
+.dish-card-title {
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-bold, 700);
+  line-height: var(--line-height-snug, 1.35);
+  color: var(--color-text-primary, #F9FAFB);
+  margin-bottom: 8px;
+}
+
+[dir="rtl"] .dish-card-title,
+.lang-ar .dish-card-title {
+  line-height: 1.38;
+}
+
+/* Dish Card Description */
+.dish-card-description {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-normal, 400);
+  line-height: var(--line-height-relaxed, 1.625);
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+[dir="rtl"] .dish-card-description,
+.lang-ar .dish-card-description {
+  line-height: 1.7;
+}
+
+/* Dish Card Price */
+.dish-card-price {
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-bold, 700);
+  color: var(--color-text-brand, #FBBF24);
+}
+
+/* Dish Card Volume */
+.dish-card-volume {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--color-text-tertiary, #9CA3AF);
+}
+
+/* ===================================
+   Button Typography
+   =================================== */
+
+/* Button Base Typography */
+button,
+.btn {
+  font-family: inherit;
+  font-size: var(--font-size-base, 16px);
+  font-weight: var(--font-weight-semibold, 600);
+  line-height: 1;
+  letter-spacing: normal;
+}
+
+/* Large Button Typography */
+.btn-large {
+  font-size: var(--font-size-lg, 18px);
+  font-weight: var(--font-weight-bold, 700);
+}
+
+/* Small Button Typography */
+.btn-small {
+  font-size: var(--font-size-sm, 14px);
+  font-weight: var(--font-weight-semibold, 600);
+}
+
+/* ===================================
+   Responsive Typography
+   =================================== */
+
+/* Mobile Optimizations (< 768px) */
+@media (max-width: 767px) {
+  body {
+    font-size: 16px;
+  }
+  
+  /* Ensure readability without zooming */
+  p,
+  .body-text,
+  .lead-text {
+    font-size: 16px;
+  }
+}
+
+/* Tablet Optimizations (768px - 1023px) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  body {
+    font-size: 16px;
+  }
+}
+
+/* Desktop Optimizations (≥ 1024px) */
+@media (min-width: 1024px) {
+  /* Scale up body text slightly for larger screens */
+  .lead-text {
+    font-size: var(--font-size-xl, 20px);
+  }
+}
+
+/* ===================================
+   Accessibility Enhancements
+   =================================== */
+
+/* Focus Visible Styles for Text Links */
+a:focus-visible {
+  outline: 2px solid var(--color-border-accent, #F59E0B);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
+
+/* Disable animations for users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* High Contrast Mode Adjustments */
+@media (prefers-contrast: high) {
+  h1, h2, h3,
+  .heading-1, .heading-2, .heading-3 {
+    color: #FFFFFF;
+  }
+  
+  p, .body-text {
+    color: #F0F0F0;
+  }
+}
+
+/* ===================================
+   Print Styles
+   =================================== */
+
+@media print {
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    font-size: 12pt;
+    line-height: 1.5;
+    color: #000000;
+  }
+  
+  h1 {
+    font-size: 24pt;
+  }
+  
+  h2 {
+    font-size: 18pt;
+  }
+  
+  h3 {
+    font-size: 14pt;
+  }
+}

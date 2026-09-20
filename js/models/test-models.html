@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Models Test - Shams Restaurant</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #fff;
+        }
+        .test-section {
+            margin: 20px 0;
+            padding: 15px;
+            background: #2a2a2a;
+            border-radius: 8px;
+        }
+        .test-section h2 {
+            color: #ffa500;
+            margin-top: 0;
+        }
+        .success {
+            color: #4caf50;
+        }
+        .error {
+            color: #f44336;
+        }
+        pre {
+            background: #1a1a1a;
+            padding: 10px;
+            border-radius: 4px;
+            overflow-x: auto;
+        }
+    </style>
+</head>
+<body>
+    <h1>Shams Restaurant - Models Test</h1>
+
+    <div id="test-results"></div>
+
+    <script src="./DishModel.js"></script>
+    <script src="./TranslationModel.js"></script>
+    <script src="../../dishes.js"></script>
+
+    <script>
+        const resultsContainer = document.getElementById('test-results');
+
+        function addTestSection(title, content, isSuccess) {
+            const section = document.createElement('div');
+            section.className = 'test-section';
+            section.innerHTML = `
+                <h2>${title} <span class="${isSuccess ? 'success' : 'error'}">${isSuccess ? '✓' : '✗'}</span></h2>
+                <div>${content}</div>
+            `;
+            resultsContainer.appendChild(section);
+        }
+
+        // Test DishModel
+        console.log('=== Testing DishModel ===');
+
+        // Test 1: Create DishModel from existing data
+        try {
+            const firstDish = window.SHAMS_MENU[0];
+            const dishModel = new DishModel(firstDish);
+            
+            addTestSection(
+                'Test 1: Create DishModel',
+                `<p>Created DishModel with ID: ${dishModel.id}</p>
+                <p>Title (ru): ${dishModel.getTitle('ru')}</p>
+                <p>Title (en): ${dishModel.getTitle('en')}</p>
+                <p>Title (ar): ${dishModel.getTitle('ar')}</p>
+                <p>Price: ${dishModel.getFormattedPrice()}</p>`,
+                true
+            );
+        } catch (error) {
+            addTestSection('Test 1: Create DishModel', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 2: Validate complete dish
+        try {
+            const completeDish = {
+                id: 1,
+                title: { ru: 'Тест', ar: 'اختبار', en: 'Test' },
+                desc: {
+                    ru: 'Это тестовое описание блюда, которое содержит достаточно символов для прохождения валидации. Оно должно быть длиной от 200 до 400 символов, чтобы соответствовать требованиям системы. Добавляем еще немного текста для достижения нужной длины.',
+                    ar: 'هذا وصف اختباري للطبق يحتوي على عدد كافٍ من الأحرف للتحقق من الصحة. يجب أن يكون طوله من 200 إلى 400 حرف ليتوافق مع متطلبات النظام. نضيف المزيد من النص لتحقيق الطول المطلوب. هذا نص إضافي لضمان الوصول إلى الحد الأدنى المطلوب من الأحرف.',
+                    en: 'This is a test description of a dish that contains enough characters to pass validation. It must be between 200 and 400 characters long to meet system requirements. Adding more text to achieve the required length. This is additional text to ensure reaching the minimum required number of characters.'
+                },
+                price: 100,
+                volume: '100г',
+                category: 'test',
+                photo: 'test.jpg'
+            };
+            
+            const dishModel = new DishModel(completeDish);
+            const validation = dishModel.validate();
+            
+            addTestSection(
+                'Test 2: Validate Complete Dish',
+                `<p>Validation result: ${validation.valid ? 'Valid' : 'Invalid'}</p>
+                <p>Errors: ${validation.errors.length === 0 ? 'None' : validation.errors.join(', ')}</p>`,
+                validation.valid
+            );
+        } catch (error) {
+            addTestSection('Test 2: Validate Complete Dish', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 3: Validate incomplete dish (should fail)
+        try {
+            const incompleteDish = {
+                id: 2,
+                title: { ru: 'Неполный тест' },
+                desc: { ru: 'Короткое описание' },
+                price: 100
+            };
+            
+            const dishModel = new DishModel(incompleteDish);
+            const validation = dishModel.validate();
+            
+            addTestSection(
+                'Test 3: Validate Incomplete Dish (should fail)',
+                `<p>Validation result: ${validation.valid ? 'Valid' : 'Invalid'}</p>
+                <p>Errors found: ${validation.errors.length}</p>
+                <pre>${validation.errors.join('\n')}</pre>`,
+                !validation.valid && validation.errors.length > 0
+            );
+        } catch (error) {
+            addTestSection('Test 3: Validate Incomplete Dish', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 4: Field validation methods
+        try {
+            const testDish = new DishModel({
+                id: 3,
+                title: { ru: 'Тест', ar: 'اختبار', en: 'Test' },
+                desc: { ru: 'Описание', ar: 'وصف', en: 'Description' },
+                price: 250,
+                category: 'shawarma',
+                photo: 'test.jpg'
+            });
+
+            const results = {
+                hasValidTitle: testDish.hasValidTitle(),
+                hasValidPrice: testDish.hasValidPrice(),
+                hasValidCategory: testDish.hasValidCategory(),
+                hasValidPhoto: testDish.hasValidPhoto(),
+                isPopular: testDish.isPopular()
+            };
+
+            addTestSection(
+                'Test 4: Field Validation Methods',
+                `<pre>${JSON.stringify(results, null, 2)}</pre>`,
+                results.hasValidTitle && results.hasValidPrice && results.hasValidCategory && results.hasValidPhoto
+            );
+        } catch (error) {
+            addTestSection('Test 4: Field Validation Methods', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 5: Array creation
+        try {
+            const dishes = DishModel.fromArray(window.SHAMS_MENU.slice(0, 5));
+            
+            addTestSection(
+                'Test 5: Create Multiple DishModels from Array',
+                `<p>Created ${dishes.length} dish models</p>
+                <p>First dish: ${dishes[0].getTitle('ru')}</p>
+                <p>Last dish: ${dishes[dishes.length - 1].getTitle('ru')}</p>`,
+                dishes.length === 5
+            );
+        } catch (error) {
+            addTestSection('Test 5: Create Multiple DishModels', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test TranslationModel
+        console.log('\n=== Testing TranslationModel ===');
+
+        // Test 6: Create TranslationModel and add translations
+        try {
+            const translationModel = new TranslationModel();
+            
+            translationModel.add('menu.title', {
+                ru: 'Меню',
+                ar: 'قائمة الطعام',
+                en: 'Menu'
+            });
+
+            translationModel.add('menu.category.all', {
+                ru: 'Все блюда',
+                ar: 'جميع الأطباق',
+                en: 'All Dishes'
+            });
+
+            const titleRu = translationModel.get('menu.title', 'ru');
+            const titleAr = translationModel.get('menu.title', 'ar');
+            const titleEn = translationModel.get('menu.title', 'en');
+
+            addTestSection(
+                'Test 6: Add and Get Translations',
+                `<p>Russian: ${titleRu}</p>
+                <p>Arabic: ${titleAr}</p>
+                <p>English: ${titleEn}</p>`,
+                titleRu === 'Меню' && titleAr === 'قائمة الطعام' && titleEn === 'Menu'
+            );
+        } catch (error) {
+            addTestSection('Test 6: Add and Get Translations', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 7: Language configuration
+        try {
+            const translationModel = new TranslationModel();
+            
+            const ruConfig = translationModel.getLanguageConfig('ru');
+            const arConfig = translationModel.getLanguageConfig('ar');
+            const enConfig = translationModel.getLanguageConfig('en');
+
+            addTestSection(
+                'Test 7: Language Configuration',
+                `<p>Russian: ${ruConfig.name} (${ruConfig.direction})</p>
+                <p>Arabic: ${arConfig.name} (${arConfig.direction})</p>
+                <p>English: ${enConfig.name} (${enConfig.direction})</p>`,
+                ruConfig.direction === 'ltr' && arConfig.direction === 'rtl' && enConfig.direction === 'ltr'
+            );
+        } catch (error) {
+            addTestSection('Test 7: Language Configuration', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 8: Translation completeness check
+        try {
+            const translationModel = new TranslationModel();
+            
+            // Add complete translation
+            translationModel.add('complete.key', {
+                ru: 'Полный',
+                ar: 'كامل',
+                en: 'Complete'
+            });
+
+            // Add incomplete translation (missing Arabic)
+            translationModel.add('incomplete.key', {
+                ru: 'Неполный',
+                en: 'Incomplete'
+            });
+
+            const isComplete = translationModel.isComplete('complete.key');
+            const isIncomplete = translationModel.isComplete('incomplete.key');
+            const missingKeys = translationModel.getMissingKeys();
+
+            addTestSection(
+                'Test 8: Translation Completeness Check',
+                `<p>Complete key is complete: ${isComplete}</p>
+                <p>Incomplete key is incomplete: ${!isIncomplete}</p>
+                <p>Missing keys: ${missingKeys.join(', ')}</p>`,
+                isComplete && !isIncomplete && missingKeys.includes('incomplete.key')
+            );
+        } catch (error) {
+            addTestSection('Test 8: Translation Completeness Check', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 9: Statistics
+        try {
+            const translationModel = new TranslationModel();
+            
+            translationModel.addMultiple({
+                'key1': { ru: 'Текст1', ar: 'نص١', en: 'Text1' },
+                'key2': { ru: 'Текст2', ar: 'نص٢', en: 'Text2' },
+                'key3': { ru: 'Текст3', en: 'Text3' } // Missing Arabic
+            });
+
+            const stats = translationModel.getStatistics();
+
+            addTestSection(
+                'Test 9: Translation Statistics',
+                `<pre>${JSON.stringify(stats, null, 2)}</pre>`,
+                stats.totalKeys === 3 && stats.languages.ru.count === 3 && stats.languages.ar.count === 2
+            );
+        } catch (error) {
+            addTestSection('Test 9: Translation Statistics', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        // Test 10: Fallback functionality
+        try {
+            const translationModel = new TranslationModel();
+            
+            translationModel.add('test.key', {
+                ru: 'Русский текст',
+                en: 'English text'
+                // Arabic missing
+            });
+
+            const withFallback = translationModel.getWithFallback('test.key', 'ar');
+            const noTranslation = translationModel.getWithFallback('nonexistent.key', 'ru');
+
+            addTestSection(
+                'Test 10: Translation Fallback',
+                `<p>Arabic (fallback to Russian): ${withFallback}</p>
+                <p>Non-existent key: ${noTranslation}</p>`,
+                withFallback === 'Русский текст' && noTranslation === 'nonexistent.key'
+            );
+        } catch (error) {
+            addTestSection('Test 10: Translation Fallback', `<p class="error">Error: ${error.message}</p>`, false);
+        }
+
+        console.log('All tests completed!');
+    </script>
+</body>
+</html>
