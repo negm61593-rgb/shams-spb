@@ -1323,7 +1323,7 @@
       document.getElementById('modalTitle').textContent = currentLang === 'ru' ? '➕ Добавить блюдо' : '➕ إضافة طبق جديد';
       
       document.getElementById('modalPhotoPreview').src = 'hero_dish.jpg';
-      document.getElementById('modalPhotoUrl').value = 'real_photos/dishes/dish_1.jpg';
+      document.getElementById('modalPhotoUrl').value = 'hero_dish.jpg';
       document.getElementById('modalTitleRu').value = '';
       document.getElementById('modalTitleAr').value = '';
       document.getElementById('modalCategory').value = activeCategory === 'all' ? 'shawarma' : activeCategory;
@@ -1462,31 +1462,68 @@
       }
     }
 
+    function compressImage(file, maxWidth, maxHeight, quality, callback) {
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        const img = new Image();
+        img.onload = () => {
+          let width = img.width;
+          let height = img.height;
+
+          if (width > maxWidth || height > maxHeight) {
+            if (width / height > maxWidth / maxHeight) {
+              height = Math.round((height * maxWidth) / width);
+              width = maxWidth;
+            } else {
+              width = Math.round((width * maxHeight) / height);
+              height = maxHeight;
+            }
+          }
+
+          const canvas = document.createElement('canvas');
+          canvas.width = width;
+          canvas.height = height;
+          const ctx = canvas.getContext('2d');
+          ctx.drawImage(img, 0, 0, width, height);
+
+          const compressedDataUrl = canvas.toDataURL('image/jpeg', quality);
+          callback(compressedDataUrl);
+        };
+        img.onerror = () => {
+          callback(e.target.result);
+        };
+        img.src = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
     function handleImagePick(input) {
       const file = input.files[0];
       if (file) {
-        const reader = new FileReader();
-        reader.onload = async (e) => {
-          const base64 = e.target.result;
-          document.getElementById('modalPhotoPreview').src = base64;
+        showToast(currentLang === 'ru' ? 'Обработка фото...' : 'جاري تجهيز ومعالجة الصورة...');
+        compressImage(file, 640, 480, 0.78, async (compressedBase64) => {
+          document.getElementById('modalPhotoPreview').src = compressedBase64;
+          document.getElementById('modalPhotoUrl').value = compressedBase64;
+          showToast(currentLang === 'ru' ? 'Фото успешно выбрано!' : 'تم اختيار صورة الطبق بنجاح!');
+          input.value = '';
 
-          // Try direct upload to server API
+          // Try direct upload to server API if backend exists
           try {
             const res = await authFetch('/api/upload', {
               method: 'POST',
               headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ imageBase64: base64 })
+              body: JSON.stringify({ imageBase64: compressedBase64 })
             });
-            const data = await res.json();
-            if (data.success && data.photoPath) {
-              document.getElementById('modalPhotoUrl').value = data.photoPath;
-              showToast(currentLang === 'ru' ? 'Фото успешно загружено!' : 'تم رفع الصورة بنجاح!');
+            if (res.ok) {
+              const data = await res.json();
+              if (data.success && data.photoPath) {
+                document.getElementById('modalPhotoUrl').value = data.photoPath;
+              }
             }
           } catch (err) {
-            console.log('Upload fallback to inline preview');
+            // Already set to compressedBase64 fallback
           }
-        };
-        reader.readAsDataURL(file);
+        });
       }
     }
 
