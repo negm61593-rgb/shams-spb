@@ -168,15 +168,25 @@
         </button>
       </div>
 
-      <!-- Color Theme & Table Number -->
-      <div class="flex items-center gap-2">
+      <!-- Language, Color Theme & Table Number -->
+      <div class="flex flex-wrap items-center gap-2">
+        <!-- Language Switcher: Russian (Print) / Arabic (Preview) -->
+        <div class="flex items-center gap-1 bg-stone-950 p-1 rounded-xl border border-stone-800">
+          <button onclick="setPrintLang('ru')" id="langRuBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
+            <span>🇷🇺 الروسية (للطباعة)</span>
+          </button>
+          <button onclick="setPrintLang('ar')" id="langArBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-stone-400 hover:text-white transition">
+            <span>🇸🇦 العربية (للمعاينة)</span>
+          </button>
+        </div>
+
         <!-- Theme Toggle -->
         <div class="flex items-center gap-1 bg-stone-950 p-1 rounded-xl border border-stone-800">
-          <button onclick="setColorTheme('dark')" id="themeDarkBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30">
-            <span>🌙 أسود ملكي</span>
+          <button onclick="setColorTheme('dark')" id="themeDarkBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition">
+            <span>🌙 أسود</span>
           </button>
-          <button onclick="setColorTheme('light')" id="themeLightBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-stone-400 hover:text-white">
-            <span>☀️ أبيض ناصع</span>
+          <button onclick="setColorTheme('light')" id="themeLightBtn" class="px-2.5 py-1 rounded-lg text-[11px] font-bold text-stone-400 hover:text-white transition">
+            <span>☀️ أبيض</span>
           </button>
         </div>
 
@@ -236,16 +246,16 @@
           <div class="w-16 h-16 rounded-full p-1 bg-gradient-to-tr from-amber-600 via-amber-400 to-amber-600 shadow-xl mb-2 flex items-center justify-center">
             <img src="logo.jpg" alt="Logo" class="w-full h-full object-contain rounded-full" />
           </div>
-          <h2 class="text-2xl font-black tracking-wide mb-0.5 gold-gradient-text">
+          <h2 id="t_arch_title" class="text-2xl font-black tracking-wide mb-0.5 gold-gradient-text">
             شمس • ШАМС
           </h2>
-          <div class="text-[11px] font-black text-amber-400 tracking-wider font-sans uppercase">
+          <div id="t_arch_sub" class="text-[11px] font-black text-amber-400 tracking-wider font-sans uppercase">
             ШАВЕРМА • ФАЛАФЕЛЬ • БУРГЕРЫ
           </div>
 
           <!-- Table Number Badge -->
           <div id="archTableBadge" class="hidden mt-2.5 px-3 py-0.5 rounded-full bg-amber-500 text-stone-950 font-black text-xs shadow">
-            Стол № <span class="table-num-display">1</span>
+            <span id="t_arch_table">Стол №</span> <span class="table-num-display">1</span>
           </div>
         </div>
 
@@ -260,9 +270,9 @@
         <div class="space-y-1 mb-4 relative z-10">
           <div class="text-lg font-black text-amber-400 flex items-center justify-center gap-2">
             <i class="fa-solid fa-mobile-screen-button animate-pulse"></i>
-            <span>МЕНЮ И ОНЛАЙН-ЗАКАЗ</span>
+            <span id="t_arch_cta_head">МЕНЮ И ОНЛАЙН-ЗАКАЗ</span>
           </div>
-          <div class="text-xs font-bold opacity-90">
+          <div id="t_arch_cta_sub" class="text-xs font-bold opacity-90">
             Наведите камеру смартфона для просмотра меню и заказа
           </div>
           <div class="text-[10px] opacity-70 font-sans">
@@ -272,10 +282,10 @@
 
         <!-- Rating & Halal Tags -->
         <div class="flex items-center justify-center gap-2 pt-3 border-t border-white/10 text-[10px] font-bold">
-          <span class="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400">
+          <span id="t_arch_rating" class="px-2.5 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/40 text-amber-400">
             ⭐ 5.0 на Яндекс Картах
           </span>
-          <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400">
+          <span id="t_arch_halal" class="px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/40 text-emerald-400">
             🥩 100% ХАЛЯЛЬ
           </span>
         </div>
@@ -284,7 +294,7 @@
 
       <!-- Wooden Base Display (3D Base beneath Arch) -->
       <div class="wood-base w-[106%] h-12 rounded-xl -mt-2 relative z-20 flex items-center justify-center px-4 shadow-2xl border-t border-amber-400/40">
-        <span class="text-xs font-black text-amber-200 tracking-wider font-sans drop-shadow uppercase">
+        <span id="t_arch_wood" class="text-xs font-black text-amber-200 tracking-wider font-sans drop-shadow uppercase">
           SHAMS • САНКТ-ПЕТЕРБУРГ
         </span>
       </div>
@@ -305,7 +315,7 @@
           <!-- Brand Name -->
           <div class="flex items-center justify-center gap-2 mb-1">
             <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
-            <h2 class="text-lg sm:text-xl font-black gold-gradient-text tracking-wide">
+            <h2 id="t_round_title" class="text-lg sm:text-xl font-black gold-gradient-text tracking-wide">
               شمس • ШАМС
             </h2>
             <span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
@@ -314,17 +324,17 @@
           <!-- Action Pill Badge -->
           <div class="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-black tracking-wider font-sans uppercase">
             <i class="fa-solid fa-qrcode text-[10px] text-amber-400"></i>
-            <span>МЕНЮ И ОНЛАЙН-ЗАКАЗ</span>
+            <span id="t_round_action">МЕНЮ И ОНЛАЙН-ЗАКАЗ</span>
           </div>
 
           <!-- Prompt Subtitle -->
-          <div class="text-[10px] text-stone-300 font-medium mt-0.5">
+          <div id="t_round_sub" class="text-[10px] text-stone-300 font-medium mt-0.5">
             Наведите камеру смартфона для заказа
           </div>
 
           <!-- Optional Table Number Badge -->
           <div id="roundTableBadge" class="hidden mt-1.5 px-2.5 py-0.5 rounded-full bg-amber-500 text-stone-950 font-black text-[10px] shadow">
-            Стол № <span class="table-num-display">1</span>
+            <span id="t_round_table">Стол №</span> <span class="table-num-display">1</span>
           </div>
         </div>
 
@@ -339,16 +349,16 @@
         <div class="relative z-10 flex flex-col items-center text-center mt-2 space-y-1">
           <!-- Verification Badges -->
           <div class="flex items-center justify-center gap-2 text-[10px] font-bold">
-            <span class="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400">
+            <span id="t_round_rating" class="px-2 py-0.5 rounded-full bg-amber-500/15 border border-amber-500/30 text-amber-400">
               ⭐ 5.0 Яндекс
             </span>
-            <span class="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
+            <span id="t_round_halal" class="px-2 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30 text-emerald-400">
               🥩 100% ХАЛЯЛЬ
             </span>
           </div>
 
           <!-- Location -->
-          <div class="text-[10px] text-stone-400 font-mono" dir="ltr">
+          <div id="t_round_loc" class="text-[10px] text-stone-400 font-mono" dir="ltr">
             СПб, Комендантский пр., 61К
           </div>
         </div>
@@ -364,16 +374,16 @@
       <div class="mb-5">
         <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-amber-500 text-stone-950 font-black text-xs mb-3 shadow">
           <i class="fa-solid fa-bolt"></i>
-          <span>БЫСТРЫЙ ОНЛАЙН-ЗАКАЗ • БЕЗ ОЧЕРЕДИ!</span>
+          <span id="t_window_pill">БЫСТРЫЙ ОНЛАЙН-ЗАКАЗ • БЕЗ ОЧЕРЕДИ!</span>
         </div>
 
-        <h1 class="text-3xl sm:text-4xl font-black text-white tracking-tight mb-1">
+        <h1 id="t_window_title" class="text-3xl sm:text-4xl font-black text-white tracking-tight mb-1">
           شمس • ШАМС • SHAMS
         </h1>
-        <div class="text-sm sm:text-base font-black text-amber-400 font-sans tracking-wide uppercase">
+        <div id="t_window_sub1" class="text-sm sm:text-base font-black text-amber-400 font-sans tracking-wide uppercase">
           ШАВЕРМА • ФАЛАФЕЛЬ • БУРГЕРЫ В СПБ
         </div>
-        <div class="text-xs text-stone-300 mt-0.5">
+        <div id="t_window_sub2" class="text-xs text-stone-300 mt-0.5">
           СОЧНАЯ ШАВЕРМА • ЗАКУСКИ • КОМБО-БОКСЫ
         </div>
       </div>
@@ -389,9 +399,9 @@
       <div class="space-y-1.5 mb-6">
         <div class="text-xl sm:text-2xl font-black text-amber-400 flex items-center justify-center gap-2">
           <i class="fa-solid fa-camera animate-bounce"></i>
-          <span>НАВЕДИТЕ КАМЕРУ СМАРТФОНА</span>
+          <span id="t_window_cta_head">НАВЕДИТЕ КАМЕРУ СМАРТФОНА</span>
         </div>
-        <div class="text-sm font-bold text-white">
+        <div id="t_window_cta_sub" class="text-sm font-bold text-white">
           Отсканируйте для просмотра меню, фото блюд и онлайн-заказа
         </div>
         <div class="text-xs text-stone-400 font-sans">
@@ -402,14 +412,14 @@
       <!-- Verification & Contact Footer -->
       <div class="pt-4 border-t border-stone-800 flex flex-col items-center gap-2 text-xs font-bold text-stone-300">
         <div class="flex items-center gap-3">
-          <span class="px-3 py-1 rounded-full bg-emerald-950 border border-emerald-500 text-emerald-300">
+          <span id="t_window_halal" class="px-3 py-1 rounded-full bg-emerald-950 border border-emerald-500 text-emerald-300">
             🥩 100% ХАЛЯЛЬ
           </span>
-          <span class="px-3 py-1 rounded-full bg-amber-950 border border-amber-500 text-amber-300">
+          <span id="t_window_rating" class="px-3 py-1 rounded-full bg-amber-950 border border-amber-500 text-amber-300">
             ⭐ 5.0 НА ЯНДЕКС КАРТАХ (470+)
           </span>
         </div>
-        <div class="text-stone-400 text-[11px] font-sans pt-1" dir="ltr">
+        <div id="t_window_footer" class="text-stone-400 text-[11px] font-sans pt-1" dir="ltr">
           📍 Комендантский пр., 61К • 🕒 10:00 — 01:00 • 📞 +7 (999) 037-13-12
         </div>
       </div>
@@ -425,26 +435,26 @@
           <div class="flex items-center gap-2">
             <img src="logo.jpg" alt="Logo" class="w-9 h-9 rounded-xl object-cover border border-amber-500/40" />
             <div>
-              <h3 class="text-base font-black text-white leading-tight">شمس • ШАМС</h3>
-              <p class="text-[10px] text-amber-400 font-bold font-sans">ШАВЕРМА & МЕНЮ</p>
+              <h3 id="t_card_title" class="text-base font-black text-white leading-tight">شمس • ШАМС</h3>
+              <p id="t_card_sub" class="text-[10px] text-amber-400 font-bold font-sans">ШАВЕРМА & МЕНЮ</p>
             </div>
           </div>
 
           <!-- Optional Table / Branch Badge (hidden by default) -->
           <div id="cardTableBadge" class="hidden inline-flex items-center gap-2 px-3 py-1.5 rounded-xl bg-amber-500 text-stone-950 font-black text-xs shadow">
             <i class="fa-solid fa-tag"></i>
-            <span>СТОЛ № <span class="table-num-display">1</span></span>
+            <span><span id="t_card_table">СТОЛ №</span> <span class="table-num-display">1</span></span>
           </div>
 
           <div class="space-y-0.5 text-xs font-bold text-stone-200">
-            <p class="text-amber-400 font-sans text-xs">МЕНЮ И ОНЛАЙН-ЗАКАЗ</p>
-            <p class="text-[10px] text-stone-300">Наведите камеру смартфона</p>
+            <p id="t_card_cta_head" class="text-amber-400 font-sans text-xs">МЕНЮ И ОНЛАЙН-ЗАКАЗ</p>
+            <p id="t_card_cta_sub" class="text-[10px] text-stone-300">Наведите камеру смартфона</p>
           </div>
 
           <div class="text-[10px] text-amber-400/90 font-bold flex items-center gap-2">
-            <span>⭐ 5.0 Яндекс</span>
+            <span id="t_card_rating">⭐ 5.0 Яндекс</span>
             <span>•</span>
-            <span class="text-emerald-400">Халяль</span>
+            <span id="t_card_halal" class="text-emerald-400">Халяль</span>
           </div>
         </div>
 
@@ -492,6 +502,102 @@
     let activeDesign = 'arch';
     let currentColorTheme = 'dark';
     let currentTableNum = '';
+    let currentPrintLang = 'ru';
+
+    const PRINT_I18N = {
+      ru: {
+        t_arch_title: 'شمس • ШАМС',
+        t_arch_sub: 'ШАВЕРМА • ФАЛАФЕЛЬ • БУРГЕРЫ',
+        t_arch_table: 'Стол №',
+        t_arch_cta_head: 'МЕНЮ И ОНЛАЙН-ЗАКАЗ',
+        t_arch_cta_sub: 'Наведите камеру смартфона для просмотра меню и заказа',
+        t_arch_rating: '⭐ 5.0 на Яндекс Картах',
+        t_arch_halal: '🥩 100% ХАЛЯЛЬ',
+        t_arch_wood: 'SHAMS • САНКТ-ПЕТЕРБУРГ',
+
+        t_round_title: 'شمس • ШАМС',
+        t_round_action: 'МЕНЮ И ОНЛАЙН-ЗАКАЗ',
+        t_round_sub: 'Наведите камеру смартфона для заказа',
+        t_round_table: 'Стол №',
+        t_round_rating: '⭐ 5.0 Яндекс',
+        t_round_halal: '🥩 100% ХАЛЯЛЬ',
+        t_round_loc: 'СПб, Комендантский пр., 61К',
+
+        t_window_pill: 'БЫСТРЫЙ ОНЛАЙН-ЗАКАЗ • БЕЗ ОЧЕРЕДИ!',
+        t_window_title: 'شمس • ШАМС • SHAMS',
+        t_window_sub1: 'ШАВЕРМА • ФАЛАФЕЛЬ • БУРГЕРЫ В СПБ',
+        t_window_sub2: 'СОЧНАЯ ШАВЕРМА • ЗАКУСКИ • КОМБО-БОКСЫ',
+        t_window_cta_head: 'НАВЕДИТЕ КАМЕРУ СМАРТФОНА',
+        t_window_cta_sub: 'Отсканируйте для просмотра меню, фото блюд и онлайн-заказа',
+        t_window_halal: '🥩 100% ХАЛЯЛЬ',
+        t_window_rating: '⭐ 5.0 НА ЯНДЕКС КАРТАХ (470+)',
+        t_window_footer: '📍 Комендантский пр., 61К • 🕒 10:00 — 01:00 • 📞 +7 (999) 037-13-12',
+
+        t_card_title: 'شمس • ШАМС',
+        t_card_sub: 'ШАВЕРМА & МЕНЮ',
+        t_card_table: 'СТОЛ №',
+        t_card_cta_head: 'МЕНЮ И ОНЛАЙН-ЗАКАЗ',
+        t_card_cta_sub: 'Наведите камеру смартфона',
+        t_card_rating: '⭐ 5.0 Яндекс',
+        t_card_halal: 'Халяль'
+      },
+      ar: {
+        t_arch_title: 'مطعم شمس • SHAMS',
+        t_arch_sub: 'شاورما • فلافل • برجر ومقبلات',
+        t_arch_table: 'طاولة رقم',
+        t_arch_cta_head: 'المنيو والطلب أونلاين',
+        t_arch_cta_sub: 'وجّه كاميرا هاتفك لتصفح المنيو والطلب مباشرة',
+        t_arch_rating: '⭐ تقييم 5.0 على ياندكس كارتس',
+        t_arch_halal: '🥩 لحوم حلال 100%',
+        t_arch_wood: 'مطعم شمس • سانت بطرسبرغ',
+
+        t_round_title: 'مطعم شمس • SHAMS',
+        t_round_action: 'المنيو والطلب أونلاين',
+        t_round_sub: 'وجّه كاميرا هاتفك للطلب الفوري',
+        t_round_table: 'طاولة رقم',
+        t_round_rating: '⭐ تقييم 5.0 ياندكس',
+        t_round_halal: '🥩 لحوم حلال 100%',
+        t_round_loc: 'سانت بطرسبرغ، شارع كومندانتسكي 61K',
+
+        t_window_pill: 'طلب سريع أونلاين • استلم طلبك بدون طوابير!',
+        t_window_title: 'مطعم شمس • SHAMS SPB',
+        t_window_sub1: 'أشهى شاورما وفلافل وبرجر في سانت بطرسبرغ',
+        t_window_sub2: 'شاورما مصرية طازجة • وجبات كومبو • بوكسات عائلية',
+        t_window_cta_head: 'وجّه كاميرا هاتفك الذكي',
+        t_window_cta_sub: 'امسح الكود لتصفح المنيو والأسعار وصور الوجبات والطلب',
+        t_window_halal: '🥩 لحوم حلال 100%',
+        t_window_rating: '⭐ تقييم 5.0 على خرائط ياندكس (470+ تقييم)',
+        t_window_footer: '📍 كومندانتسكي 61K • 🕒 يومياً 10:00 صباحاً — 01:00 ليلاً • 📞 79990371312+',
+
+        t_card_title: 'مطعم شمس • SHAMS',
+        t_card_sub: 'شاورما ومنيو أونلاين',
+        t_card_table: 'طاولة رقم',
+        t_card_cta_head: 'المنيو والطلب أونلاين',
+        t_card_cta_sub: 'وجّه كاميرا هاتفك للطلب',
+        t_card_rating: '⭐ 5.0 ياندكس',
+        t_card_halal: 'حلال 100%'
+      }
+    };
+
+    function setPrintLang(lang) {
+      currentPrintLang = lang;
+      const btnRu = document.getElementById('langRuBtn');
+      const btnAr = document.getElementById('langArBtn');
+
+      if (lang === 'ru') {
+        if (btnRu) btnRu.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition';
+        if (btnAr) btnAr.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold text-stone-400 hover:text-white transition';
+      } else {
+        if (btnAr) btnAr.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold bg-amber-500/20 text-amber-300 border border-amber-500/30 transition';
+        if (btnRu) btnRu.className = 'px-2.5 py-1 rounded-lg text-[11px] font-bold text-stone-400 hover:text-white transition';
+      }
+
+      const dict = PRINT_I18N[lang] || PRINT_I18N.ru;
+      Object.keys(dict).forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.textContent = dict[id];
+      });
+    }
 
     // Initialize QR Code Styling instances
     let qrArch, qrRound, qrWindow, qrCard;
