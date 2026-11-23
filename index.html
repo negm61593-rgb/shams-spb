@@ -2132,7 +2132,7 @@
       async function syncCloudMenu() {
         // 1. Direct zero-latency REST fetch from Cloud Firestore (instant, no SDK wait)
         try {
-          const res = await fetch('https://firestore.googleapis.com/v1/projects/shams-spb/databases/(default)/documents/settings/menu?key=AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg');
+          const res = await fetch('https://firestore.googleapis.com/v1/projects/golden-star-store/databases/(default)/documents/settings/menu?key=AIzaSyB7ZFEfDopUSAEQy9s7PhWLsMMgJ65uUgw');
           if (res.ok) {
             const json = await res.json();
             if (json && json.fields && json.fields.dishes) {
@@ -2165,12 +2165,12 @@
         // 2. Real-time Live Listener for continuous updates without reload
         try {
           const firebaseConfig = {
-            apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
-            authDomain: "shams-spb.firebaseapp.com",
-            projectId: "shams-spb",
-            storageBucket: "shams-spb.firebasestorage.app",
-            messagingSenderId: "386620074446",
-            appId: "1:386620074446:web:ed6443e3dc25495873239f"
+            apiKey: "AIzaSyB7ZFEfDopUSAEQy9s7PhWLsMMgJ65uUgw",
+            authDomain: "golden-star-store.firebaseapp.com",
+            projectId: "golden-star-store",
+            storageBucket: "golden-star-store.firebasestorage.app",
+            messagingSenderId: "294681294882",
+            appId: "1:294681294882:web:cc21818e3a92872111f27b"
           };
           if (typeof firebase !== 'undefined') {
             if (!firebase.apps.length) {

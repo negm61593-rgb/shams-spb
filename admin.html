@@ -562,12 +562,12 @@
 
     // --- Cloud Firestore Integration ---
     const firebaseConfig = {
-      apiKey: "AIzaSyD25BT4ONzykGPBZwKkFbcB7TJ0dhb4wMg",
-      authDomain: "shams-spb.firebaseapp.com",
-      projectId: "shams-spb",
-      storageBucket: "shams-spb.firebasestorage.app",
-      messagingSenderId: "386620074446",
-      appId: "1:386620074446:web:ed6443e3dc25495873239f"
+      apiKey: "AIzaSyB7ZFEfDopUSAEQy9s7PhWLsMMgJ65uUgw",
+      authDomain: "golden-star-store.firebaseapp.com",
+      projectId: "golden-star-store",
+      storageBucket: "golden-star-store.firebasestorage.app",
+      messagingSenderId: "294681294882",
+      appId: "1:294681294882:web:cc21818e3a92872111f27b"
     };
 
     let firestoreDb = null;
@@ -1082,6 +1082,40 @@
         }
       }
 
+      // 1.5. Direct zero-latency REST fetch from Cloud Firestore
+      try {
+        const restUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/settings/menu?key=${firebaseConfig.apiKey}`;
+        const res = await fetch(restUrl);
+        if (res.ok) {
+          const json = await res.json();
+          if (json && json.fields && json.fields.dishes) {
+            function parseVal(val) {
+              if (!val) return null;
+              if (val.stringValue !== undefined) return val.stringValue;
+              if (val.integerValue !== undefined) return parseInt(val.integerValue, 10);
+              if (val.doubleValue !== undefined) return parseFloat(val.doubleValue);
+              if (val.booleanValue !== undefined) return val.booleanValue;
+              if (val.nullValue !== undefined) return null;
+              if (val.arrayValue && val.arrayValue.values) return val.arrayValue.values.map(parseVal);
+              if (val.mapValue && val.mapValue.fields) {
+                const obj = {};
+                for (const k in val.mapValue.fields) obj[k] = parseVal(val.mapValue.fields[k]);
+                return obj;
+              }
+              return null;
+            }
+            const cloudDishes = parseVal(json.fields.dishes);
+            if (Array.isArray(cloudDishes) && cloudDishes.length > 0) {
+              dishesList = cloudDishes;
+              renderAll();
+              return;
+            }
+          }
+        }
+      } catch (e) {
+        console.warn('REST load failed:', e);
+      }
+
       // 2. Try local customized dishes saved on this device
       try {
         const rawLocal = localStorage.getItem('shams_custom_dishes');
@@ -1271,7 +1305,7 @@
     async function syncDishesToCloud() {
       let cloudSaved = false;
 
-      // 1. Save directly to Cloud Firestore!
+      // 1. Save directly to Cloud Firestore SDK!
       if (firestoreDb) {
         try {
           await firestoreDb.collection('settings').doc('menu').set({
@@ -1280,12 +1314,50 @@
           });
           cloudSaved = true;
         } catch (err) {
-          console.error('Firestore save failed:', err);
+          console.error('Firestore SDK save failed, trying REST fallback:', err);
           cloudSaved = false;
         }
       }
 
-      // 2. Persist in localStorage for instant local preview
+      // 2. Zero-latency REST API Fallback
+      if (!cloudSaved) {
+        try {
+          function toFirestoreVal(val) {
+            if (val === null || val === undefined) return { nullValue: null };
+            if (typeof val === 'string') return { stringValue: val };
+            if (typeof val === 'number') {
+              if (Number.isInteger(val)) return { integerValue: String(val) };
+              return { doubleValue: val };
+            }
+            if (typeof val === 'boolean') return { booleanValue: val };
+            if (Array.isArray(val)) return { arrayValue: { values: val.map(toFirestoreVal) } };
+            if (typeof val === 'object') {
+              const fields = {};
+              for (const k in val) fields[k] = toFirestoreVal(val[k]);
+              return { mapValue: { fields } };
+            }
+            return { stringValue: String(val) };
+          }
+          const restUrl = `https://firestore.googleapis.com/v1/projects/${firebaseConfig.projectId}/databases/(default)/documents/settings/menu?key=${firebaseConfig.apiKey}`;
+          const res = await fetch(restUrl, {
+            method: 'PATCH',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              fields: {
+                dishes: { arrayValue: { values: dishesList.map(toFirestoreVal) } },
+                updatedAt: { integerValue: String(Date.now()) }
+              }
+            })
+          });
+          if (res.ok) {
+            cloudSaved = true;
+          }
+        } catch (restErr) {
+          console.warn('REST cloud sync fallback failed:', restErr);
+        }
+      }
+
+      // 3. Persist in localStorage for instant local preview
       try {
         localStorage.setItem('shams_custom_dishes', JSON.stringify(dishesList));
       } catch (e) {}
@@ -1446,6 +1518,14 @@
           }
         }
       });
+      // Auto-translate if opening Arabic or English tab while empty but Russian is filled
+      if (lang === 'ar' || lang === 'en') {
+        const ruTitle = document.getElementById('modalTitleRu')?.value.trim();
+        const targetTitle = document.getElementById('modalTitle' + lang.charAt(0).toUpperCase() + lang.slice(1))?.value.trim();
+        if (ruTitle && !targetTitle) {
+          autoTranslateModal();
+        }
+      }
       updateTabDots();
     }
 
